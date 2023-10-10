@@ -22,10 +22,13 @@ jobs:
         node-version: 14
 
     - name: Install dependencies
+      working-directory: pilot-website/
       run: npm install
 
     - name: Build
+      working-directory: pilot-website/
       run: npm run build
 
     - name: Run tests
+      working-directory: pilot-website/
       run: npm test
