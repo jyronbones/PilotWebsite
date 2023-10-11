@@ -21,9 +21,9 @@ const Home = () => {
           </Link>
         </div>
         <div>
-          <Link to="/union-agreement">
-            <FaHandshake size={50} className="union-icon" />
-            <h3 className="union-text">Union Agreement</h3>
+          <Link to="/meeting-minutes">
+            <FaClipboard size={50} className="minutes-icon" />
+            <h3 className="minutes-text">Meeting Minutes</h3>
           </Link>
         </div>
         <div>
@@ -33,21 +33,21 @@ const Home = () => {
           </Link>
         </div>
         <div>
-          <Link to="/links">
-            <FaLink size={50} className="links-icon" />
-            <h3 className="links-text">Links</h3>
-          </Link>
-        </div>
-        <div>
           <Link to="/monthly-calendar">
             <FaCalendarAlt size={50} className="calendar-icon" />
             <h3 className="calendar-text">Monthly Calendar</h3>
           </Link>
         </div>
         <div>
-          <Link to="/meeting-minutes">
-            <FaClipboard size={50} className="minutes-icon" />
-            <h3 className="minutes-text">Meeting Minutes</h3>
+          <Link to="/union-agreement">
+            <FaHandshake size={50} className="union-icon" />
+            <h3 className="union-text">Union Agreement</h3>
+          </Link>
+        </div>
+        <div>
+          <Link to="/links">
+            <FaLink size={50} className="links-icon" />
+            <h3 className="links-text">Links</h3>
           </Link>
         </div>
       </div>

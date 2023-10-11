@@ -1,7 +1,6 @@
-import logo from "./logo.svg";
 import "./App.css";
 import Home from "./Components/Home/Home";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; // Import Router components
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Productivity from "./Components/Productivity/Productivity";
 import Navbar from "./Components/navbar/Navbar";
 
