@@ -12,7 +12,7 @@ const CustomNavbar = () => {
           Upper St. Lawrence Pilots Association
         </span>
       </Navbar.Brand>
-      <Link to="/home" className="nav-link">
+      <Link to="/home" className="nav-link home-link">
         Home
       </Link>
       <Navbar.Collapse>

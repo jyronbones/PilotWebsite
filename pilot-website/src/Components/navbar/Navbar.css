@@ -1,73 +1,83 @@
+/* Basic reset for Navbar */
+.navbar {
+  margin: 0;
+  border: none;
+  border-radius: 0;
+}
+
 /* General navbar styling */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem !important;
-  font-size: 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  background-color: #f8f8f8 !important;
+  padding: 0.5rem 2rem;
+  background-color: #2c3e50; /* Dark blue shade */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Increasing the logo size */
+/* Logo styling */
 .navbar-logo {
-  max-width: 50px; /* Adjusted size. Modify as required */
-  margin-right: 15px;
+  max-width: 50px;
+  margin-right: 0.5rem;
 }
 
 .navbar-brand {
-  color: #0073e6 !important;
+  color: #ecf0f1 !important; /* Light color text for contrast */
   font-weight: 600;
-  transition: color 0.3s ease;
   display: flex;
   align-items: center;
 }
 
 .navbar-brand:hover {
-  color: #005bb5 !important;
+  color: #bdc3c7 !important; /* Slightly darker on hover */
 }
 
-/* Adjusted font size for Home and Logout and added spacing */
+.navbar-brand-text {
+  font-size: 1.4rem;
+  margin-left: 0.5rem;
+}
+
+/* Link styles */
 .nav-link {
-  color: #333 !important;
+  color: #ecf0f1 !important;
   transition: color 0.3s ease;
   font-weight: 500;
   text-decoration: none !important;
   padding: 0.5rem 1.5rem !important;
   font-size: 1.2rem;
-  margin-left: 1rem; /* Added spacing */
 }
 
-.nav-link:first-child {
-  margin-left: 0; /* Ensure the first nav link doesn't have extra margin */
+.home-link {
+  margin-right: auto; /* Pushes the link to the left, right after the brand */
 }
 
 .nav-link:hover {
-  color: #0073e6 !important;
+  color: #bdc3c7 !important;
 }
 
-/* Adjusting styles for smaller screens */
+/* Mobile styles */
 @media (max-width: 767.98px) {
   .navbar {
     flex-direction: column;
-    align-items: flex-start; /* Align items to start */
+    align-items: stretch;
   }
 
   .navbar-brand,
   .nav {
-    position: static;
-    margin: 0.5rem 0;
-  }
-
-  .navbar-brand {
-    order: 1; /* Ensure brand is on top */
+    display: block;
+    width: 100%;
+    text-align: center;
   }
 
   .nav-link {
-    padding: 0.25rem 1rem !important;
+    padding: 0.5rem 0 !important;
+    display: block;
+    width: 100%;
+    text-align: center;
   }
-}
 
-.navbar-brand-text {
-  font-size: 1.4rem;
+  .home-link {
+    margin-right: 0; /* Reset margin on mobile */
+    border-bottom: 1px solid rgba(236, 240, 241, 0.1); /* Separator line for visual distinction */
+  }
 }
