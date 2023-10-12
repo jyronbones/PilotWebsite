@@ -12,13 +12,13 @@ const CustomNavbar = () => {
           Upper St. Lawrence Pilots Association
         </span>
       </Navbar.Brand>
-      <Link to="/home" className="nav-link home-link">
+      <Link to="/home" className="nav-link nav-button home-link">
         Home
       </Link>
       <Navbar.Collapse>
         <Nav className="ml-auto">
           <Nav.Item>
-            <Link to="/" className="nav-link navbar-collapse-link">
+            <Link to="/" className="nav-link nav-button navbar-collapse-link">
               Logout
             </Link>
           </Nav.Item>
