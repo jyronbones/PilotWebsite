@@ -5,6 +5,7 @@ import "./Navbar.css";
 
 const CustomNavbar = () => {
   return (
+    // BUG: Fix 'Home' and 'Logout' buttons to be responsive for smaller devices
     <Navbar bg="light" expand="lg">
       <Navbar.Brand href="/home">
         <img src="/images/logo.png" alt="Logo" className="navbar-logo" />
@@ -12,6 +13,7 @@ const CustomNavbar = () => {
           Upper St. Lawrence Pilots Association
         </span>
       </Navbar.Brand>
+
       <Link to="/home" className="nav-link nav-button home-link">
         Home
       </Link>

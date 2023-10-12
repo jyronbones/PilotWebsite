@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./MeetingMinutes.css";
 
 const MeetingMinutes = () => {
+  // BUG: Fix improper column alignment
   const [minutes, setMinutes] = useState([
     {
       id: 1,
