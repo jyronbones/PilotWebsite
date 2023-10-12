@@ -1,36 +1,69 @@
-/* Navbar container */
+/* General navbar styling */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #333;
-  color: #fff;
-  padding: 10px;
+  padding: 1rem 2rem !important;
+  font-size: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  background-color: #f8f8f8 !important;
 }
 
-/* Navbar logo */
+/* Increasing the logo size */
 .navbar-logo {
-  font-size: 1.5rem;
-  font-weight: bold;
+  max-width: 50px; /* Adjusted size. Modify as required */
+  margin-right: 15px;
 }
 
-/* Navbar links */
-.navbar-links {
+.navbar-brand {
+  color: #0073e6 !important;
+  font-weight: 600;
+  transition: color 0.3s ease;
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 
-/* Navbar link */
-.navbar-link {
-  color: #fff;
-  text-decoration: none;
-  margin-left: 20px;
-  font-size: 1.2rem;
-  font-weight: bold;
+.navbar-brand:hover {
+  color: #005bb5 !important;
 }
 
-/* Navbar link hover */
-.navbar-link:hover {
-  color: #ccc;
+/* Adjusted font size for Home and Logout and added spacing */
+.nav-link {
+  color: #333 !important;
+  transition: color 0.3s ease;
+  font-weight: 500;
+  text-decoration: none !important;
+  padding: 0.5rem 1.5rem !important;
+  font-size: 1.2rem;
+  margin-left: 1rem; /* Added spacing */
+}
+
+.nav-link:first-child {
+  margin-left: 0; /* Ensure the first nav link doesn't have extra margin */
+}
+
+.nav-link:hover {
+  color: #0073e6 !important;
+}
+
+/* Adjusting styles for smaller screens */
+@media (max-width: 767.98px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start; /* Align items to start */
+  }
+
+  .navbar-brand,
+  .nav {
+    position: static;
+    margin: 0.5rem 0;
+  }
+
+  .navbar-brand {
+    order: 1; /* Ensure brand is on top */
+  }
+
+  .nav-link {
+    padding: 0.25rem 1rem !important;
+  }
 }

@@ -25,3 +25,20 @@
     font-size: 1.2rem;
   }
 }
+
+.scheduling-icon {
+  color: #007bff; /* Choose a color */
+  cursor: pointer;
+}
+
+.scheduling-text {
+  color: #007bff; /* Same color as the icon for consistency */
+  cursor: pointer;
+}
+
+.scheduling-options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px; /* Add some margin for separation */
+}

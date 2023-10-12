@@ -6,14 +6,17 @@ import "./Navbar.css";
 const CustomNavbar = () => {
   return (
     <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="/">
+      <Navbar.Brand href="/home">
+        <img src="/images/logo.png" alt="Logo" className="navbar-logo" />
         Upper St. Lawrence Pilots Association
       </Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
+      <Link to="/home" className="nav-link">
+        Home
+      </Link>
+      <Navbar.Collapse>
         <Nav className="ml-auto">
           <Nav.Item>
-            <Link to="/login" className="nav-link">
+            <Link to="/" className="nav-link">
               Logout
             </Link>
           </Nav.Item>

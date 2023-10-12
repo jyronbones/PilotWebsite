@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FaProductHunt,
   FaHandshake,
@@ -6,11 +6,18 @@ import {
   FaLink,
   FaCalendarAlt,
   FaClipboard,
+  FaClock,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "./Home.css";
 
 const Home = () => {
+  const [showSchedulingOptions, setShowSchedulingOptions] = useState(false);
+
+  const handleSchedulingClick = () => {
+    setShowSchedulingOptions(!showSchedulingOptions);
+  };
+
   return (
     <div>
       <div className="Home">
@@ -26,18 +33,26 @@ const Home = () => {
             <h3 className="minutes-text">Meeting Minutes</h3>
           </Link>
         </div>
-        <div>
-          <Link to="/vacation-schedule">
-            <FaSuitcase size={50} className="vacation-icon" />
-            <h3 className="vacation-text">Vacation Schedule</h3>
-          </Link>
+        <div onClick={handleSchedulingClick}>
+          <FaClock size={50} className="scheduling-icon" />
+          <h3 className="scheduling-text">Scheduling</h3>
         </div>
-        <div>
-          <Link to="/monthly-calendar">
-            <FaCalendarAlt size={50} className="calendar-icon" />
-            <h3 className="calendar-text">Monthly Calendar</h3>
-          </Link>
-        </div>
+        {showSchedulingOptions && (
+          <div className="scheduling-options">
+            <div>
+              <Link to="/vacation-schedule">
+                <FaSuitcase size={50} className="vacation-icon" />
+                <h3 className="vacation-text">Vacation Schedule</h3>
+              </Link>
+            </div>
+            <div>
+              <Link to="/monthly-calendar">
+                <FaCalendarAlt size={50} className="calendar-icon" />
+                <h3 className="calendar-text">Monthly Calendar</h3>
+              </Link>
+            </div>
+          </div>
+        )}
         <div>
           <Link to="/union-agreement">
             <FaHandshake size={50} className="union-icon" />

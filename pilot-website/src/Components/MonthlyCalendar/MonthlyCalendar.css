@@ -1,0 +1,27 @@
+/* MonthlyCalendar.css */
+.rbc-container {
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.rbc-toolbar {
+  background-color: #fff;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.rbc-btn-group {
+  margin-right: 10px;
+}
+
+.rbc-calendar {
+  background-color: #fff;
+  border-radius: 15px;
+}
+
+.rbc-today {
+  background-color: #e0e0e0;
+}
