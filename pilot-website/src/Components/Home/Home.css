@@ -5,67 +5,44 @@
   margin: 3rem;
   padding: 2rem;
   font-family: "Roboto", sans-serif;
-  background: linear-gradient(
-    135deg,
-    #2c3e50,
-    #34495e
-  ); /* Adds a subtle gradient */
+  background: linear-gradient(135deg, #2c3e50, #34495e);
   border-radius: 15px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-.Home > div {
+.link-box {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  background: #ecf0f1; /* Lighter shade for cards */
+  background: #ecf0f1;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+  color: #333;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.3s ease;
 }
 
-.Home > div:hover {
+.link-box:hover {
   transform: translateY(-10px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  color: #0073e6;
 }
 
-.Home a {
-  text-decoration: none;
-  color: #333; /* Keeping it darker for better contrast */
-  transition: color 0.3s ease;
-}
-
-.Home a:hover {
-  color: #0073e6; /* Same blue as the navbar on hover */
-}
-
-.Home h3 {
+.link-box h3 {
   margin-top: 1rem;
   font-size: 1.3rem;
   font-weight: 500;
 }
 
-.productivity-icon,
-.minutes-icon,
-.scheduling-icon,
-.klein-icon,
-.union-icon,
-.links-icon,
-.admin-icon {
-  color: #2c3e50; /* Dark shade for icons */
+.icon {
+  color: #2c3e50;
   transition: color 0.3s ease;
 }
 
-.productivity-icon:hover,
-.minutes-icon:hover,
-.scheduling-icon:hover,
-.klein-icon:hover,
-.union-icon:hover,
-.links-icon:hover,
-.admin-icon:hover {
-  color: #0073e6; /* Blue color on hover for consistency */
+.icon:hover {
+  color: #0073e6;
 }
 
 @media (max-width: 768px) {
@@ -75,7 +52,7 @@
     padding: 1rem;
   }
 
-  .Home h3 {
+  .link-box h3 {
     font-size: 1.1rem;
   }
 }
@@ -87,7 +64,7 @@
     padding: 0.5rem;
   }
 
-  .Home h3 {
+  .link-box h3 {
     font-size: 1rem;
   }
 }
