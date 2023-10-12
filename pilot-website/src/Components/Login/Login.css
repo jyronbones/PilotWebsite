@@ -25,11 +25,13 @@
 }
 
 .login-form input {
-  width: 100%;
+  width: 80%; /* reduce to 80% of the container's width or you can set a specific width like 250px */
   padding: 10px 15px;
   border: 1px solid #d1d1d1;
   border-radius: 4px;
   font-size: 16px;
+  margin: 0 auto; /* center the input fields */
+  display: block; /* make input fields block elements */
 }
 
 .login-form input:focus {

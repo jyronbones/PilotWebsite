@@ -1,23 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   FaProductHunt,
   FaHandshake,
-  FaSuitcase,
-  FaLink,
-  FaCalendarAlt,
-  FaClipboard,
   FaClock,
+  FaLink,
+  FaClipboard,
+  FaBox,
+  FaUserShield,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "./Home.css";
 
 const Home = () => {
-  const [showSchedulingOptions, setShowSchedulingOptions] = useState(false);
-
-  const handleSchedulingClick = () => {
-    setShowSchedulingOptions(!showSchedulingOptions);
-  };
-
   return (
     <div>
       <div className="Home">
@@ -33,26 +27,18 @@ const Home = () => {
             <h3 className="minutes-text">Meeting Minutes</h3>
           </Link>
         </div>
-        <div onClick={handleSchedulingClick}>
-          <FaClock size={50} className="scheduling-icon" />
-          <h3 className="scheduling-text">Scheduling</h3>
+        <div>
+          <Link to="/scheduling">
+            <FaClock size={50} className="scheduling-icon" />
+            <h3 className="scheduling-text">Scheduling</h3>
+          </Link>
         </div>
-        {showSchedulingOptions && (
-          <div className="scheduling-options">
-            <div>
-              <Link to="/vacation-schedule">
-                <FaSuitcase size={50} className="vacation-icon" />
-                <h3 className="vacation-text">Vacation Schedule</h3>
-              </Link>
-            </div>
-            <div>
-              <Link to="/monthly-calendar">
-                <FaCalendarAlt size={50} className="calendar-icon" />
-                <h3 className="calendar-text">Monthly Calendar</h3>
-              </Link>
-            </div>
-          </div>
-        )}
+        <div>
+          <Link to="/klein">
+            <FaBox size={50} className="klein-icon" />
+            <h3 className="klein-text">KLEIN Login</h3>
+          </Link>
+        </div>
         <div>
           <Link to="/union-agreement">
             <FaHandshake size={50} className="union-icon" />
@@ -63,6 +49,13 @@ const Home = () => {
           <Link to="/links">
             <FaLink size={50} className="links-icon" />
             <h3 className="links-text">Links</h3>
+          </Link>
+        </div>
+        <div>
+          {/* Placeholder check for admin. When admin functionality is implemented, you can wrap the Link component with a conditional rendering based on the admin status. */}
+          <Link to="/admin-panel">
+            <FaUserShield size={50} className="admin-icon" />
+            <h3 className="admin-text">Admin Panel</h3>
           </Link>
         </div>
       </div>

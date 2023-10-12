@@ -8,7 +8,9 @@ const CustomNavbar = () => {
     <Navbar bg="light" expand="lg">
       <Navbar.Brand href="/home">
         <img src="/images/logo.png" alt="Logo" className="navbar-logo" />
-        Upper St. Lawrence Pilots Association
+        <span className="navbar-brand-text">
+          Upper St. Lawrence Pilots Association
+        </span>
       </Navbar.Brand>
       <Link to="/home" className="nav-link">
         Home
@@ -16,7 +18,7 @@ const CustomNavbar = () => {
       <Navbar.Collapse>
         <Nav className="ml-auto">
           <Nav.Item>
-            <Link to="/" className="nav-link">
+            <Link to="/" className="nav-link navbar-collapse-link">
               Logout
             </Link>
           </Nav.Item>

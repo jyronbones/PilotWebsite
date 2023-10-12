@@ -1,5 +1,4 @@
-/* MonthlyCalendar.css */
-.rbc-container {
+.vacation-container {
   padding: 20px;
   background-color: #f5f5f5;
   border-radius: 15px;
@@ -24,4 +23,11 @@
 
 .rbc-today {
   background-color: #e0e0e0;
+}
+
+.vacation-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
 }

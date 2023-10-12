@@ -8,6 +8,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, 1fr);
+  grid-gap: 20px; /* Adds a 20px gap both horizontally and vertically */
   font-family: "Roboto", sans-serif;
   font-size: 1.5rem;
   font-weight: 300;
@@ -18,27 +19,14 @@
   padding: 20px;
   text-align: center;
   text-transform: capitalize;
+
+  /* If you want to specify only vertical gap, you can use row-gap instead */
+  /* row-gap: 30px; */ /* Uncomment this line to control only vertical gap and comment out the grid-gap line */
+
   @media (max-width: 576px) {
     font-size: 1rem;
   }
   @media (max-width: 768px) {
     font-size: 1.2rem;
   }
-}
-
-.scheduling-icon {
-  color: #007bff; /* Choose a color */
-  cursor: pointer;
-}
-
-.scheduling-text {
-  color: #007bff; /* Same color as the icon for consistency */
-  cursor: pointer;
-}
-
-.scheduling-options {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px; /* Add some margin for separation */
 }
