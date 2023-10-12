@@ -10,7 +10,7 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-.scheduling-container > div {
+.link-box {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,22 +22,25 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.scheduling-container > div:hover {
+.link-box:hover {
   transform: translateY(-10px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-.scheduling-container a {
+.link-box a {
   text-decoration: none;
   color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   transition: color 0.3s ease;
 }
 
-.scheduling-container a:hover {
+.link-box a:hover {
   color: #0073e6;
 }
 
-.scheduling-container h3 {
+.link-box h3 {
   margin-top: 1rem;
   font-size: 1.3rem;
   font-weight: 500;
@@ -61,7 +64,7 @@
     padding: 1rem;
   }
 
-  .scheduling-container h3 {
+  .link-box h3 {
     font-size: 1.1rem;
   }
 }
@@ -73,7 +76,7 @@
     padding: 0.5rem;
   }
 
-  .scheduling-container h3 {
+  .link-box h3 {
     font-size: 1rem;
   }
 }
