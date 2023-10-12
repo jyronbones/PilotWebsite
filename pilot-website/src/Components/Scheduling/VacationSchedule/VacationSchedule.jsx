@@ -11,7 +11,7 @@ const VacationSchedule = () => {
   const [events, setEvents] = useState([]);
 
   const handleSelect = ({ start, end }) => {
-    // Placeholder for admin check
+    // TODO: Placeholder for admin check
     // if (!isAdmin) return;
 
     const title = window.prompt("Please enter vacation details");
@@ -39,8 +39,7 @@ const VacationSchedule = () => {
     <div className="vacation-container">
       <Link to="/scheduling" className="back-btn">
         Back to Schedules
-      </Link>{" "}
-      {/* Back to Schedules button */}
+      </Link>
       <h2 className="vacation-title">Vacation Schedule</h2>
       <Calendar
         localizer={localizer}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
-import { Link } from "react-router-dom"; // Ensure the Link component is imported
+import { Link } from "react-router-dom";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./MonthlyCalendar.css";
 
@@ -32,8 +32,6 @@ const MonthlyCalendar = () => {
   return (
     <div className="rbc-container">
       <Link to="/scheduling" className="back-btn">
-        {" "}
-        {/* The "Back to Schedules" button */}
         Back to Schedules
       </Link>
       <h2 className="calendar-title">Monthly Calendar</h2>

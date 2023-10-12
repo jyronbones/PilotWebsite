@@ -1,10 +1,6 @@
 .rbc-container {
   padding: 3rem;
-  background: linear-gradient(
-    135deg,
-    #f0e4d7,
-    #e8d5c1
-  ); /* Soft beige gradient */
+  background: linear-gradient(135deg, #f0e4d7, #e8d5c1);
   border-radius: 15px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   display: flex;
