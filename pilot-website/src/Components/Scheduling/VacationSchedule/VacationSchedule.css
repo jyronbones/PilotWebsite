@@ -1,33 +1,61 @@
 .vacation-container {
-  padding: 20px;
-  background-color: #f5f5f5;
+  padding: 3rem;
+  background: linear-gradient(
+    135deg,
+    #f0e4d7,
+    #e8d5c1
+  ); /* Soft beige gradient */
   border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.back-btn {
+  align-self: flex-start;
+  background-color: #0073e6;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-bottom: 2rem;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.back-btn:hover {
+  background-color: #005bb5;
+  transform: translateY(-2px);
+}
+
+.vacation-title {
+  color: #333; /* Dark text to contrast with the soft background */
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.rbc-calendar {
+  background-color: #ecf0f1;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
 .rbc-toolbar {
-  background-color: #fff;
-  border-radius: 15px;
-  margin-bottom: 20px;
-  padding: 10px;
+  background-color: #d3c7bc; /* A shade that complements the gradient */
+  color: #333;
+  padding: 1rem;
 }
 
 .rbc-btn-group {
   margin-right: 10px;
 }
 
-.rbc-calendar {
-  background-color: #fff;
-  border-radius: 15px;
-}
-
 .rbc-today {
-  background-color: #e0e0e0;
-}
-
-.vacation-title {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #333;
+  background-color: rgba(0, 115, 230, 0.2);
 }
