@@ -1,39 +1,62 @@
 .minutes-container {
-  background-color: #f5f5f5;
-  border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin: 20px;
+  background: linear-gradient(
+    135deg,
+    #f0e4d7,
+    #e8d5c1
+  ); /* Soft beige gradient, consistent with other components */
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  padding: 3rem;
+  margin: 2rem;
   font-family: "Roboto", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 h2 {
+  color: #333; /* Dark text for contrast */
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
+  font-size: 2.2rem;
+  font-weight: 600;
+  border-bottom: 3px solid #d3c7bc;
+  padding-bottom: 1rem;
+  width: fit-content; /* makes the border only as wide as the text */
 }
 
 ul {
   list-style-type: none;
+  width: 100%; /* Ensures the full width is used for better spacing */
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Creates consistent spacing between list items */
 }
 
 li {
-  background-color: #fff;
+  background-color: #ecf0f1;
   border-radius: 10px;
-  margin: 10px 0;
-  padding: 10px;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 button {
-  margin-left: 10px;
-  background-color: #333;
+  background-color: #0073e6; /* Color consistent with other buttons we've styled */
   color: #fff;
   border: none;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 0.5rem 1rem;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease; /* smoothens the hover effect */
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Creates a small gap between any potential icon and text in button */
 }
 
 button:hover {
-  background-color: #555;
+  background-color: #005bb5;
+  transform: translateY(-2px); /* subtle lift effect */
 }
