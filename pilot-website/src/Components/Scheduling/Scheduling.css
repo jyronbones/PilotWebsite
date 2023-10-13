@@ -27,16 +27,16 @@
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-.link-box a {
+.calendar-link,
+.vacation-link {
   text-decoration: none;
   color: #333;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: color 0.3s ease;
+  display: block;
 }
 
-.link-box a:hover {
+.link-box:hover .calendar-icon,
+.link-box:hover .vacation-icon,
+.link-box:hover h3 {
   color: #0073e6;
 }
 
@@ -50,11 +50,6 @@
 .vacation-icon {
   color: #2c3e50;
   transition: color 0.3s ease;
-}
-
-.calendar-icon:hover,
-.vacation-icon:hover {
-  color: #0073e6;
 }
 
 @media (max-width: 768px) {
