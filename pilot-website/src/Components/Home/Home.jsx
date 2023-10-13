@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  FaProductHunt,
+  FaShip,
   FaHandshake,
   FaClock,
   FaLink,
@@ -15,7 +15,7 @@ const Home = () => {
   return (
     <div className="Home">
       <Link to="/Productivity" className="link-box">
-        <FaProductHunt size={50} className="icon" />
+        <FaShip size={50} className="icon" />
         <h3>Productivity</h3>
       </Link>
 

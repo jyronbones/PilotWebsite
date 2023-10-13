@@ -30,6 +30,11 @@
   color: #0073e6;
 }
 
+.link-box:hover .icon,
+.link-box:hover h3 {
+  color: #0073e6;
+}
+
 .link-box h3 {
   margin-top: 1rem;
   font-size: 1.3rem;
@@ -39,10 +44,6 @@
 .icon {
   color: #2c3e50;
   transition: color 0.3s ease;
-}
-
-.icon:hover {
-  color: #0073e6;
 }
 
 @media (max-width: 768px) {
