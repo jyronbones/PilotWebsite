@@ -2,7 +2,7 @@ import "./App.css";
 import Home from "./Components/Home/Home";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Productivity from "./Components/Productivity/Productivity";
-import Navbar from "./Components/Navbar/Navbar";
+import Navbar from "./Components/navbar/Navbar";
 import Links from "./Components/Links/Links";
 import Login from "./Components/Login/Login";
 import Scheduling from "./Components/Scheduling/Scheduling";
