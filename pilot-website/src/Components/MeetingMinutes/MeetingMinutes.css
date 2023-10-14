@@ -4,7 +4,7 @@
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   padding: 3rem;
   margin: 2rem;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -46,7 +46,9 @@ button {
   border-radius: 5px;
   padding: 0.5rem 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
   display: flex;
   align-items: center;
   gap: 5px;

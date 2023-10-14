@@ -1,15 +1,11 @@
 .links-container {
   padding: 3rem;
-  background: linear-gradient(
-    135deg,
-    #f0e4d7,
-    #e8d5c1
-  ); /* Soft beige gradient */
+  background: linear-gradient(135deg, #f0e4d7, #e8d5c1); /* Soft beige gradient */
   border-radius: 15px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
   max-width: 600px;
   margin: 40px auto;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 .links-header {
@@ -46,7 +42,10 @@
   background-position: 0 100%;
   background-repeat: repeat-x;
   background-size: 4px 4px;
-  transition: color 0.3s ease, background-size 0.3s ease, transform 0.3s ease;
+  transition:
+    color 0.3s ease,
+    background-size 0.3s ease,
+    transform 0.3s ease;
   padding: 0 2px; /* For the underline effect */
 }
 

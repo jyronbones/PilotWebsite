@@ -4,7 +4,7 @@
   grid-gap: 2rem;
   margin: 3rem;
   padding: 2rem;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   background: linear-gradient(135deg, #2c3e50, #34495e);
   border-radius: 15px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
@@ -21,7 +21,10 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-decoration: none;
   color: #333;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.3s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.3s ease;
 }
 
 .link-box:hover {
