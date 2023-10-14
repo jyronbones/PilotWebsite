@@ -16,7 +16,9 @@
   border-radius: 5px;
   margin-bottom: 2rem;
   text-decoration: none;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
   display: flex;
   align-items: center;
   gap: 10px;

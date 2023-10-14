@@ -61,7 +61,9 @@
   background-color: #e74c3c;
   border-radius: 25px;
   color: #ecf0f1;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
   display: inline-block;
   text-align: center;
   border: none;

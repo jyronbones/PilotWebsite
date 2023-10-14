@@ -1,52 +1,52 @@
-import React, { useState } from "react";
-import { Calendar, momentLocalizer } from "react-big-calendar";
-import moment from "moment";
-import { Link } from "react-router-dom";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import "./MonthlyCalendar.css";
+import React, { useState } from 'react'
+import { Calendar, momentLocalizer } from 'react-big-calendar'
+import moment from 'moment'
+import { Link } from 'react-router-dom'
+import 'react-big-calendar/lib/css/react-big-calendar.css'
+import './MonthlyCalendar.css'
 
-const localizer = momentLocalizer(moment);
+const localizer = momentLocalizer(moment)
 
 const MonthlyCalendar = () => {
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState([])
 
   const handleSelect = ({ start, end }) => {
-    const title = window.prompt("Please enter event name");
+    const title = window.prompt('Please enter event name')
     if (title) {
-      setEvents([...events, { start, end, title }]);
+      setEvents([...events, { start, end, title }])
     }
-  };
+  }
 
   const handleEventSelect = (event) => {
-    const action = window.prompt("Choose an action: 'edit' or 'delete'");
-    if (action === "delete") {
-      const newEvents = events.filter((e) => e !== event);
-      setEvents(newEvents);
-    } else if (action === "edit") {
-      const title = window.prompt("Please edit event name", event.title);
-      const newEvents = events.map((e) => (e === event ? { ...e, title } : e));
-      setEvents(newEvents);
+    const action = window.prompt("Choose an action: 'edit' or 'delete'")
+    if (action === 'delete') {
+      const newEvents = events.filter((e) => e !== event)
+      setEvents(newEvents)
+    } else if (action === 'edit') {
+      const title = window.prompt('Please edit event name', event.title)
+      const newEvents = events.map((e) => (e === event ? { ...e, title } : e))
+      setEvents(newEvents)
     }
-  };
+  }
 
   return (
-    <div className="rbc-container">
-      <Link to="/scheduling" className="back-btn">
+    <div className='rbc-container'>
+      <Link to='/scheduling' className='back-btn'>
         Back to Schedules
       </Link>
-      <h2 className="calendar-title">Monthly Calendar</h2>
+      <h2 className='calendar-title'>Monthly Calendar</h2>
       <Calendar
         localizer={localizer}
         defaultDate={new Date()}
-        defaultView="month"
+        defaultView='month'
         events={events}
-        style={{ height: "500px" }}
+        style={{ height: '500px' }}
         selectable={true}
         onSelectSlot={handleSelect}
         onSelectEvent={handleEventSelect}
       />
     </div>
-  );
-};
+  )
+}
 
-export default MonthlyCalendar;
+export default MonthlyCalendar
