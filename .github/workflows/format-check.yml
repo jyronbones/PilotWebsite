@@ -1,9 +1,9 @@
-name: Code Formatting Check
+name: Format Check
 
 on:
-  pull_request:
+  push:
     branches:
-      - main
+      - '*'
 
 jobs:
   format-check:
