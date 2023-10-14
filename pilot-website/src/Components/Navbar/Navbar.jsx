@@ -1,7 +1,7 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { Navbar, Nav } from 'react-bootstrap'
-import './Navbar.css'
+import React from "react";
+import { Link } from "react-router-dom";
+import { Navbar, Nav } from "react-bootstrap";
+import "./Navbar.css";
 
 const CustomNavbar = () => {
   return (
@@ -12,7 +12,7 @@ const CustomNavbar = () => {
       </Navbar.Brand>
 
       <Navbar.Collapse>
-        <Nav className='ml-auto'>
+        <Nav className="ml-auto">
           <Nav.Item>
             <Link to='/' className='nav-link logout-button'>
               Logout
@@ -21,7 +21,7 @@ const CustomNavbar = () => {
         </Nav>
       </Navbar.Collapse>
     </Navbar>
-  )
-}
+  );
+};
 
-export default CustomNavbar
+export default CustomNavbar;
