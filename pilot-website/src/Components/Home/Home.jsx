@@ -11,37 +11,37 @@ const Home = () => {
         <h3>Productivity</h3>
       </Link>
 
-      <Link to="/meeting-minutes" className="link-box">
-        <FaClipboard size={50} className="icon" />
+      <Link to='/meeting-minutes' className='link-box'>
+        <FaClipboard size={50} className='icon' />
         <h3>Meeting Minutes</h3>
       </Link>
 
-      <Link to="/scheduling" className="link-box">
-        <FaClock size={50} className="icon" />
+      <Link to='/scheduling' className='link-box'>
+        <FaClock size={50} className='icon' />
         <h3>Scheduling</h3>
       </Link>
 
-      <Link to="/klein" className="link-box">
-        <FaBox size={50} className="icon" />
+      <Link to='/klein' className='link-box'>
+        <FaBox size={50} className='icon' />
         <h3>KLEIN Login</h3>
       </Link>
 
-      <Link to="/union-agreement" className="link-box">
-        <FaHandshake size={50} className="icon" />
+      <Link to='/union-agreement' className='link-box'>
+        <FaHandshake size={50} className='icon' />
         <h3>Union Agreement</h3>
       </Link>
 
-      <Link to="/links" className="link-box">
-        <FaLink size={50} className="icon" />
+      <Link to='/links' className='link-box'>
+        <FaLink size={50} className='icon' />
         <h3>Links</h3>
       </Link>
 
-      <Link to="/admin-panel" className="link-box">
-        <FaUserShield size={50} className="icon" />
+      <Link to='/admin-panel' className='link-box'>
+        <FaUserShield size={50} className='icon' />
         <h3>Admin Panel</h3>
       </Link>
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
