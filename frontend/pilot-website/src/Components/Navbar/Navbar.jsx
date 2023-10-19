@@ -7,7 +7,7 @@ const CustomNavbar = () => {
   return (
     <Navbar bg='light' expand='lg'>
       <Navbar.Brand href='/home'>
-        <img src='/images/logo.png' alt='Logo' className='navbar-logo' />
+        <img src='/images//logo/logo.png' alt='Logo' className='navbar-logo' />
         <span className='navbar-brand-text'>Upper St. Lawrence Pilots Association</span>
       </Navbar.Brand>
 
