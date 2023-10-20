@@ -1,9 +1,18 @@
-import React from 'react'
+import React, { useRef } from 'react' // <-- Added useRef
 import { Link } from 'react-router-dom'
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import './Navbar.css'
 
 const CustomNavbar = () => {
+  const dropdownRef = useRef(null) // <-- Added ref for dropdown
+
+  const closeDropdown = () => {
+    // Check if the current is available and close it
+    if (dropdownRef.current) {
+      dropdownRef.current.toggle()
+    }
+  }
+
   return (
     <Navbar bg='light' expand='lg'>
       <div className='navbar-flex-wrapper'>
@@ -15,26 +24,26 @@ const CustomNavbar = () => {
           </div>
         </Navbar.Brand>
 
-        <NavDropdown title='Features ⌵' id='basic-nav-dropdown'>
-          <NavDropdown.Item as={Link} to='/Productivity'>
+        <NavDropdown title='Features' id='basic-nav-dropdown' ref={dropdownRef}>
+          <NavDropdown.Item as={Link} to='/Productivity' onClick={closeDropdown}>
             <h3>Productivity</h3>
           </NavDropdown.Item>
-          <NavDropdown.Item as={Link} to='/meeting-minutes'>
+          <NavDropdown.Item as={Link} to='/meeting-minutes' onClick={closeDropdown}>
             <h3>Meeting Minutes</h3>
           </NavDropdown.Item>
-          <NavDropdown.Item as={Link} to='/scheduling'>
+          <NavDropdown.Item as={Link} to='/scheduling' onClick={closeDropdown}>
             <h3>Scheduling</h3>
           </NavDropdown.Item>
-          <NavDropdown.Item as={Link} to='/klein'>
+          <NavDropdown.Item as={Link} to='/klein' onClick={closeDropdown}>
             <h3>KLEIN Login</h3>
           </NavDropdown.Item>
-          <NavDropdown.Item as={Link} to='/union-agreement'>
+          <NavDropdown.Item as={Link} to='/union-agreement' onClick={closeDropdown}>
             <h3>Union Agreement</h3>
           </NavDropdown.Item>
-          <NavDropdown.Item as={Link} to='/links'>
+          <NavDropdown.Item as={Link} to='/links' onClick={closeDropdown}>
             <h3>Links</h3>
           </NavDropdown.Item>
-          <NavDropdown.Item as={Link} to='/admin-panel'>
+          <NavDropdown.Item as={Link} to='/admin-panel' onClick={closeDropdown}>
             <h3>Admin Panel</h3>
           </NavDropdown.Item>
         </NavDropdown>
