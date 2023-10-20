@@ -6,6 +6,7 @@ import './Navbar.css'
 const CustomNavbar = () => {
   const dropdownRef = useRef(null)
 
+  // BUG: Needs a fix to close dropdown by clicking anything outside the dropmenu and also links(working)
   const closeDropdown = () => {
     if (dropdownRef.current) {
       dropdownRef.current.toggle()
