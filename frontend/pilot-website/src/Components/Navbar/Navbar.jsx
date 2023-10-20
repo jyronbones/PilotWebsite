@@ -1,13 +1,12 @@
-import React, { useRef } from 'react' // <-- Added useRef
+import React, { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import './Navbar.css'
 
 const CustomNavbar = () => {
-  const dropdownRef = useRef(null) // <-- Added ref for dropdown
+  const dropdownRef = useRef(null)
 
   const closeDropdown = () => {
-    // Check if the current is available and close it
     if (dropdownRef.current) {
       dropdownRef.current.toggle()
     }
