@@ -9,7 +9,7 @@
   padding: 0.5rem 2rem;
   background-color: #2c3e50;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  position: relative; /* Added to ensure dropdown positions relative to navbar */
+  position: relative;
 }
 
 /* Logo styling */
@@ -41,16 +41,28 @@
   color: #bdc3c7 !important;
 }
 
-.navbar-brand:hover .navbar-brand-text {
+.navbar-brand:hover .navbar-brand-text span {
   color: #f39c12;
   transition: color 0.4s ease;
 }
 
-.navbar-brand-text:hover {
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+.navbar-brand-text {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.navbar-brand-text > span {
+  text-align: center;
+  margin: 0;
   transition:
     transform 0.3s ease,
     text-shadow 0.3s ease;
+}
+
+.navbar-brand-text > span:hover {
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* Link and Button styles */
@@ -93,11 +105,16 @@
   position: absolute;
 }
 
+.navbar-flex-wrapper {
+  display: flex;
+  align-items: center;
+}
+
 #basic-nav-dropdown {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 1rem;
+  margin-left: 1.5rem;
   padding: 0.5rem 1rem;
   width: 100%;
 }
@@ -123,7 +140,7 @@
   transition:
     background-color 0.3s ease,
     color 0.3s ease;
-  border-radius: 0; /* Remove any possible rounded corners */
+  border-radius: 0;
 }
 
 .dropdown-item:hover h3 {
@@ -149,7 +166,10 @@
     align-items: stretch;
   }
 
-  .navbar-brand,
+  .navbar-brand {
+    align-items: center;
+  }
+
   .nav {
     display: block;
     width: 100%;
