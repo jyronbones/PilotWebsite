@@ -99,10 +99,11 @@
 .dropdown-menu {
   background-color: #34495e;
   border: none;
-  border-radius: 0;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 4px; /* Slight curve for a modern look */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   top: 100%;
   position: absolute;
+  overflow: hidden;
 }
 
 .navbar-flex-wrapper {
@@ -116,15 +117,20 @@
   justify-content: center;
   margin-left: 1.5rem;
   padding: 0.5rem 1rem;
-  width: 100%;
+  width: auto; /* adjusted for size */
+  background: linear-gradient(145deg, #2a3d4f, #2e4058); /* subtle gradient for 3D effect */
+  border: none;
+  border-radius: 4px;
+  box-shadow:
+    3px 3px 6px #1c2733,
+    -3px -3px 6px #3c4f67; /* subtle shadow for 3D effect */
+  overflow: hidden;
 }
 
-/* Adjust dropdown caret position */
 #basic-nav-dropdown::after {
   vertical-align: middle;
 }
 
-/* Remove padding from the actual dropdown-item and adjust the hover effect */
 .dropdown-item {
   padding: 0;
   background-color: transparent !important;
@@ -134,7 +140,7 @@
   font-size: 1rem;
   color: #ecf0f1;
   margin: 0;
-  padding: 0.5rem 1.5rem;
+  padding: 0.5rem 1rem; /* Adjusted for size */
   display: block;
   text-align: left;
   transition:
@@ -148,15 +154,20 @@
   color: #bdc3c7;
 }
 
-/* Dropdown hover effect for Features */
 #basic-nav-dropdown:hover {
   background-color: #34495e;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
+  border-radius: 4px;
+  box-shadow:
+    2px 2px 6px #1c2733,
+    -2px -2px 6px #3c4f67;
 }
 
 #basic-nav-dropdown:hover > .dropdown-toggle {
   color: #bdc3c7 !important;
+}
+
+#basic-nav-dropdown .dropdown-toggle::after {
+  display: none;
 }
 
 /* Mobile styles */

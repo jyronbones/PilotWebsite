@@ -15,7 +15,7 @@ const CustomNavbar = () => {
           </div>
         </Navbar.Brand>
 
-        <NavDropdown title='Features' id='basic-nav-dropdown'>
+        <NavDropdown title='Features ⌵' id='basic-nav-dropdown'>
           <NavDropdown.Item as={Link} to='/Productivity'>
             <h3>Productivity</h3>
           </NavDropdown.Item>
