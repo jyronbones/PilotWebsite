@@ -21,16 +21,19 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-decoration: none;
   color: #333;
+  border: 2px solid transparent; /* Added initial transparent border */
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease,
-    color 0.3s ease;
+    color 0.3s ease,
+    border-color 0.3s ease; /* Added border-color transition */
 }
 
 .link-box:hover {
   transform: translateY(-10px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
   color: #0073e6;
+  border-color: #0073e6; /* Added border color on hover */
 }
 
 .link-box:hover .icon,

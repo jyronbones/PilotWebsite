@@ -6,10 +6,14 @@ import './Navbar.css'
 const CustomNavbar = () => {
   return (
     <Navbar bg='light' expand='lg'>
-      <Navbar.Brand href='/home'>
-        <img src='/images/logo.png' alt='Logo' className='navbar-logo' />
-        <span className='navbar-brand-text'>Upper St. Lawrence Pilots Association</span>
-      </Navbar.Brand>
+      <div className='navbar-flex-wrapper'>
+        <Navbar.Brand href='/home'>
+          <img src='/images/logo/logo.png' alt='Logo' className='navbar-logo' />
+          <div className='navbar-brand-text'>
+            <span>Upper St. Lawrence Pilots Association</span>
+          </div>
+        </Navbar.Brand>
+      </div>
 
       <Navbar.Collapse>
         <Nav className='ml-auto'>
