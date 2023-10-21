@@ -14,7 +14,7 @@ const Login = () => {
       <div className='header-container'>
         <h2 className='login-title'>Login</h2>
         <div className='logo-wrapper'>
-          <img src='/images/logo/logo192_bg.png' alt='Company Logo' className='logo-img' />
+          <img src='/images/logo/192/logo192_bg.png' alt='Company Logo' className='logo-img' />
         </div>
       </div>
       <form
