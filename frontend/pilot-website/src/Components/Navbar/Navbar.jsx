@@ -1,9 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Navbar, Nav } from 'react-bootstrap'
 import './Navbar.css'
 
 const CustomNavbar = () => {
+  const location = useLocation()
+
   return (
     <Navbar bg='light' expand='lg'>
       <div className='navbar-flex-wrapper'>
@@ -17,11 +19,13 @@ const CustomNavbar = () => {
 
       <Navbar.Collapse>
         <Nav className='ml-auto'>
-          <Nav.Item>
-            <Link to='/' className='nav-link logout-button'>
-              Logout
-            </Link>
-          </Nav.Item>
+          {location.pathname !== '/' && (
+            <Nav.Item>
+              <Link to='/' className='nav-link logout-button'>
+                Logout
+              </Link>
+            </Nav.Item>
+          )}
         </Nav>
       </Navbar.Collapse>
     </Navbar>
