@@ -1,9 +1,18 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { Navbar, Nav } from 'react-bootstrap'
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import './Navbar.css'
 
 const CustomNavbar = () => {
+  const dropdownRef = useRef(null)
+
+  // BUG: Needs a fix to close dropdown by clicking anything outside the dropmenu and also links(working)
+  const closeDropdown = () => {
+    if (dropdownRef.current) {
+      dropdownRef.current.toggle()
+    }
+  }
+
   return (
     <Navbar bg='light' expand='lg'>
       <div className='navbar-flex-wrapper'>
