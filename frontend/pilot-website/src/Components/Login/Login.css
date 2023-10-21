@@ -5,13 +5,45 @@
   border-radius: 5px;
   background-color: #f8f8f8;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.header-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .login-title {
   font-size: 24px;
   margin-bottom: 20px;
-  text-align: center;
+  text-align: left;
   font-weight: 600;
+}
+
+/* Keyframes for the spinning effect */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.logo-img {
+  position: absolute;
+  left: 40%;
+  transform: translateX(-50%);
+  top: 15px;
+  height: 80px;
+  border-radius: 50%;
+  box-shadow:
+    0px 3px 10px rgba(0, 0, 0, 0.2),
+    0px 10px 20px rgba(0, 0, 0, 0.1);
+  filter: grayscale(20%) contrast(110%) brightness(105%);
+
+  animation: spin 30s infinite linear;
 }
 
 .login-form .input-group {
@@ -41,7 +73,10 @@
 }
 
 .actions {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
 }
 
 .login-btn {

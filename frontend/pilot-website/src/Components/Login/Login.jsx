@@ -11,7 +11,12 @@ const Login = () => {
 
   return (
     <div className='login-container'>
-      <h2 className='login-title'>Login</h2>
+      <div className='header-container'>
+        <h2 className='login-title'>Login</h2>
+        <div className='logo-wrapper'>
+          <img src='/images/logo/logo192_bg.png' alt='Company Logo' className='logo-img' />
+        </div>
+      </div>
       <form
         className='login-form'
         onSubmit={(e) => {
