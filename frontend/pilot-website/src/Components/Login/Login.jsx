@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './Login.css'
 
 const Login = () => {
+  const [isEmail, setIsEmail] = useState(false)
   const navigate = useNavigate()
 
   const handleLogin = () => {
@@ -17,6 +18,7 @@ const Login = () => {
           <img src='/images/logo/textless/logo_textless_bg.png' alt='Company Logo' className='logo-img' />
         </div>
       </div>
+
       <form
         className='login-form'
         onSubmit={(e) => {
@@ -25,8 +27,14 @@ const Login = () => {
         }}
       >
         <div className='input-group'>
-          <label htmlFor='username'>Username:</label>
-          <input type='text' id='username' name='username' required />
+          <label htmlFor='identifier'>{isEmail ? 'Email:' : 'Username:'}</label>
+          <input type={isEmail ? 'email' : 'text'} id='identifier' name='identifier' required />
+        </div>
+
+        <div className='switch-container'>
+          <span className='switch-text' onClick={() => setIsEmail(!isEmail)}>
+            Login with {isEmail ? 'Username' : 'Email'}
+          </span>
         </div>
 
         <div className='input-group'>

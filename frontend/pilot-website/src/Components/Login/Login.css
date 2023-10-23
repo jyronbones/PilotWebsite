@@ -42,12 +42,11 @@
     0px 3px 10px rgba(0, 0, 0, 0.2),
     0px 10px 20px rgba(0, 0, 0, 0.1);
   filter: grayscale(20%) contrast(110%) brightness(105%);
-
   animation: spin 30s infinite linear;
 }
 
 .login-form .input-group {
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 
 .login-form label {
@@ -92,4 +91,23 @@
 
 .login-btn:hover {
   background-color: #005bb5;
+}
+
+/* New styles for switch-text */
+.switch-container {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.switch-text {
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: underline;
+  color: #0073e6;
+}
+
+.switch-text:hover {
+  opacity: 0.8;
 }
