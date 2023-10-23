@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import './Login.css'
 
 const Login = () => {
   const [isEmail, setIsEmail] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
 
   const handleLogin = () => {
@@ -39,7 +41,12 @@ const Login = () => {
 
         <div className='input-group'>
           <label htmlFor='password'>Password:</label>
-          <input type='password' id='password' name='password' required />
+          <div className='password-wrapper'>
+            <input type={showPassword ? 'text' : 'password'} id='password' name='password' required />
+            <span className={`toggle-password ${showPassword ? 'password-shown' : ''}`} onClick={() => setShowPassword(!showPassword)}>
+              {showPassword ? <FaEye /> : <FaEyeSlash />}
+            </span>
+          </div>
         </div>
 
         <div className='actions'>

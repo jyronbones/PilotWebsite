@@ -21,7 +21,6 @@
   font-weight: 600;
 }
 
-/* Keyframes for the spinning effect */
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -65,6 +64,38 @@
   display: block;
 }
 
+.password-wrapper {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10%;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+  transition:
+    color 0.3s ease,
+    box-shadow 0.3s ease;
+  color: #9a9a9a;
+}
+
+.toggle-password:hover,
+.toggle-password.password-shown {
+  color: #0073e6;
+}
+
+.toggle-password:active {
+  transform: translateY(-48%);
+}
+
+.login-form input:focus + .toggle-password {
+  color: #0073e6;
+}
+
 .login-form input:focus {
   border-color: #0073e6;
   outline: none;
@@ -93,7 +124,6 @@
   background-color: #005bb5;
 }
 
-/* New styles for switch-text */
 .switch-container {
   margin-bottom: 15px;
   display: flex;
