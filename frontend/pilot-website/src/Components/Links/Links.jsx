@@ -3,9 +3,12 @@ import './Links.css'
 
 const Links = () => {
   const links = [
-    { name: 'GitHub', url: 'https://github.com' },
-    { name: 'District One Pilots', url: 'https://www.districtonepilots.com' },
-    { name: 'Test', url: 'https://www.test.com' }
+    { name: 'GLPMS Pilot Control', url: 'http://www.glpms.pilotcontrol.ca' },
+    { name: 'Marine Traffic', url: 'http://www.marinetraffic.com' },
+    { name: 'Great Lakes Seaway', url: 'http://www.greatlakes-seaway.com' },
+    { name: 'Weather Marine', url: 'http://www.weather.gc.ca/marine' },
+    { name: 'Pilotage St Laurent', url: 'http://www.efiche.live.pilotagestlaurent.gc.ca' },
+    { name: 'Tides Stations', url: 'http://www.tides.gc.ca/en/stations' }
   ]
 
   return (
