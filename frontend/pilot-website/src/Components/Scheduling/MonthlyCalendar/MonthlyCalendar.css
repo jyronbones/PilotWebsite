@@ -2,7 +2,7 @@
   padding: 3rem;
   background: linear-gradient(135deg, #f0e4d7, #e8d5c1);
   border-radius: 15px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 20px var(--color-shadow);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,8 +10,8 @@
 
 .back-btn {
   align-self: flex-start;
-  background-color: #0073e6;
-  color: white;
+  background-color: var(--color-main);
+  color: var(--color-white);
   padding: 10px 15px;
   border-radius: 5px;
   margin-bottom: 2rem;
@@ -38,15 +38,15 @@
 }
 
 .rbc-calendar {
-  background-color: #ecf0f1;
+  background-color: var(--color-secondary1);
   border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px var(--color-shadow);
   overflow: hidden;
   width: 100%;
 }
 
 .rbc-toolbar {
-  background-color: #d3c7bc; /* A shade that complements the gradient */
+  background-color: var(--color-secondary1); /* A shade that complements the gradient */
   color: #333;
   padding: 1rem;
 }

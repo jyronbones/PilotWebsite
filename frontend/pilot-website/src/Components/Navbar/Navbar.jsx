@@ -1,34 +1,56 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Twirl as Hamburger } from 'hamburger-react'
 import { Link, useLocation } from 'react-router-dom'
 import { Navbar, Nav } from 'react-bootstrap'
+import Sidebar from './Sidebar/Sidebar'
+import SidebarOverlay from './SideBarOverlay/SidebarOverlay'
 import './Navbar.css'
 
 const CustomNavbar = () => {
   const location = useLocation()
+  const [openSideBar, setOpenSideBar] = useState(false)
+
+  const showOpenSideBar = () => {
+    setOpenSideBar(!openSideBar)
+  }
+  const closeSideBar = () => {
+    setOpenSideBar(false)
+  }
 
   return (
-    <Navbar bg='light' expand='lg'>
-      <div className='navbar-flex-wrapper'>
-        <Navbar.Brand href='/home'>
-          <img src='/images/logo/logo.png' alt='Logo' className='navbar-logo' />
-          <div className='navbar-brand-text'>
-            <span>Upper St. Lawrence Pilots Association</span>
+    <>
+      <Navbar bg='light' expand='lg'>
+        <div className='navbar-brand'>
+          {/* TODO remove this if user is not signed in */}
+          <div className='navbar-hamburger'>
+            <Hamburger rounded size={18} toggle={setOpenSideBar} toggled={openSideBar} distance='sm' />
           </div>
-        </Navbar.Brand>
-      </div>
+          <Navbar.Brand href='/home'>
+            <img src='/images/logo/logo.png' alt='Logo' className='navbar-logo' />
+            <div className='navbar-brand-text'>
+              <span>Upper St. Lawrence Pilots Association</span>
+            </div>
+          </Navbar.Brand>
+        </div>
 
-      <Navbar.Collapse>
-        <Nav className='ml-auto'>
-          {location.pathname !== '/' && (
-            <Nav.Item>
-              <Link to='/' className='nav-link logout-button'>
-                Logout
-              </Link>
-            </Nav.Item>
-          )}
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
+        <div className='navbar-logout'>
+          <Navbar.Collapse>
+            <Nav className='ml-auto'>
+              {location.pathname !== '/' && (
+                <Nav.Item>
+                  <Link to='/' className='nav-link logout-button'>
+                    Logout
+                  </Link>
+                </Nav.Item>
+              )}
+            </Nav>
+          </Navbar.Collapse>
+        </div>
+      </Navbar>
+
+      {openSideBar ? <Sidebar openSideBar={openSideBar} setOpenSideBar={showOpenSideBar} /> : <></>}
+      <SidebarOverlay isOpen={openSideBar} onClose={closeSideBar} />
+    </>
   )
 }
 

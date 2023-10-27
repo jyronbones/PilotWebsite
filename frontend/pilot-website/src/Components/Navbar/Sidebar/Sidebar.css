@@ -1,0 +1,73 @@
+/* Sidebar Menu Styling */
+.sidebar-menu {
+  background-color: var(--color-main);
+  color: var(--color-white);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 0;
+  position: fixed;
+  top: 0;
+  padding: 0;
+  z-index: 998;
+  transition: all 0.3s ease-in;
+}
+.sidebar-menu.active {
+  width: 19%;
+  transition: all 0.3s ease-in;
+}
+.sidebar-header {
+  transform: translate(10%, 10px);
+  gap: 5rem;
+  display: flex;
+  margin-top: 10px;
+  margin-left: 0.5rem;
+  transition: all 0.3s ease;
+}
+/* Logo styling */
+.sidebar-logo {
+  max-width: 50px;
+  margin-right: 0.5rem;
+  border: 2px solid #313131;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px var(--color-shadow);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.sidebar-link {
+  display: flex;
+  margin-top: 3rem;
+  margin-left: 1.5rem;
+  color: var(--color-white);
+  cursor: pointer;
+  transition: all 0.1s ease;
+  font-size: 19px;
+}
+.sidebar-link:hover {
+  transition: all 0.3s ease;
+  font-size: 21px;
+  color: var(--color-secondary2);
+}
+
+/* Mobile styles */
+@media (max-width: 1100px) {
+  .sidebar-menu.active {
+    width: 18%;
+  }
+  .sidebar-logo {
+    display: none;
+  }
+  .sidebar-header {
+    gap: 1rem;
+  }
+  .sidebar-link {
+    font-size: 17px;
+  }
+}
+@media (max-width: 907px) {
+  .sidebar-menu {
+    display: none;
+  }
+}
