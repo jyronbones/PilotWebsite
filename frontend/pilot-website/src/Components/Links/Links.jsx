@@ -3,7 +3,7 @@ import './Links.css'
 
 const Links = () => {
   const links = [
-    { name: 'GLPMS Pilot Control', url: 'http://www.glpms.pilotcontrol.ca' },
+    { name: 'GLPMS Pilot Control Login', url: 'https://glpms.pilotcontrol.ca/Login.aspx' },
     { name: 'Marine Traffic', url: 'http://www.marinetraffic.com' },
     { name: 'Great Lakes Seaway', url: 'http://www.greatlakes-seaway.com' },
     { name: 'Weather Marine', url: 'http://www.weather.gc.ca/marine' },
