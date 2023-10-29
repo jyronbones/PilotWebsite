@@ -28,13 +28,13 @@ const Sidebar = ({ openSideBar, setOpenSideBar }) => {
   return (
     <div>
       <div ref={ref} className={`sidebar-menu ${openSideBar ? 'active' : ''}`}>
-        <div className={'sidebar-header'}>
+        <div className='sidebar-header'>
           <Link to='/home' onClick={(prevSideBar) => setOpenSideBar(!prevSideBar)}>
             <img src='/images/logo/logo.png' alt='Logo' className='sidebar-logo' />
           </Link>
           <Hamburger toggled={openSideBar} toggle={setOpenSideBar} rounded size={18} distance='md' />
         </div>
-        <div>
+        <div className='sidebar-body'>
           <Link className='sidebar-link' to='/productivity' onClick={(prevSideBar) => setOpenSideBar(!prevSideBar)}>
             Productivity
           </Link>

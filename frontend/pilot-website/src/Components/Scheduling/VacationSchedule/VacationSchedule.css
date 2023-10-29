@@ -1,6 +1,6 @@
 .vacation-container {
   padding: 3rem;
-  background: linear-gradient(135deg, #f0e4d7, #e8d5c1); /* Soft beige gradient */
+  background: linear-gradient(135deg, #f0e4d7, #e8d5c1);
   border-radius: 15px;
   box-shadow: 0 10px 20px var(--colow-shadow);
   display: flex;
@@ -38,14 +38,14 @@
 }
 
 .rbc-calendar {
-  background-color: var(--color-secondary1);
+  background-color: var(--color-secondary-light);
   border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
 
 .rbc-toolbar {
-  background-color: #d3c7bc; /* need to change color */
+  background-color: #d3c7bc;
   color: #333;
   padding: 1rem;
 }

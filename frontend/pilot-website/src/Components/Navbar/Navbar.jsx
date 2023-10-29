@@ -22,9 +22,16 @@ const CustomNavbar = () => {
       <Navbar bg='light' expand='lg'>
         <div className='navbar-brand'>
           {/* TODO remove this if user is not signed in */}
-          <div className='navbar-hamburger'>
-            <Hamburger rounded size={18} toggle={setOpenSideBar} toggled={openSideBar} distance='sm' />
-          </div>
+          <Nav className='ml-auto'>
+            {location.pathname !== '/' && (
+              <Nav.Item>
+                <div className='navbar-hamburger'>
+                  <Hamburger rounded size={18} toggle={setOpenSideBar} toggled={openSideBar} distance='sm' />
+                </div>
+              </Nav.Item>
+            )}
+          </Nav>
+
           <Navbar.Brand href='/home'>
             <img src='/images/logo/logo.png' alt='Logo' className='navbar-logo' />
             <div className='navbar-brand-text'>
