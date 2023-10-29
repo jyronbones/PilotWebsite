@@ -7,7 +7,7 @@
   font-family: 'Roboto', sans-serif;
   background: linear-gradient(135deg, #2c3e50, #34495e);
   border-radius: 15px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 20px var(--color-shadow);
 }
 
 .link-box {
@@ -18,7 +18,7 @@
   padding: 1.5rem;
   background: #ecf0f1;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px var(--color-shadow);
   text-decoration: none;
   color: #333;
   border: 2px solid transparent; /* Added initial transparent border */
@@ -31,7 +31,7 @@
 
 .link-box:hover {
   transform: translateY(-10px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 15px var(--color-shadow);
   color: #0073e6;
   border-color: #0073e6; /* Added border color on hover */
 }
@@ -48,7 +48,7 @@
 }
 
 .icon {
-  color: #2c3e50;
+  color: var(--color-main);
   transition: color 0.3s ease;
 }
 

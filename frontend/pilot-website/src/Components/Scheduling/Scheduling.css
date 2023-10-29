@@ -7,7 +7,7 @@
   font-family: 'Roboto', sans-serif;
   background: linear-gradient(135deg, #2c3e50, #34495e);
   border-radius: 15px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 20px var(--color-shadow);
 }
 
 .link-box {
@@ -18,7 +18,7 @@
   padding: 1.5rem;
   background: #ecf0f1;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px var(--color-shadow);
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -26,7 +26,7 @@
 
 .link-box:hover {
   transform: translateY(-10px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 15px var(--color-shadow);
 }
 
 .calendar-link,
