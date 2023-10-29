@@ -36,10 +36,6 @@
   align-items: center;
   text-decoration: none !important;
 }
-/* will be overwrite 
-.navbar-brand:hover {
-  color: #bdc3c7 !important;
-} */
 
 .navbar-brand:hover .navbar-brand-text span {
   color: var(--color-secondary-dark);
