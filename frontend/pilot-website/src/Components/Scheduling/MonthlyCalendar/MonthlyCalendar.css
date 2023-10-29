@@ -30,7 +30,7 @@
 }
 
 .calendar-title {
-  color: #333; /* Dark text to contrast with the soft background */
+  color: #333;
   text-align: center;
   margin-bottom: 2rem;
   font-size: 2rem;
@@ -38,7 +38,7 @@
 }
 
 .rbc-calendar {
-  background-color: var(--color-secondary1);
+  background-color: var(--color-secondary-light);
   border-radius: 15px;
   box-shadow: 0 4px 15px var(--color-shadow);
   overflow: hidden;
@@ -46,7 +46,7 @@
 }
 
 .rbc-toolbar {
-  background-color: var(--color-secondary1); /* A shade that complements the gradient */
+  background-color: var(--color-secondary-light);
   color: #333;
   padding: 1rem;
 }

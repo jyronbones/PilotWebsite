@@ -14,6 +14,6 @@ code {
   --color-main: #2c3e50;
   --color-white: #fff;
   --color-shadow: rgba(0, 0, 0, 0.1);
-  --color-secondary1: #ecf0f1;
-  --color-secondary2: #c4831b;
+  --color-secondary-light: #ecf0f1;
+  --color-secondary-dark: #c4831b;
 }
