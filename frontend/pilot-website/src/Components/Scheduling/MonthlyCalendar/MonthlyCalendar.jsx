@@ -9,24 +9,34 @@ const localizer = momentLocalizer(moment)
 
 const MonthlyCalendar = () => {
   const [events, setEvents] = useState([])
+  const [showForm, setShowForm] = useState(false)
+  const [selectedDate, setSelectedDate] = useState(null)
+  const [formData, setFormData] = useState({ firstName: '', lastName: '', floaterId: '' })
 
-  const handleSelect = ({ start, end }) => {
-    const title = window.prompt('Please enter event name')
-    if (title) {
-      setEvents([...events, { start, end, title }])
-    }
+  const handleSelect = ({ start }) => {
+    setSelectedDate(start)
+    setShowForm(true)
   }
 
-  const handleEventSelect = (event) => {
-    const action = window.prompt("Choose an action: 'edit' or 'delete'")
-    if (action === 'delete') {
-      const newEvents = events.filter((e) => e !== event)
-      setEvents(newEvents)
-    } else if (action === 'edit') {
-      const title = window.prompt('Please edit event name', event.title)
-      const newEvents = events.map((e) => (e === event ? { ...e, title } : e))
-      setEvents(newEvents)
+  const handleFormSubmit = () => {
+    const newEvent = {
+      start: selectedDate,
+      end: selectedDate,
+      title: `${formData.firstName} ${formData.lastName}`,
+      floaterId: formData.floaterId
     }
+
+    setEvents([...events, newEvent])
+    setShowForm(false)
+  }
+
+  const handleFormCancel = () => {
+    setShowForm(false)
+  }
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
   }
 
   return (
@@ -43,8 +53,19 @@ const MonthlyCalendar = () => {
         style={{ height: '500px' }}
         selectable={true}
         onSelectSlot={handleSelect}
-        onSelectEvent={handleEventSelect}
       />
+      {showForm && (
+        <div className='event-form'>
+          <h3>Add Event for {moment(selectedDate).format('LL')}</h3>
+          <input type='text' name='firstName' value={formData.firstName} onChange={handleInputChange} placeholder='First Name' />
+          <input type='text' name='lastName' value={formData.lastName} onChange={handleInputChange} placeholder='Last Name' />
+          <input type='text' name='floaterId' value={formData.floaterId} onChange={handleInputChange} placeholder='Floater ID' />
+          <div className='form-buttons'>
+            <button onClick={handleFormSubmit}>Submit</button>
+            <button onClick={handleFormCancel}>Cancel</button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
