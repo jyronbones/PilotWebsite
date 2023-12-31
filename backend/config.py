@@ -13,6 +13,7 @@ class Config:
 
     # Database
     SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI')
+    print("Database URI:", SQLALCHEMY_DATABASE_URI)
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # Set to False to disable Flask-SQLAlchemy event system
 
     # Email Configuration

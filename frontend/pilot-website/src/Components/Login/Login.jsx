@@ -3,13 +3,39 @@ import { useNavigate } from 'react-router-dom'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import './Login.css'
 
+const API_URL = process.env.REACT_APP_API_URL
+
 const Login = () => {
-  const [isEmail, setIsEmail] = useState(false)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
   const navigate = useNavigate()
 
-  const handleLogin = () => {
-    navigate('/home')
+  const handleLogin = async (e) => {
+    e.preventDefault()
+    setErrorMessage('')
+
+    try {
+      const response = await fetch(`${API_URL}/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        // Store the token securely (for example, in sessionStorage or localStorage)
+        sessionStorage.setItem('authToken', data.token)
+        navigate('/home')
+      } else {
+        const errorData = await response.json()
+        setErrorMessage(errorData.message || 'Login failed: Invalid username or password.')
+      }
+    } catch (error) {
+      console.error('Login error:', error)
+      setErrorMessage('Login error: Please try again later.')
+    }
   }
 
   return (
@@ -21,28 +47,24 @@ const Login = () => {
         </div>
       </div>
 
-      <form
-        className='login-form'
-        onSubmit={(e) => {
-          e.preventDefault()
-          handleLogin()
-        }}
-      >
+      <form className='login-form' onSubmit={handleLogin}>
+        {errorMessage && <div className='error-message'>{errorMessage}</div>}
         <div className='input-group'>
-          <label htmlFor='identifier'>{isEmail ? 'Email:' : 'Username:'}</label>
-          <input type={isEmail ? 'email' : 'text'} id='identifier' name='identifier' required />
-        </div>
-
-        <div className='switch-container'>
-          <span className='switch-text' onClick={() => setIsEmail(!isEmail)}>
-            Login with {isEmail ? 'Username' : 'Email'}
-          </span>
+          <label htmlFor='username'>Username:</label>
+          <input type='text' id='username' name='username' value={username} onChange={(e) => setUsername(e.target.value)} required />
         </div>
 
         <div className='input-group'>
           <label htmlFor='password'>Password:</label>
           <div className='password-wrapper'>
-            <input type={showPassword ? 'text' : 'password'} id='password' name='password' required />
+            <input
+              type={showPassword ? 'text' : 'password'}
+              id='password'
+              name='password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
             <span className={`toggle-password ${showPassword ? 'password-shown' : ''}`} onClick={() => setShowPassword(!showPassword)}>
               {showPassword ? <FaEye /> : <FaEyeSlash />}
             </span>
