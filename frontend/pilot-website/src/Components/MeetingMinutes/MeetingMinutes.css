@@ -22,6 +22,7 @@ h2 {
   flex-direction: column;
   align-items: center;
   gap: 2rem;
+  margin: 0 3rem;
 }
 
 .minute-row {
