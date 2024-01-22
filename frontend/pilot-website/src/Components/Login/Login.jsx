@@ -6,7 +6,7 @@ import './Login.css'
 const API_URL = process.env.REACT_APP_API_URL
 
 const Login = () => {
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
@@ -20,17 +20,18 @@ const Login = () => {
       const response = await fetch(`${API_URL}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ email, password })
       })
 
       if (response.ok) {
         const data = await response.json()
         // Store the token securely (for example, in sessionStorage or localStorage)
-        sessionStorage.setItem('authToken', data.token)
+        sessionStorage.setItem('authToken', data.accessToken)
+        sessionStorage.setItem('user_type', data.user_type)
         navigate('/home')
       } else {
         const errorData = await response.json()
-        setErrorMessage(errorData.message || 'Login failed: Invalid username or password.')
+        setErrorMessage(errorData.message || 'Login failed: Invalid email or password.')
       }
     } catch (error) {
       console.error('Login error:', error)
@@ -50,8 +51,8 @@ const Login = () => {
       <form className='login-form' onSubmit={handleLogin}>
         {errorMessage && <div className='error-message'>{errorMessage}</div>}
         <div className='input-group'>
-          <label htmlFor='username'>Username:</label>
-          <input type='text' id='username' name='username' value={username} onChange={(e) => setUsername(e.target.value)} required />
+          <label htmlFor='email'>Username:</label>
+          <input type='email' id='email' name='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
         </div>
 
         <div className='input-group'>

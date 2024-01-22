@@ -20,16 +20,14 @@ parts/
 sdist/
 var/
 wheels/
-pip-wheel-metadata/
 share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
 
 # PyInstaller
-# Usually these files are written by a python script from a template before PyInstaller builds the exe,
-# so as to inject date/other infos into it.
+# Usually these files are written by a python script from a template
+# before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
 
@@ -81,18 +79,17 @@ target/
 
 # celery beat schedule file
 celerybeat-schedule
+celerybeat.pid
 
 # SageMath parsed files
 *.sage.py
 
-# dotenv
+# Environments
 .env
-.env.*
-
-# virtualenv
+.venv
+env/
 venv/
 ENV/
-env/
 env.bak/
 venv.bak/
 
@@ -117,19 +114,23 @@ dmypy.json
 # pytype static type analyzer
 .pytype/
 
-# profiling data
-.prof
-
-# cython debug symbols
+# Cython debug symbols
 cython_debug/
 
-# pycharm
-.idea/
-*.iml
-
-# VSCode
+# Visual Studio Code
 .vscode/
 
-# Other files and folders to ignore
+# PyCharm
+.idea/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# OS generated files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
