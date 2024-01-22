@@ -10,6 +10,7 @@ const AdminPortal = () => {
   const [editUserData, setEditUserData] = useState({})
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [name, setName] = useState('')
+  const [userType, setUserType] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -18,13 +19,15 @@ const AdminPortal = () => {
     setName('')
     setEmail('')
     setPassword('')
+    setUserType('')
+    setEditUserData({})
   }
 
   const handleSubmit = () => {
     if (Object.keys(editUserData).length > 0) {
-      updateUser({ name, email, password })
+      updateUser({ name, email, password, user_type: userType })
     } else {
-      createUser({ name, email, password })
+      createUser({ name, email, password, user_type: userType })
     }
     handleClose()
   }
@@ -64,6 +67,7 @@ const AdminPortal = () => {
       })
 
       if (response.ok) {
+        setEditUserData({})
         fetchUsers()
       } else {
         alert('Error')
@@ -85,6 +89,7 @@ const AdminPortal = () => {
       })
 
       if (response.ok) {
+        setEditUserData({})
         fetchUsers()
       } else {
         alert('Error')
@@ -120,6 +125,7 @@ const AdminPortal = () => {
     setName(editUserData?.full_name)
     setEmail(editUserData?.email)
     setPassword(editUserData.password)
+    setUserType(editUserData.user_type)
   }, [editUserData])
 
   return (
@@ -141,6 +147,7 @@ const AdminPortal = () => {
                   <tr>
                     <th>Name</th>
                     <th>Email</th>
+                    <th>User Type</th>
                     <th>Created At</th>
                     <th>Updated At</th>
                     <th>Action</th>
@@ -153,6 +160,7 @@ const AdminPortal = () => {
                         <tr key={index}>
                           <td>{item?.full_name}</td>
                           <td>{item?.email}</td>
+                          <td>{item?.user_type == 1 ? 'Admin' : 'User'}</td>
                           <td>{moment(item?.created_at).format('MMMM Do YYYY, h:mm:ss a')}</td>
                           <td>{moment(item?.updated_at).format('MMMM Do YYYY, h:mm:ss a')}</td>
                           <td>
@@ -203,10 +211,20 @@ const AdminPortal = () => {
               </label>
               {Object.keys(editUserData).length === 0 && (
                 <label>
-                  Password:
+                  <span>Password:</span>
                   <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
                 </label>
               )}
+              <label>
+                User Type
+                <select value={userType} onChange={(e) => setUserType(e.target.value)}>
+                  <option disabled selected>
+                    Select user type
+                  </option>
+                  <option value='1'>Admin</option>
+                  <option value='2'>User</option>
+                </select>
+              </label>
               <button onClick={handleSubmit}>{Object.keys(editUserData).length > 0 ? 'Edit' : 'Create'} user</button>
             </div>
           </div>

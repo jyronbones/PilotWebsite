@@ -66,7 +66,7 @@ const CustomNavbar = () => {
             )}
           </Nav>
 
-          <Navbar.Brand href='/home'>
+          <Navbar.Brand href={sessionStorage.getItem('authToken') !== null ? '/home' : '#'}>
             <img src='/images/logo/logo.png' alt='Logo' className='navbar-logo' />
             <div className='navbar-brand-text'>
               <span>Upper St. Lawrence Pilots Association</span>
@@ -79,7 +79,7 @@ const CustomNavbar = () => {
             <Nav className='ml-auto'>
               {location.pathname !== '/' && (
                 <Nav.Item>
-                  <Link to='/' className='nav-link logout-button'>
+                  <Link to='/' onClick={() => sessionStorage.removeItem('authToken')} className='nav-link logout-button'>
                     Logout
                   </Link>
                 </Nav.Item>
