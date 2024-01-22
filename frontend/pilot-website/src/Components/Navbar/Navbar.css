@@ -1,6 +1,13 @@
 /* Basic reset for Navbar */
+.navbar-container {
+  height: 3rem;
+  width: 100%;
+  top: 0;
+  position: fixed;
+  z-index: 100; /* make navbar stays above all content */
+}
+
 .navbar {
-  margin: 0;
   border: none;
   border-radius: 0;
   display: flex;

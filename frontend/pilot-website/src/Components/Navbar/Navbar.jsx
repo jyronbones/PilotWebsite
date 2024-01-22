@@ -18,7 +18,7 @@ const CustomNavbar = () => {
   }
 
   return (
-    <>
+    <div className='navbar-container'>
       <Navbar bg='light' expand='lg'>
         <div className='navbar-brand'>
           {/* TODO remove this if user is not signed in */}
@@ -57,7 +57,7 @@ const CustomNavbar = () => {
 
       {openSideBar ? <Sidebar openSideBar={openSideBar} setOpenSideBar={showOpenSideBar} /> : <></>}
       <SidebarOverlay isOpen={openSideBar} onClose={closeSideBar} />
-    </>
+    </div>
   )
 }
 
