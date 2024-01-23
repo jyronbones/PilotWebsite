@@ -17,10 +17,9 @@ h2 {
 
 .create-btn {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   margin: 1rem 0;
 }
-
 /* External CSS for UserTable component */
 
 .user-table-container {
