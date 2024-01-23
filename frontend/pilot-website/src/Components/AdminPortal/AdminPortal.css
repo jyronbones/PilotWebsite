@@ -1,150 +1,157 @@
 .admin-container {
-  background-color: #f5f5f5;
-  border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  padding: 50px;
-  margin: 20px;
-  font-family: 'Roboto', sans-serif;
-  text-align: center;
-  font-weight: 500;
-  font-size: 24px;
-  color: #333;
-}
+    background-color: #f5f5f5;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 50px;
+    margin: 20px;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    font-weight: 500;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  h2 {
+    margin: 0;
+  }
+  
+  .create-btn {
+    display: flex;
+    justify-content: flex-end;
+    margin: 1rem 0;
+  }
 
-h2 {
-  margin: 0;
-}
-
-.create-btn {
-  display: flex;
-  justify-content: flex-end;
-  margin: 1rem 0;
-}
-/* External CSS for UserTable component */
+  /* External CSS for UserTable component */
 
 .user-table-container {
-  padding: 0;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  text-align: left;
-  padding: 1rem;
-}
+    padding: 0;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    text-align: left;
+    padding: 1rem;
+  }
+  
+  .custom-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .custom-table thead {
+    background-color: #ccc;
+  }
 
-.custom-table {
-  width: 100%;
-  border-collapse: collapse;
-}
+  .custom-table th,
+  .custom-table td {
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.5rem;
+  }
+  
+  .user-link {
+    color: blue;
+    cursor: pointer;
+    margin: 0;
+    display: inline-block;
+  }
+  
+  .delete-button,
+  .edit-button {
+    padding: 0;
+    font-weight: bold;
+  }
 
-.custom-table thead {
-  background-color: #ccc;
-}
+  .action-container {
+    display: flex;
+  }
+  
+  .delete-button {
+    color: #fff;
+    background-color: red;
+    border-radius: 8px;
+    padding: 0.5rem 1.5rem;
+    margin: 0;
+  }
+  
+  .edit-button {
+    color: #fff;
+    background-color: blue;
+    border-radius: 8px;
+    padding: 0.5rem 1.5rem;
+    margin-left: 1rem;
+  }
+  
 
-.custom-table th,
-.custom-table td {
-  font-size: 1rem;
-  font-weight: 500;
-  padding: 0.5rem;
-}
 
-.user-link {
-  color: blue;
-  cursor: pointer;
-  margin: 0;
-  display: inline-block;
-}
 
-.delete-button,
-.edit-button {
-  padding: 0;
-  font-weight: bold;
-}
 
-.action-container {
-  display: flex;
-}
 
-.delete-button {
-  color: #fff;
-  background-color: red;
-  border-radius: 8px;
-  padding: 0.5rem 1.5rem;
-  margin: 0;
-}
 
-.edit-button {
-  color: #fff;
-  background-color: blue;
-  border-radius: 8px;
-  padding: 0.5rem 1.5rem;
-  margin-left: 1rem;
-}
-
-/* External CSS for CustomModal component */
+  /* External CSS for CustomModal component */
 
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    width: 400px;
+    max-width: 80%;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  .modal-body {
+    padding: 10px;
+  }
+  
+  /* Style form elements */
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  input, select {
+    padding: 8px;
+    margin-top: 4px;
+    margin-bottom: 10px;
+    display: block;
+    width: 100%;
+  }
 
-.modal-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  position: relative;
-  width: 400px;
-  max-width: 80%;
-}
-
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-.modal-body {
-  padding: 10px;
-}
-
-/* Style form elements */
-label {
-  display: block;
-  margin-bottom: 10px;
-}
-
-input,
-select {
-  padding: 8px;
-  margin-top: 4px;
-  margin-bottom: 10px;
-  display: block;
-  width: 100%;
-}
-
-input {
-  width: 360px !important;
-}
-
-button {
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #45a049;
-}
-
-/* Add more styles as needed */
+  input {
+    width: 360px !important;
+  }
+  
+  button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Add more styles as needed */
+  
