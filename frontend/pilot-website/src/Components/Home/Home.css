@@ -8,6 +8,8 @@
   padding: 2rem;
   font-family: 'Roboto', sans-serif;
   background: linear-gradient(135deg, #2c3e50, #34495e);
+  background-image: url(../images/upper-st-lawrence-1.jpg);
+  background-size: 100% 100%;
   border-radius: 15px;
   box-shadow: 0 10px 20px var(--color-shadow);
 }
