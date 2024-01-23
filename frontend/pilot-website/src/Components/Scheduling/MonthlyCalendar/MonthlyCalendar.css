@@ -17,9 +17,7 @@
   border-radius: 5px;
   margin-bottom: 2rem;
   text-decoration: none;
-  transition:
-    background-color 0.3s ease,
-    transform 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -36,6 +34,18 @@
   margin-bottom: 2rem;
   font-size: 2rem;
   font-weight: 600;
+}
+
+/* Updated style for the calendar and form */
+.calendar-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.calendar-wrapper {
+  flex: 2;
+  margin-right: 2rem; /* Adjust the margin as needed */
 }
 
 .rbc-calendar {
@@ -56,28 +66,33 @@
   background-color: rgba(0, 115, 230, 0.2);
 }
 
-/* Add this CSS for the form */
+.form-container {
+  flex: 1;
+  max-width: 400px; /* Adjust the max-width as needed */
+}
+
 .event-form {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   background: white;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
-  z-index: 999;
 }
 
 .event-form h3 {
   margin: 0 0 10px;
 }
 
-.event-form input {
+.event-form label {
   display: block;
-  margin: 10px 0;
+  margin-top: 10px;
+}
+
+.event-form input,
+.event-form select {
+  display: block;
+  margin: 10px auto;
   padding: 5px;
   width: 100%;
   border: 1px solid #ccc;
