@@ -1,5 +1,6 @@
 import React from 'react'
 import './App.css'
+import Footer from './Components/Footer/Footer'
 import Home from './Components/Home/Home'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Productivity from './Components/Productivity/Productivity'
@@ -29,6 +30,7 @@ function App() {
         <Route path='/union-agreement' element={<UnionAgreement />} />
         <Route path='/links' element={<Links />} />
       </Routes>
+      <Footer />
     </Router>
   )
 }

@@ -5,7 +5,7 @@ const Links = () => {
   const links = [
     { name: 'GLPMS Pilot Control Login', url: 'https://glpms.pilotcontrol.ca/Login.aspx' },
     { name: 'Marine Traffic', url: 'http://www.marinetraffic.com' },
-    { name: 'Great Lakes Seaway', url: 'http://www.greatlakes-seaway.com' },
+    { name: 'Great Lakes Seaway', url: 'http://www.marinetraffic.com' },
     { name: 'Weather Marine', url: 'http://www.weather.gc.ca/marine' },
     { name: 'Pilotage St Laurent', url: 'https://efiche.live.pilotagestlaurent.gc.ca/' },
     { name: 'Tides Stations', url: 'http://www.tides.gc.ca/en/stations' }
