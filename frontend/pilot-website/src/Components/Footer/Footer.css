@@ -19,15 +19,15 @@
   flex-direction: row;
 }
 
-.footer-links p{
+.footer-links p {
   font-size: 14px;
   line-height: 15px;
   margin-left: 3rem;
   color: white;
-  font-weight: 600;  
+  font-weight: 600;
 }
 
-hr{
+hr {
   color: white !important;
   width: 100%;
 }
