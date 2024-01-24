@@ -1,13 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Twirl as Hamburger } from 'hamburger-react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Navbar, Nav } from 'react-bootstrap'
 import Sidebar from './Sidebar/Sidebar'
 import SidebarOverlay from './SideBarOverlay/SidebarOverlay'
 import './Navbar.css'
 
+const API_URL = process.env.REACT_APP_API_URL
+
 const CustomNavbar = () => {
   const location = useLocation()
+  const navigate = useNavigate()
+
   const [openSideBar, setOpenSideBar] = useState(false)
 
   const showOpenSideBar = () => {
@@ -15,6 +19,36 @@ const CustomNavbar = () => {
   }
   const closeSideBar = () => {
     setOpenSideBar(false)
+  }
+
+  useEffect(() => {
+    useAuth()
+  }, [])
+
+  const useAuth = async () => {
+    try {
+      const response = await fetch(`${API_URL}/auth-me`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
+        }
+      })
+
+      if (response.ok) {
+        navigate('/home')
+        const data = await response.json()
+        sessionStorage.setItem('user_type', data.details.user_type)
+      } else {
+        sessionStorage.removeItem('authToken')
+        sessionStorage.removeItem('user_type')
+        navigate('/')
+      }
+    } catch (error) {
+      sessionStorage.removeItem('authToken')
+      sessionStorage.removeItem('user_type')
+      navigate('/')
+    }
   }
 
   return (
@@ -32,7 +66,7 @@ const CustomNavbar = () => {
             )}
           </Nav>
 
-          <Navbar.Brand href='/home'>
+          <Navbar.Brand href={sessionStorage.getItem('authToken') !== null ? '/home' : '#'}>
             <img src='/images/logo/logo.png' alt='Logo' className='navbar-logo' />
             <div className='navbar-brand-text'>
               <span>Upper St. Lawrence Pilots Association</span>
@@ -45,7 +79,7 @@ const CustomNavbar = () => {
             <Nav className='ml-auto'>
               {location.pathname !== '/' && (
                 <Nav.Item>
-                  <Link to='/' className='nav-link logout-button'>
+                  <Link to='/' onClick={() => sessionStorage.removeItem('authToken')} className='nav-link logout-button'>
                     Logout
                   </Link>
                 </Nav.Item>

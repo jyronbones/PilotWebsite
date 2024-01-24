@@ -12,6 +12,7 @@ import VacationSchedule from './Components/Scheduling/VacationSchedule/VacationS
 import UnionAgreement from './Components/UnionAgreement/UnionAgreement'
 import Klein from './Components/Klein/Klein'
 import MeetingMinutes from './Components/MeetingMinutes/MeetingMinutes'
+import AdminPortal from './Components/AdminPortal/AdminPortal'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path='/klein' element={<Klein />} />
         <Route path='/union-agreement' element={<UnionAgreement />} />
         <Route path='/links' element={<Links />} />
+        <Route path='/admin-panel' element={<AdminPortal />} />
       </Routes>
     </Router>
   )
