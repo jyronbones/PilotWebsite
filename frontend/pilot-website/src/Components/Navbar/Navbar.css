@@ -8,6 +8,7 @@
 }
 
 .navbar {
+  margin: 0;
   border: none;
   border-radius: 0;
   display: flex;
@@ -91,6 +92,9 @@
   font-size: 1.2rem;
   font-weight: 600;
   box-shadow: 0 4px 12px var(--color-shadow);
+  width: 150px;
+  height: 40px;
+  width: fit-content;
 }
 
 .logout-button:hover {
@@ -118,7 +122,8 @@
     padding: 0.5rem 0.5rem !important;
     font-size: 1rem;
     display: block;
-    width: 100%;
+    width: 110px;
+    height: 30px;
     text-align: center;
   }
 }

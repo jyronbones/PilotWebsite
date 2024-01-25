@@ -16,26 +16,21 @@ const MonthlyCalendar = () => {
     lastName: '',
     floaterId: '',
     shiftColor: 'LightBlue', // Default color
-    shiftType: 'full-day', // Default type
-    startTime: '9:00',
-    endTime: '17:00'
+    shiftType: 'full-day' // Default type
   })
 
   const shiftColors = ['LightBlue', 'LightGreen', 'LightPink', 'LightSalmon', 'LightSkyBlue', 'LightYellow']
+
   const handleSelect = ({ start }) => {
     setSelectedDate(moment(start))
     setShowForm(true)
   }
 
   const handleFormSubmit = () => {
-    const fullName = `${formData.firstName}, ${formData.lastName}`
-    const start = moment(`${selectedDate.format('YYYY-MM-DD')} ${formData.startTime}`)
-    const end = moment(`${selectedDate.format('YYYY-MM-DD')} ${formData.endTime}`)
-
     const newEvent = {
-      start,
-      end,
-      title: fullName,
+      start: selectedDate,
+      end: selectedDate,
+      title: `${formData.firstName} ${formData.lastName}`,
       floaterId: formData.floaterId,
       shiftColor: formData.shiftColor,
       shiftType: formData.shiftType
@@ -59,38 +54,41 @@ const MonthlyCalendar = () => {
     console.log('Edit event:', event)
   }
 
-  const handleDeleteEvent = (date) => {
+  const handleDeleteEvent = () => {
     // Implement delete functionality as needed
-    const updatedEvents = events.filter((event) => !moment(event.start).isSame(date, 'day'))
+    const updatedEvents = events.filter((event) => !moment(event.start).isSame(selectedDate, 'day'))
     setEvents(updatedEvents)
     setShowForm(false)
   }
 
   return (
     <div className='rbc-container'>
-      <Link to='/scheduling' className='back-btn'>
-        Back to Schedules
-      </Link>
+      <div className='button-container'>
+        <Link to='/scheduling' className='back-btn'>
+          Back to Schedules
+        </Link>
+        <Link to='/vacation-schedule' className='vac-btn'>
+          Vacation Scheduling
+        </Link>
+      </div>
       <h2 className='calendar-title'>Monthly Calendar</h2>
       <div className='calendar-container'>
-        <div className='calendar-wrapper'>
-          <Calendar
-            localizer={localizer}
-            defaultDate={new Date()}
-            defaultView='month'
-            events={events}
-            style={{ height: '500px' }}
-            selectable={true}
-            onSelectSlot={handleSelect}
-            onSelectEvent={handleEditEvent}
-            eventPropGetter={(event) => ({
-              style: {
-                backgroundColor: event.shiftColor,
-                color: 'white' // You can adjust the text color based on your needs
-              }
-            })}
-          />
-        </div>
+        <Calendar
+          localizer={localizer}
+          defaultDate={new Date()}
+          views={['month']} // Remove 'day' 'week' and 'agenda' views
+          events={events}
+          style={{ height: '500px' }}
+          selectable={true}
+          onSelectSlot={handleSelect}
+          onSelectEvent={handleEditEvent}
+          eventPropGetter={(event) => ({
+            style: {
+              backgroundColor: event.shiftColor,
+              color: 'white'
+            }
+          })}
+        />
         {showForm && (
           <div className='form-container'>
             <div className='event-form'>
@@ -117,21 +115,28 @@ const MonthlyCalendar = () => {
               <input type='text' name='lastName' value={formData.lastName} onChange={handleInputChange} placeholder='Last Name' />
               <label>Floater ID:</label>
               <input type='text' name='floaterId' value={formData.floaterId} onChange={handleInputChange} placeholder='Floater ID' />
-              <label>Start Time:</label>
-              <input type='time' name='startTime' value={formData.startTime} onChange={handleInputChange} />
-              <label>End Time:</label>
-              <input type='time' name='endTime' value={formData.endTime} onChange={handleInputChange} />
               <div className='form-buttons'>
                 <button onClick={handleFormSubmit}>Submit</button>
                 <button onClick={handleFormCancel}>Cancel</button>
-                <button onClick={() => handleDeleteEvent(selectedDate)}>Delete</button>
+                <button onClick={handleDeleteEvent}>Delete</button>
               </div>
             </div>
           </div>
         )}
       </div>
+      <div className='selected-info'>
+        <h3>Selected Date Information</h3>
+        {events
+          .filter((event) => moment(event.start).isSame(selectedDate, 'day'))
+          .map((event, index) => (
+            <div key={index}>
+              <p>{event.title}</p>
+              <p>Floater ID: {event.floaterId}</p>
+              <p>Shift Type: {event.shiftType}</p>
+            </div>
+          ))}
+      </div>
     </div>
   )
 }
-
 export default MonthlyCalendar
