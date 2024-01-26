@@ -16,8 +16,7 @@ const FooterComponent = () => {
               <p>Marine Traffic</p>
             </div>
           </a>
-          <a href='http://www.marinetraffic.com'>
-            {/* TODO is the link supposed to be the same as Marin Traffic? */}
+          <a href='http://www.greatlakes-seaway.com'>
             <div>
               <p>Great Lakes Seaway</p>
             </div>
