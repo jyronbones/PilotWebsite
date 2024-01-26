@@ -11,9 +11,22 @@
   font-size: 24px;
   color: #333;
 }
-
-h2 {
-  margin: 0;
+.people-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 3px solid var(--color-secondary-light);
+}
+.people-title {
+  color: #333;
+  display: flex;
+  gap: 1rem;
+  font-weight: 600;
+}
+.people-title p {
+  font-size: 26px;
+  color: darkgrey;
+  font-weight: 600;
 }
 
 .create-btn {

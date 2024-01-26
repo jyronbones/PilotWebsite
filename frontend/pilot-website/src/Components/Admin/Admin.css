@@ -1,0 +1,97 @@
+.Admin {
+  display: flex;
+  gap: 3rem;
+  /* margin: 0 3rem 0 3rem; */
+  margin: 3rem;
+  margin-top: 7rem;
+  padding: 2rem;
+  font-family: 'Roboto', sans-serif;
+  border-radius: 15px;
+}
+
+.link-admin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: auto;
+  width: 20rem;
+  height: 10rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #2c3e50, #34495e);
+  border-radius: 10px;
+  box-shadow: 0 10px 20px var(--color-shadow);
+  color: #333;
+  border: 2px solid transparent; /* Added initial transparent border */
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.3s ease,
+    border-color 0.3s ease; /* Added border-color transition */
+}
+
+.link-admin:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 6px 15px var(--color-shadow);
+}
+.link-admin h3 {
+  margin-top: 1rem;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--color-white);
+}
+
+.icon-admin {
+  margin-top: 1rem;
+  color: var(--color-white);
+  transition: color 0.3s ease;
+}
+@media (max-width: 918px) {
+  .Admin {
+    padding: 1rem;
+  }
+  .link-admin {
+    padding: 0.25rem;
+    width: 10rem;
+    height: 10rem;
+    overflow-x: scroll;
+  }
+  .link-admin h3 {
+    font-size: 18px;
+  }
+}
+@media (max-width: 880px) {
+  .Admin {
+    overflow-x: scroll;
+  }
+  .link-admin {
+    min-width: 156px;
+    min-height: 171px;
+  }
+  .link-admin h3 {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .Admin {
+    margin: 1rem;
+    margin-top: 7rem;
+    padding: 0.5rem;
+    padding-top: 1rem;
+    overflow-x: scroll;
+    gap: 2rem;
+  }
+  .link-admin {
+    padding: 0;
+    min-width: 120px;
+    min-height: 100px;
+  }
+  .icon-admin h3 {
+    font-size: 16px;
+  }
+  .link-admin h3 {
+    visibility: none;
+  }
+}

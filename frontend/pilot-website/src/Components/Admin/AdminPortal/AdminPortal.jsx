@@ -131,9 +131,14 @@ const AdminPortal = () => {
   return (
     <>
       <div className='admin-container'>
-        <h2>Users List</h2>
+        <div className='people-header'>
+          <div className='people-title'>
+            <h1>Directory</h1>
+            <p>{list?.length}</p>
+          </div>
+        </div>
 
-        <div className='p-2 p-md-4'>
+        <div>
           <div className='create-btn'>
             <Button variant='primary' className='ml-1 pr-0 w-100 fs-12' onClick={() => setIsModalOpen(true)}>
               <span className='fs-12'>Create User</span>

@@ -3,13 +3,25 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 2rem;
+  /* margin: 0 3rem 0 3rem; */
   margin: 3rem;
-  margin-top: 7rem;
+  margin-top: 2rem;
   padding: 2rem;
   font-family: 'Roboto', sans-serif;
   background: linear-gradient(135deg, #2c3e50, #34495e);
   border-radius: 15px;
   box-shadow: 0 10px 20px var(--color-shadow);
+}
+
+/* .admin-title {
+  margin: 7rem 0 0 3rem;
+}
+.dashboard-title {
+  margin: 2rem 0 0 3rem;
+} */
+
+.Home.active {
+  margin-top: 2rem;
 }
 
 .link-box {
@@ -49,7 +61,7 @@
   transition: color 0.3s ease;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 846px) {
   .Home {
     grid-template-columns: repeat(2, 1fr);
     margin: 1rem;
@@ -68,7 +80,9 @@
     margin-top: 5rem;
     padding: 0.5rem;
   }
-
+  .link-box {
+    padding: 0.5rem;
+  }
   .link-box h3 {
     font-size: 1rem;
   }
