@@ -36,10 +36,12 @@ const Home = () => {
         <h3>Links</h3>
       </Link>
 
-      <Link to='/admin-panel' className='link-box'>
-        <FaUserShield size={50} className='icon' />
-        <h3>Admin Panel</h3>
-      </Link>
+      {sessionStorage.getItem('user_type') == 1 && (
+        <Link to='/admin-panel' className='link-box'>
+          <FaUserShield size={50} className='icon' />
+          <h3>Admin Panel</h3>
+        </Link>
+      )}
     </div>
   )
 }
