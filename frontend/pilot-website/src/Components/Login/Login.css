@@ -1,3 +1,6 @@
+.login-page {
+  height: 70vh;
+}
 .login-container {
   max-width: 400px;
   margin: 5% auto;

@@ -1,4 +1,5 @@
 .Home {
+  min-height: 70vh;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 2rem;
@@ -34,11 +35,6 @@
   box-shadow: 0 6px 15px var(--color-shadow);
   color: #0073e6;
   border-color: #0073e6; /* Added border color on hover */
-}
-
-.link-box:hover .icon,
-.link-box:hover h3 {
-  color: #0073e6;
 }
 
 .link-box h3 {

@@ -8,7 +8,7 @@ const FooterComponent = () => {
         <div className='footer-links'>
           <a href='https://glpms.pilotcontrol.ca/Login.aspx'>
             <div>
-              <p>GLPMS Pilot Control Login</p>
+              <p>KLEIN</p>
             </div>
           </a>
           <a href='http://www.marinetraffic.com'>
