@@ -1,10 +1,13 @@
+.login-page {
+  height: 70vh;
+}
 .login-container {
   max-width: 400px;
   margin: 5% auto;
   padding: 20px;
   border-radius: 5px;
   background-color: var(--color-secondary-light);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(160, 34, 34, 0.1);
   position: relative;
 }
 

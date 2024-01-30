@@ -40,44 +40,46 @@ const Login = () => {
   }
 
   return (
-    <div className='login-container'>
-      <div className='header-container'>
-        <h2 className='login-title'>Login</h2>
-        <div className='logo-wrapper'>
-          <img src='/images/logo/textless/logo_textless_bg.png' alt='Company Logo' className='logo-img' />
-        </div>
-      </div>
-
-      <form className='login-form' onSubmit={handleLogin}>
-        {errorMessage && <div className='error-message'>{errorMessage}</div>}
-        <div className='input-group'>
-          <label htmlFor='email'>E-mail:</label>
-          <input type='email' id='email' name='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
-        </div>
-
-        <div className='input-group'>
-          <label htmlFor='password'>Password:</label>
-          <div className='password-wrapper'>
-            <input
-              type={showPassword ? 'text' : 'password'}
-              id='password'
-              name='password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <span className={`toggle-password ${showPassword ? 'password-shown' : ''}`} onClick={() => setShowPassword(!showPassword)}>
-              {showPassword ? <FaEye /> : <FaEyeSlash />}
-            </span>
+    <div className='login-page'>
+      <div className='login-container'>
+        <div className='header-container'>
+          <h2 className='login-title'>Login</h2>
+          <div className='logo-wrapper'>
+            <img src='/images/logo/textless/logo_textless_bg.png' alt='Company Logo' className='logo-img' />
           </div>
         </div>
 
-        <div className='actions'>
-          <button type='submit' className='login-btn'>
-            Login
-          </button>
-        </div>
-      </form>
+        <form className='login-form' onSubmit={handleLogin}>
+          {errorMessage && <div className='error-message'>{errorMessage}</div>}
+          <div className='input-group'>
+            <label htmlFor='email'>E-mail:</label>
+            <input type='email' id='email' name='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
+          </div>
+
+          <div className='input-group'>
+            <label htmlFor='password'>Password:</label>
+            <div className='password-wrapper'>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id='password'
+                name='password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <span className={`toggle-password ${showPassword ? 'password-shown' : ''}`} onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
+              </span>
+            </div>
+          </div>
+
+          <div className='actions'>
+            <button type='submit' className='login-btn'>
+              Login
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }
