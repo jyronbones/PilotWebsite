@@ -67,13 +67,6 @@ const VacationSchedule = () => {
         <Link to='/monthly-calendar' className='cal-btn'>
           Calendar Scheduling
         </Link>
-        {/* Admin options */}
-        <button className='approve-btn' onClick={() => handleEventSelect({ vacationType: 'pending' })}>
-          Approve
-        </button>
-        <button className='deny-btn' onClick={() => handleEventSelect({ vacationType: 'pending' })}>
-          Deny
-        </button>
       </div>
       <h2 className='vacation-title'>Vacation Schedule</h2>
       <Calendar
