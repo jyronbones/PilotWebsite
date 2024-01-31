@@ -1,7 +1,6 @@
 .Admin {
   display: flex;
   gap: 3rem;
-  /* margin: 0 3rem 0 3rem; */
   margin: 3rem;
   margin-top: 7rem;
   padding: 2rem;
@@ -55,7 +54,6 @@
     padding: 0.25rem;
     width: 10rem;
     height: 10rem;
-    overflow-x: scroll;
   }
   .link-admin h3 {
     font-size: 18px;

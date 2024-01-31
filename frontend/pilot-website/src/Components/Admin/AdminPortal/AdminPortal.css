@@ -1,5 +1,5 @@
-.admin-container {
-  margin: 20px;
+.user-container {
+  margin: 3rem;
   margin-top: 6rem;
   background-color: #f5f5f5;
   border-radius: 15px;
@@ -11,24 +11,22 @@
   font-size: 24px;
   color: #333;
 }
-.people-header {
+.user-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   border-bottom: 3px solid var(--color-secondary-light);
 }
-.people-title {
+.user-title {
   color: #333;
   display: flex;
   gap: 1rem;
   font-weight: 600;
 }
-.people-title p {
+.user-title p {
   font-size: 26px;
   color: darkgrey;
   font-weight: 600;
 }
-
 .create-btn {
   display: flex;
   justify-content: flex-end;
@@ -36,66 +34,55 @@
 }
 
 /* External CSS for UserTable component */
-
 .user-table-container {
   padding: 0;
   border: 1px solid #ccc;
   border-radius: 12px;
   text-align: left;
-  padding: 1rem;
 }
-
-.custom-table {
+.user-table {
   width: 100%;
   border-collapse: collapse;
 }
-
-.custom-table thead {
+.user-table thead {
   background-color: #ccc;
 }
-
-.custom-table th,
-.custom-table td {
+.user-table th,
+.user-table td {
   font-size: 1rem;
   font-weight: 500;
   padding: 0.5rem;
 }
-
 .user-link {
   color: blue;
   cursor: pointer;
   margin: 0;
   display: inline-block;
 }
-
 .delete-button,
 .edit-button {
   padding: 0;
   font-weight: bold;
 }
-
 .action-container {
   display: flex;
 }
-
-.delete-button {
+.btn.delete {
   color: #fff;
   background-color: red;
+  border-radius: 8px;
+  padding: 0.5rem 1.5rem;
+  margin-left: 1rem;
+}
+.btn.edit {
+  color: #fff;
+  background-color: blue;
   border-radius: 8px;
   padding: 0.5rem 1.5rem;
   margin: 0;
 }
 
-.edit-button {
-  color: #fff;
-  background-color: blue;
-  border-radius: 8px;
-  padding: 0.5rem 1.5rem;
-  margin-left: 1rem;
-}
-
 /* External CSS for CustomModal component */
-
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -107,7 +94,6 @@
   justify-content: center;
   align-items: center;
 }
-
 .modal-content {
   background: #fff;
   padding: 20px;
@@ -117,7 +103,6 @@
   width: 400px;
   max-width: 80%;
 }
-
 .close-button {
   position: absolute;
   top: 10px;
@@ -125,7 +110,6 @@
   font-size: 1.5rem;
   cursor: pointer;
 }
-
 .modal-body {
   padding: 10px;
 }
@@ -135,7 +119,6 @@ label {
   display: block;
   margin-bottom: 10px;
 }
-
 input,
 select {
   padding: 8px;
@@ -144,22 +127,52 @@ select {
   display: block;
   width: 100%;
 }
-
 input {
   width: 360px !important;
 }
-
-button {
+.btn.create {
   background-color: #4caf50;
   color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
 }
-
-button:hover {
+.btn.create:hover {
   background-color: #45a049;
 }
-
 /* Add more styles as needed */
+
+@media (max-width: 920px) {
+  .user-container {
+    margin: 2rem;
+    margin-top: 6rem;
+  }
+  .user-table-container {
+    overflow-x: scroll;
+  }
+  .user-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 638px) {
+  .user-container {
+    margin: 1rem;
+    margin-top: 6rem;
+  }
+  .user-table th,
+  .user-table td {
+    font-size: 12px;
+    font-weight: 400;
+    padding: 0.5rem;
+  }
+  .btn {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 470px) {
+  .user-container {
+    padding: 30px;
+  }
+  .user-title {
+    font-size: 1rem;
+  }
+}

@@ -50,7 +50,7 @@ const Admin = () => {
         </Link>
 
         <Link to='/extra1' className='link-admin'>
-          <Badge color='secondary' badgeContent={0} className='icon-admin'>
+          <Badge color='secondary' badgeContent={0} className='icon-admin' overlap='rectangular'>
             <TbProgressAlert size={40} />
           </Badge>
           <h3>Extra 1</h3>
