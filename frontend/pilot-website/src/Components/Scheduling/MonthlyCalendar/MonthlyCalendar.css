@@ -84,7 +84,7 @@
   margin-right: 2rem; /* Adjust the margin as needed */
 }
 
-.sel-info-box{
+.sel-info-box {
   background-color: var(--color-secondary-light);
   border-radius: 5px;
   border: 1px solid #8486a4;
@@ -147,10 +147,10 @@
   margin: 0 0 10px;
 }
 
-.rbc-event{
+.rbc-event {
   border-radius: 1px;
   font-size: 80%;
- }
+}
 
 .event-form label {
   display: block;

@@ -79,7 +79,7 @@
   align-items: center;
 }
 
-.event-form{
+.event-form {
   background: white;
   padding: 20px;
   border: 1px solid #ccc;
@@ -96,7 +96,7 @@
   font-weight: 600;
 }
 
-.sel-info-box{
+.sel-info-box {
   background-color: var(--color-secondary-light);
   border-radius: 5px;
   border: 1px solid #8486a4;
@@ -113,9 +113,9 @@
   overflow: hidden;
 }
 
-.rbc-event{
- border-radius: 1px;
- font-size: 80%;
+.rbc-event {
+  border-radius: 1px;
+  font-size: 80%;
 }
 
 .rbc-toolbar {
