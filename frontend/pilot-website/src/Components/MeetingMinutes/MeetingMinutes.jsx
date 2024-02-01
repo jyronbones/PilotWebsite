@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
+import { Grid } from '@material-ui/core'
 import './MeetingMinutes.css'
 
 const MeetingMinutes = () => {
-  // BUG: Fix improper column alignment
   const [minutes, setMinutes] = useState([
     {
       id: 1,
@@ -16,18 +16,22 @@ const MeetingMinutes = () => {
     }
     // ... other initial minutes
   ])
+  const hiddenFileInput = useRef(null)
 
-  const addMinute = () => {
-    // Placeholder for admin check
-    // if (!isAdmin) return;
-
-    const title = window.prompt('Enter the title for the meeting minute:')
-    const content = window.prompt('Enter the content for the meeting minute:')
-    if (title && content) {
-      const newMinute = { id: Date.now(), title, content } // Using timestamp as a makeshift id
-      setMinutes([...minutes, newMinute])
-    }
+  const handleClick = () => {
+    hiddenFileInput.current.click()
   }
+
+  // const addMinute = () => {
+  //   // Placeholder for admin check
+  //   // if (!isAdmin) return;
+  //   const title = window.prompt('Enter the title for the meeting minute:')
+  //   const content = window.prompt('Enter the content for the meeting minute:')
+  //   if (title && content) {
+  //     const newMinute = { id: Date.now(), title, content } // Using timestamp as a makeshift id
+  //     setMinutes([...minutes, newMinute])
+  //   }
+  // }
 
   const editMinute = (id) => {
     // Placeholder for admin check
@@ -56,18 +60,38 @@ const MeetingMinutes = () => {
   return (
     <div className='minutes-container'>
       <h2>Meeting Minutes</h2>
-      <ul>
+      <div className='minute-list'>
         {minutes.map((minute) => (
-          <li key={minute.id}>
-            <h3>{minute.title}</h3>
-            <p>{minute.content}</p>
-            {/* Example CRUD buttons for each minute */}
-            <button onClick={() => editMinute(minute.id)}>Edit</button>
-            <button onClick={() => deleteMinute(minute.id)}>Delete</button>
-          </li>
+          <Grid container spacing={2} key={minute.id} justifyContent='center' alignItems='center' className='minute-row'>
+            <Grid item xs={3}>
+              <h3>{minute.title}</h3>
+            </Grid>
+            <Grid item xs={5}>
+              <p>{minute.content}</p>
+              {/* Example CRUD buttons for each minute */}
+            </Grid>
+            <Grid item xs={1}>
+              <button className='btn edit' onClick={() => editMinute(minute.id)}>
+                Edit
+              </button>
+            </Grid>
+            <Grid item xs={1}>
+              <button className='btn delete' onClick={() => deleteMinute(minute.id)}>
+                Delete
+              </button>
+            </Grid>
+          </Grid>
         ))}
-      </ul>
-      <button onClick={addMinute}>Add Minute</button>
+      </div>
+      <div className='btn-minute'>
+        <button className='btn add-minute' onClick={handleClick}>
+          Add Manually
+        </button>
+        <button className='btn add-minute' onClick={handleClick}>
+          Upload File
+          <input type='file' ref={hiddenFileInput} style={{ display: 'none' }} />
+        </button>
+      </div>
     </div>
   )
 }
