@@ -5,12 +5,11 @@ import './Home.css'
 import Admin from '../Admin/Admin'
 
 const Home = () => {
-  const isAdmin = true
+  const isAdmin = sessionStorage.getItem('user_type') == 1 ? true : false
+
   return (
     <div>
-      {/* <h1 className='admin-title'>Admin</h1> */}
       {isAdmin ? <Admin /> : null}
-      {/* <h1 className='dashboard-title'>Dashboard</h1> */}
       <div className={`Home ${isAdmin ? 'active' : ''}`}>
         <Link to='/Productivity' className='link-box'>
           <FaShip size={50} className='icon' />

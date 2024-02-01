@@ -128,9 +128,6 @@
   .pending-title {
     font-size: 1.5rem;
   }
-  .pending-request {
-    display: none;
-  }
 }
 @media (max-width: 675px) {
   .pending-container {
@@ -153,5 +150,8 @@
     margin: auto;
     padding: 0;
     font-size: 15px !important;
+  }
+  .pending-request {
+    display: none;
   }
 }
