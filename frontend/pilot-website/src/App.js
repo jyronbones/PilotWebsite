@@ -1,4 +1,5 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom'
 import './App.css'
 import Footer from './Components/Footer/Footer'
 import Home from './Components/Home/Home'
@@ -18,6 +19,17 @@ import AdminPortal from './Components/AdminPortal/AdminPortal'
 function App() {
   return (
     <Router>
+      <AppContent />
+    </Router>
+  )
+}
+
+function AppContent() {
+  const location = useLocation()
+  const showFooter = location.pathname !== '/'
+
+  return (
+    <div>
       <Navbar />
       <Routes>
         <Route path='/' element={<Login />} />
@@ -32,8 +44,8 @@ function App() {
         <Route path='/links' element={<Links />} />
         <Route path='/admin-panel' element={<AdminPortal />} />
       </Routes>
-      <Footer />
-    </Router>
+      {showFooter && <Footer />}
+    </div>
   )
 }
 
