@@ -1,6 +1,6 @@
 .rbc-container {
   padding: 3rem;
-  background: linear-gradient(135deg, #cadff7, #b9f7e5);
+  background: linear-gradient(135deg, #cadff7, #82b1ea);
   border-radius: 15px;
   box-shadow: 0 10px 20px var(--color-shadow);
   display: flex;
@@ -84,6 +84,17 @@
   margin-right: 2rem; /* Adjust the margin as needed */
 }
 
+.sel-info-box{
+  background-color: var(--color-secondary-light);
+  border-radius: 5px;
+  border: 1px solid #8486a4;
+  color: #333;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
+
 .rbc-calendar {
   background-color: var(--color-secondary-light);
   border-radius: 15px;
@@ -96,7 +107,8 @@
 }
 
 .rbc-toolbar {
-  background-color: var(--color-secondary-light);
+  /* background-color: var(--color-secondary-light); */
+  background-color: rgba(220, 187, 139, 0.265);
   color: #333;
   padding: 1rem;
 }
@@ -106,8 +118,20 @@
 }
 
 .form-container {
-  flex: 1;
-  max-width: 400px; /* Adjust the max-width as needed */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 7px;
+  box-shadow: 0 4px 10px var(--color-shadow);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .event-form {
@@ -122,6 +146,11 @@
 .event-form h3 {
   margin: 0 0 10px;
 }
+
+.rbc-event{
+  border-radius: 1px;
+  font-size: 80%;
+ }
 
 .event-form label {
   display: block;

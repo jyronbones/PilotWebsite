@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
@@ -16,6 +16,22 @@ const VacationSchedule = () => {
     lastName: '',
     vacationType: 'Vacation'
   })
+
+  const formContainerRef = useRef(null)
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (formContainerRef.current && !formContainerRef.current.contains(event.target)) {
+        setShowForm(false)
+      }
+    }
+
+    document.addEventListener('click', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside)
+    }
+  }, [])
 
   const handleSelect = ({ start }) => {
     setSelectedDate(moment(start))
@@ -72,6 +88,7 @@ const VacationSchedule = () => {
       <Calendar
         localizer={localizer}
         defaultDate={new Date()}
+        defaultview='month'
         views={['month']} // Remove 'day' 'week' and 'agenda' views
         events={events}
         style={{ height: '500px' }}
@@ -80,26 +97,41 @@ const VacationSchedule = () => {
         onSelectEvent={handleEventSelect}
       />
       {showForm && (
-        <div className='event-form'>
-          <h3>Add Vacation for {moment(selectedDate).format('LL')}</h3>
-          <label>Date:</label>
-          <input type='text' value={moment(selectedDate).format('LL')} readOnly />
-          <label>First Name:</label>
-          <input type='text' name='firstName' value={formData.firstName} onChange={handleInputChange} placeholder='First Name' />
-          <label>Last Name:</label>
-          <input type='text' name='lastName' value={formData.lastName} onChange={handleInputChange} placeholder='Last Name' />
-          <label>Vacation Type:</label>
-          <select name='vacationType' value={formData.vacationType} onChange={handleInputChange}>
-            <option value='vacation'>Vacation</option>
-            <option value='sick'>Sick</option>
-            <option value='other'>Other</option>
-          </select>
-          <div className='form-buttons'>
-            <button onClick={handleFormSubmit}>Submit</button>
-            <button onClick={handleFormCancel}>Cancel</button>
+        <div className='form-container'>
+          <div className='event-form'>
+            <h3>Add Vacation for {moment(selectedDate).format('LL')}</h3>
+            <label>Date:</label>
+            <input type='text' value={moment(selectedDate).format('LL')} readOnly />
+            <label>First Name:</label>
+            <input type='text' name='firstName' value={formData.firstName} onChange={handleInputChange} placeholder='First Name' />
+            <label>Last Name:</label>
+            <input type='text' name='lastName' value={formData.lastName} onChange={handleInputChange} placeholder='Last Name' />
+            <label>Vacation Type:</label>
+            <select name='vacationType' value={formData.vacationType} onChange={handleInputChange}>
+              <option value='vacation'>Vacation</option>
+              <option value='sick'>Sick</option>
+              <option value='other'>Other</option>
+            </select>
+            <div className='form-buttons'>
+              <button onClick={handleFormSubmit}>Submit</button>
+              <button onClick={handleFormCancel}>Cancel</button>
+            </div>
           </div>
         </div>
       )}
+      <div className='selected-info'>
+        <div className='sel-info-box'>
+          <h3>Vacation Information</h3>
+          {events
+            .filter((event) => moment(event.start).isSame(selectedDate, 'day'))
+            .map((event, index) => (
+              <div key={index}>
+                <p>{event.title}</p>
+                <p>Vacation Type: {event.vacationType}</p>
+              </div>
+            ))}
+        </div>
+      </div>
     </div>
   )
 }

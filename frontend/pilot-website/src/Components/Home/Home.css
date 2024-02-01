@@ -7,39 +7,41 @@
   margin-top: 7rem;
   padding: 2rem;
   font-family: 'Roboto', sans-serif;
-  background: linear-gradient(135deg, #2c3e50, #34495e);
+  /* background: linear-gradient(135deg, #2c3e50, #34495e); */
   background-image: url(../images/upper-st-lawrence-1.jpg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  border-radius: 15px;
+  border-radius: 5px;
   box-shadow: 0 10px 20px var(--color-shadow);
 }
 
 .link-box {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  background: #ecf0f1;
-  border-radius: 10px;
+  background: rgba(154, 225, 243, 0.4);
+  border-radius: 5px;
   box-shadow: 0 4px 10px var(--color-shadow);
   text-decoration: none;
   color: #333;
-  border: 2px solid transparent; /* Added initial transparent border */
+  border: 2px solid transparent;
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease,
     color 0.3s ease,
-    border-color 0.3s ease; /* Added border-color transition */
+    border-color 0.3s ease;
 }
 
 .link-box:hover {
   transform: translateY(-10px);
   box-shadow: 0 6px 15px var(--color-shadow);
+  background: rgba(154, 225, 243, 0.8);
   color: #0073e6;
-  border-color: #0073e6; /* Added border color on hover */
+  border-color: #0073e6;
 }
 
 .link-box h3 {

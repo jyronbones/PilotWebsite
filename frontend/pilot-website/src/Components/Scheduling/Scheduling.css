@@ -6,7 +6,7 @@
   margin-top: 7rem;
   padding: 2rem;
   font-family: 'Roboto', sans-serif;
-  background: linear-gradient(135deg, #2c3e50, #34495e);
+  /* background: linear-gradient(135deg, #2c3e50, #34495e); */
   background-image: url(../images/upper-st-lawrence-1.jpg);
   background-size: cover;
   background-position: center;
@@ -21,7 +21,7 @@
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  background: #ecf0f1;
+  background: rgba(154, 225, 243, 0.4);
   border-radius: 10px;
   box-shadow: 0 4px 10px var(--color-shadow);
   transition:
@@ -31,6 +31,7 @@
 
 .link-box:hover {
   transform: translateY(-10px);
+  background: rgba(154, 225, 243, 0.8);
   box-shadow: 0 6px 15px var(--color-shadow);
 }
 
