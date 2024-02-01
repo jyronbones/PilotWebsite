@@ -6,29 +6,24 @@
   margin: 20px;
   font-family: 'Roboto', sans-serif;
 }
-
 h2 {
   text-align: center;
   margin-bottom: 20px;
 }
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  background-color: var(--color-white);
-  border-radius: 10px;
-  margin: 10px 0;
-  padding: 10px;
+.agreement-list {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
+  gap: 2rem;
+  margin: 0 3rem;
 }
-
-button {
-  margin-left: 10px;
+.agreement-row {
+  border-radius: 10px;
+  background-color: var(--color-white);
+}
+.btn.add-agreement {
+  margin: auto;
+  margin-top: 3rem;
   background-color: #333;
   color: var(--color-white);
   border: none;
@@ -36,7 +31,6 @@ button {
   padding: 5px 10px;
   cursor: pointer;
 }
-
-button:hover {
+.btn.add-agreement:hover {
   background-color: #555;
 }
