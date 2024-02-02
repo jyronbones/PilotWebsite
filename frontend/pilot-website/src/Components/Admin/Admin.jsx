@@ -46,7 +46,7 @@ const Admin = () => {
           <Badge color='secondary' badgeContent={3} className='icon-admin'>
             <TbProgressAlert size={40} />
           </Badge>
-          <h3>Pending Approvals</h3>
+          <h3>Pending Requests</h3>
         </Link>
 
         <Link to='/extra1' className='link-admin'>
