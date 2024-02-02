@@ -4,6 +4,7 @@
 .login-container {
   max-width: 400px;
   margin: 5% auto;
+  margin-top: 7rem;
   padding: 20px;
   border-radius: 5px;
   background-color: var(--color-secondary-light);

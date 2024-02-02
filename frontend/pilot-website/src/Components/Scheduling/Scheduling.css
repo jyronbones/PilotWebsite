@@ -3,6 +3,7 @@
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 2rem;
   margin: 3rem;
+  margin-top: 7rem;
   padding: 2rem;
   font-family: 'Roboto', sans-serif;
   background: linear-gradient(135deg, #2c3e50, #34495e);
@@ -58,6 +59,7 @@
   .scheduling-container {
     grid-template-columns: 1fr;
     margin: 1rem;
+    margin-top: 5rem;
     padding: 1rem;
   }
 
@@ -70,6 +72,7 @@
   .scheduling-container {
     grid-template-columns: 1fr;
     margin: 0.5rem;
+    margin-top: 5rem;
     padding: 0.5rem;
   }
 
