@@ -1,6 +1,7 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react' //useRef removed temp
 import { Grid } from '@material-ui/core'
 import './UnionAgreement.css'
+import DropZone from './UploadComponents/DropZone'
 
 const UnionAgreement = () => {
   const [agreements, setAgreements] = useState([
@@ -8,11 +9,11 @@ const UnionAgreement = () => {
     { date: '26 December 2023', title: 'Example Agreement 2' },
     { date: '01 March 2023', title: 'Example Agreement 3' }
   ])
-  const hiddenFileInput = useRef(null)
+  // const hiddenFileInput = useRef(null)
 
-  const handleClick = () => {
-    hiddenFileInput.current.click()
-  }
+  // const handleClick = () => {
+  //   hiddenFileInput.current.click()
+  // }
 
   // const addAgreement = () => {
   //   // Placeholder for admin check
@@ -25,9 +26,6 @@ const UnionAgreement = () => {
   // }
 
   const editAgreement = (index) => {
-    // Placeholder for admin check
-    // if (!isAdmin) return;
-
     const updatedAgreement = window.prompt('Edit the union agreement:', agreements[index])
     if (updatedAgreement) {
       const newAgreements = [...agreements]
@@ -37,9 +35,6 @@ const UnionAgreement = () => {
   }
 
   const deleteAgreement = (index) => {
-    // Placeholder for admin check
-    // if (!isAdmin) return;
-
     if (window.confirm('Are you sure you want to delete this agreement?')) {
       const newAgreements = [...agreements]
       newAgreements.splice(index, 1)
@@ -50,6 +45,11 @@ const UnionAgreement = () => {
   return (
     <div className='union-container'>
       <h2>Union Agreements</h2>
+      {/* <button className='btn add-agreement' onClick={handleClick}>
+        Upload File
+        <input type='file' ref={hiddenFileInput} style={{ display: 'none' }} />
+      </button> */}
+      <DropZone className='p-16 mt-10 border border-neutral-200' />
       <div className='agreement-list'>
         {agreements.map((agreement, index) => (
           <Grid container spacing={2} key={index} justifyContent='center' alignItems='center' className='agreement-row'>
@@ -61,22 +61,22 @@ const UnionAgreement = () => {
               {/* Example CRUD buttons for each minute */}
             </Grid>
             <Grid item xs={1}>
-              <button className='btn edit' onClick={() => editAgreement(index)}>
-                Edit
-              </button>
+              {sessionStorage.getItem('user_type') == 1 && (
+                <button className='btn edit' onClick={() => editAgreement(index)}>
+                  Edit
+                </button>
+              )}
             </Grid>
             <Grid item xs={1}>
-              <button className='btn delete' onClick={() => deleteAgreement(index)}>
-                Delete
-              </button>
+              {sessionStorage.getItem('user_type') == 1 && (
+                <button className='btn delete' onClick={() => deleteAgreement(index)}>
+                  Delete
+                </button>
+              )}
             </Grid>
           </Grid>
         ))}
       </div>
-      <button className='btn add-agreement' onClick={handleClick}>
-        Add Agreement
-        <input type='file' ref={hiddenFileInput} style={{ display: 'none' }} />
-      </button>
     </div>
   )
 }
