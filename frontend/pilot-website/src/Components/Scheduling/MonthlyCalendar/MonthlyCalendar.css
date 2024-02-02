@@ -72,7 +72,6 @@
   font-weight: 600;
 }
 
-/* Updated style for the calendar and form */
 .calendar-container {
   display: flex;
   justify-content: space-between;
@@ -81,7 +80,7 @@
 
 .calendar-wrapper {
   flex: 2;
-  margin-right: 2rem; /* Adjust the margin as needed */
+  margin-right: 2rem;
 }
 
 .sel-info-box {
@@ -107,7 +106,6 @@
 }
 
 .rbc-toolbar {
-  /* background-color: var(--color-secondary-light); */
   background-color: rgba(220, 187, 139, 0.265);
   color: #333;
   padding: 1rem;
