@@ -135,6 +135,7 @@ const MonthlyCalendar = () => {
                 <p>{event.title}</p>
                 <p>Floater ID: {event.floaterId}</p>
                 <p>Shift Type: {event.shiftType}</p>
+                <p>Date: {moment(event.start).format('LL')}</p>
               </div>
             ))}
         </div>

@@ -128,6 +128,7 @@ const VacationSchedule = () => {
               <div key={index}>
                 <p>{event.title}</p>
                 <p>Vacation Type: {event.vacationType}</p>
+                <p>Date: {moment(event.start).format('LL')}</p>
               </div>
             ))}
         </div>
