@@ -1,6 +1,7 @@
 .rbc-container {
-  padding: 4.5rem;
-  background: linear-gradient(135deg, #cadff7, #82b1ea);
+  margin-top: 4.5rem;
+  padding: 3rem;
+  background: linear-gradient(135deg, #f0e4d7, #e8d5c1);
   border-radius: 15px;
   box-shadow: 0 10px 20px var(--color-shadow);
   display: flex;
@@ -187,6 +188,20 @@
 .form-buttons button:hover {
   background-color: #005bb5;
   transform: translateY(-2px);
+}
+
+.selected-info {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.selected-info h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.selected-info div {
+  margin-top: 10px;
 }
 
 .selected-info {
