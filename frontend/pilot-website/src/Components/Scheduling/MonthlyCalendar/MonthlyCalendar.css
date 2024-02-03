@@ -1,7 +1,6 @@
 .rbc-container {
-  margin-top: 4.5rem;
   padding: 3rem;
-  background: linear-gradient(135deg, #f0e4d7, #e8d5c1);
+  background: linear-gradient(135deg, #cadff7, #82b1ea);
   border-radius: 15px;
   box-shadow: 0 10px 20px var(--color-shadow);
   display: flex;
@@ -14,12 +13,15 @@
   background-color: var(--color-main);
   color: var(--color-white);
   padding: 10px 15px;
-  border-radius: 5px;
+  border-radius: 3px;
   margin-bottom: 2rem;
   text-decoration: none;
   transition:
     background-color 0.3s ease,
     transform 0.3s ease;
+  box-shadow:
+    0 8px 16px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -30,11 +32,65 @@
   transform: translateY(-2px);
 }
 
+.vac-btn {
+  align-self: flex-start;
+  background-color: var(--color-main);
+  color: var(--color-white);
+  padding: 10px 15px;
+  border-radius: 3px;
+  margin-bottom: 2rem;
+  text-decoration: none;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
+  box-shadow:
+    0 8px 16px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.vac-btn:hover {
+  background-color: #005bb5;
+  transform: translateY(-2px);
+}
+
+.button-container {
+  padding: 1rem;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
 .calendar-title {
   color: #333;
   text-align: center;
   margin-bottom: 2rem;
   font-size: 2rem;
+  font-weight: 600;
+}
+
+.calendar-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.calendar-wrapper {
+  flex: 2;
+  margin-right: 2rem;
+}
+
+.sel-info-box {
+  background-color: var(--color-secondary-light);
+  border-radius: 5px;
+  border: 1px solid #8486a4;
+  color: #333;
+  padding: 20px;
+  text-align: justify;
+  margin-bottom: 2rem;
   font-weight: 600;
 }
 
@@ -44,10 +100,13 @@
   box-shadow: 0 4px 15px var(--color-shadow);
   overflow: hidden;
   width: 100%;
+  min-width: 300px;
+  max-width: 700px;
+  margin: 0 auto;
 }
 
 .rbc-toolbar {
-  background-color: var(--color-secondary-light);
+  background-color: rgba(220, 187, 139, 0.265);
   color: #333;
   padding: 1rem;
 }
@@ -56,28 +115,50 @@
   background-color: rgba(0, 115, 230, 0.2);
 }
 
-/* Add this CSS for the form */
-.event-form {
-  position: absolute;
+.form-container {
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 7px;
+  box-shadow: 0 4px 10px var(--color-shadow);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.event-form {
   background: white;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
-  z-index: 999;
 }
 
 .event-form h3 {
   margin: 0 0 10px;
 }
 
-.event-form input {
+.rbc-event {
+  border-radius: 1px;
+  font-size: 80%;
+}
+
+.event-form label {
   display: block;
-  margin: 10px 0;
+  margin-top: 10px;
+}
+
+.event-form input,
+.event-form select {
+  display: block;
+  margin: 10px auto;
   padding: 5px;
   width: 100%;
   border: 1px solid #ccc;
@@ -106,4 +187,18 @@
 .form-buttons button:hover {
   background-color: #005bb5;
   transform: translateY(-2px);
+}
+
+.selected-info {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.selected-info h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.selected-info div {
+  margin-top: 10px;
 }
