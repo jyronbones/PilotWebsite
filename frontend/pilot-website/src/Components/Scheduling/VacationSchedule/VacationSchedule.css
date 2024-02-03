@@ -1,12 +1,19 @@
 .vacation-container {
   padding: 3rem;
-  margin-top: 4rem;
-  background: linear-gradient(135deg, #f0e4d7, #e8d5c1);
-  border-radius: 15px;
+  background: linear-gradient(135deg, #cadff7, #82b1ea);
+  border-radius: 5px;
   box-shadow: 0 10px 20px var(--colow-shadow);
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.button-container {
+  padding: 1rem;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }
 
 .back-btn {
@@ -14,7 +21,7 @@
   background-color: var(--color-main);
   color: var(--color-white);
   padding: 10px 15px;
-  border-radius: 5px;
+  border-radius: 3px;
   margin-bottom: 2rem;
   text-decoration: none;
   transition:
@@ -30,6 +37,56 @@
   transform: translateY(-2px);
 }
 
+.cal-btn {
+  align-self: flex-start;
+  background-color: var(--color-main);
+  color: var(--color-white);
+  padding: 10px 15px;
+  border-radius: 3px;
+  margin-bottom: 2rem;
+  text-decoration: none;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
+  box-shadow:
+    0 8px 16px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cal-btn:hover {
+  background-color: #005bb5;
+  transform: translateY(-2px);
+}
+
+.form-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 7px;
+  box-shadow: 0 4px 10px var(--color-shadow);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.event-form {
+  background: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
 .vacation-title {
   color: #333;
   text-align: center;
@@ -38,11 +95,26 @@
   font-weight: 600;
 }
 
+.sel-info-box {
+  background-color: var(--color-secondary-light);
+  border-radius: 5px;
+  border: 1px solid #8486a4;
+  color: #333;
+  padding: 20px;
+  text-align: justify;
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
 .rbc-calendar {
   background-color: var(--color-secondary-light);
   border-radius: 15px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+}
+
+.rbc-event {
+  border-radius: 1px;
+  font-size: 80%;
 }
 
 .rbc-toolbar {
