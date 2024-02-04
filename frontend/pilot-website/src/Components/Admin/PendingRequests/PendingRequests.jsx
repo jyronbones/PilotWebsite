@@ -7,8 +7,6 @@ import './PendingRequests.css'
 const PendingApprovals = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [request, setRequest] = useState(null)
-  // const [adminCmt, setAdminCmt] = useState('')
-  // const [isRejectModalOpen, setIsRejectModalOpen] = useState(false)
   const [pendingRequests, setPendingRequests] = useState([
     { id: 1, name: 'John Doe', type: 'Vacation', note: 'Im sick. Sorry!' },
     { id: 2, name: 'Jane Smith', type: 'Vacation', note: 'Family business' },
@@ -71,7 +69,6 @@ const PendingApprovals = () => {
                               title='Reject'
                               onClick={() => {
                                 handleReject(item.id)
-                                // setIsRejectModalOpen(!isRejectModalOpen)
                               }}
                             >
                               <MdClose />
@@ -101,23 +98,6 @@ const PendingApprovals = () => {
           </section>
         </div>
       </div>
-
-      {/* {isRejectModalOpen && (
-        <div className='modal-overlay'>
-          <div className='modal-content'>
-            <span className='close-button' onClick={() => setIsRejectModalOpen(!isRejectModalOpen)}>
-              &times;
-            </span>
-            <div className='modal-body request'>
-              <label>Comment from Admin:</label>
-              <input type='text' placeholder='Type something' value={adminCmt} onChange={(e) => setAdminCmt(e.target.value)} />
-              <button className='btn reject' onClick={handleReject}>
-                Reject
-              </button>
-            </div>
-          </div>
-        </div>
-      )} */}
 
       {isModalOpen && (
         <div className='modal-overlay'>
