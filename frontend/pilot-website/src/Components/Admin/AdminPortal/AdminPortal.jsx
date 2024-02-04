@@ -128,7 +128,7 @@ const AdminPortal = () => {
   }, [editUserData])
 
   return (
-    <>
+    <div className='user'>
       <div className='user-container'>
         <div className='user-header'>
           <div className='user-title'>
@@ -241,7 +241,7 @@ const AdminPortal = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }
 

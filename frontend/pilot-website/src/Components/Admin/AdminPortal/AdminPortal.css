@@ -1,6 +1,9 @@
+.user {
+  min-height: 80vh;
+  margin-top: 6rem;
+}
 .user-container {
   margin: 3rem;
-  margin-top: 6rem;
   background-color: #f5f5f5;
   border-radius: 15px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);

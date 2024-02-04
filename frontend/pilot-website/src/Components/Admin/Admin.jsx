@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { FaUserShield } from 'react-icons/fa'
 import { TbProgressAlert } from 'react-icons/tb'
-import Badge from '@material-ui/core/Badge'
+import Badge from '@mui/material/Badge'
 import { Link } from 'react-router-dom'
 import './Admin.css'
 

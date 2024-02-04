@@ -22,12 +22,12 @@
   border-radius: 10px;
   box-shadow: 0 10px 20px var(--color-shadow);
   color: #333;
-  border: 2px solid transparent; /* Added initial transparent border */
+  border: 2px solid transparent;
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease,
     color 0.3s ease,
-    border-color 0.3s ease; /* Added border-color transition */
+    border-color 0.3s ease;
 }
 
 .link-admin:hover {

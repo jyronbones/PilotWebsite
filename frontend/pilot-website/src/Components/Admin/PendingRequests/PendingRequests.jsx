@@ -26,94 +26,96 @@ const PendingApprovals = () => {
   }
 
   return (
-    <div className='pending-container'>
-      <div className='pending-header'>
-        <div className='pending-title'>
-          <h1>Pending Requests</h1>
-          <p>{pendingRequests?.length}</p>
-        </div>
-      </div>
-
-      <div>
-        <div className='pending-table-container'>
-          <section className='scroll-section pt-4 table-main table-responsive' id='hoverableRows'>
-            <table className='pending-table'>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th className='pending-request'>Request Type</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {pendingRequests?.length > 0 ? (
-                  <>
-                    {pendingRequests?.map((item, index) => (
-                      <tr key={index}>
-                        <td>{item?.name}</td>
-                        <td className='pending-request'>{item?.type}</td>
-                        <td>
-                          <div className='action-container'>
-                            <button
-                              className='btn-round accept'
-                              title='Accept'
-                              onClick={() => {
-                                setRequest(item)
-                                handleAccept(item.id)
-                              }}
-                            >
-                              <IoMdCheckmark />
-                            </button>
-                            <button
-                              className='btn-round reject'
-                              title='Reject'
-                              onClick={() => {
-                                handleReject(item.id)
-                              }}
-                            >
-                              <MdClose />
-                            </button>
-                            <button
-                              className='btn-round detail'
-                              title='More Details'
-                              onClick={() => {
-                                setRequest(item)
-                                setIsModalOpen(!isModalOpen)
-                              }}
-                            >
-                              <BiMessageSquareDetail />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </>
-                ) : (
-                  <tr>
-                    <td colSpan={3}>Not found</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </section>
-        </div>
-      </div>
-
-      {isModalOpen && (
-        <div className='modal-overlay'>
-          <div className='modal-content'>
-            <span className='close-button' onClick={() => setIsModalOpen(!isModalOpen)}>
-              &times;
-            </span>
-            <div className='modal-body request'>
-              <label>Name: {request.name}</label>
-              <label>Email: {request.email}</label>
-              <label>Request Type: {request.type}</label>
-              <label>Note: {request.note}</label>
-            </div>
+    <div className='pending'>
+      <div className='pending-container'>
+        <div className='pending-header'>
+          <div className='pending-title'>
+            <h1>Pending Requests</h1>
+            <p>{pendingRequests?.length}</p>
           </div>
         </div>
-      )}
+
+        <div>
+          <div className='pending-table-container'>
+            <section className='scroll-section pt-4 table-main table-responsive' id='hoverableRows'>
+              <table className='pending-table'>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th className='pending-request'>Request Type</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {pendingRequests?.length > 0 ? (
+                    <>
+                      {pendingRequests?.map((item, index) => (
+                        <tr key={index}>
+                          <td>{item?.name}</td>
+                          <td className='pending-request'>{item?.type}</td>
+                          <td>
+                            <div className='action-container'>
+                              <button
+                                className='btn-round accept'
+                                title='Accept'
+                                onClick={() => {
+                                  setRequest(item)
+                                  handleAccept(item.id)
+                                }}
+                              >
+                                <IoMdCheckmark />
+                              </button>
+                              <button
+                                className='btn-round reject'
+                                title='Reject'
+                                onClick={() => {
+                                  handleReject(item.id)
+                                }}
+                              >
+                                <MdClose />
+                              </button>
+                              <button
+                                className='btn-round detail'
+                                title='More Details'
+                                onClick={() => {
+                                  setRequest(item)
+                                  setIsModalOpen(!isModalOpen)
+                                }}
+                              >
+                                <BiMessageSquareDetail />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </>
+                  ) : (
+                    <tr>
+                      <td colSpan={3}>Not found</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </section>
+          </div>
+        </div>
+
+        {isModalOpen && (
+          <div className='modal-overlay'>
+            <div className='modal-content'>
+              <span className='close-button' onClick={() => setIsModalOpen(!isModalOpen)}>
+                &times;
+              </span>
+              <div className='modal-body request'>
+                <label>Name: {request.name}</label>
+                <label>Email: {request.email}</label>
+                <label>Request Type: {request.type}</label>
+                <label>Note: {request.note}</label>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
