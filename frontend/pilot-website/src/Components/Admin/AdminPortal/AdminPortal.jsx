@@ -209,7 +209,7 @@ const AdminPortal = () => {
             <span className='close-button' onClick={handleClose}>
               &times;
             </span>
-            <div className='modal-body'>
+            <div className='modal-body admin'>
               <label>
                 Name:
                 <input type='text' value={name} onChange={(e) => setName(e.target.value)} />

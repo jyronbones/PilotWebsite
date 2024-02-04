@@ -117,6 +117,31 @@
   padding: 10px;
 }
 
+/* Style form elements */
+.modal-body.request label {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+.modal-body.requestinput {
+  padding: 8px;
+  margin-top: 4px;
+  margin-bottom: 10px;
+  display: block;
+  width: 100%;
+}
+input {
+  width: 360px !important;
+}
+.btn.reject {
+  background-color: rgb(200, 31, 31);
+  color: white;
+}
+.btn.reject:hover {
+  background-color: rgb(200, 31, 40);
+}
+
 /* More css elements */
 @media (max-width: 900px) {
   .pending-container {

@@ -115,12 +115,12 @@
 }
 
 /* Style form elements */
-label {
+.modal-body.admin label {
   display: block;
   margin-bottom: 10px;
 }
-input,
-select {
+.modal-body.admin input,
+.modal-body.admin select {
   padding: 8px;
   margin-top: 4px;
   margin-bottom: 10px;
@@ -137,8 +137,8 @@ input {
 .btn.create:hover {
   background-color: #45a049;
 }
-/* Add more styles as needed */
 
+/* Add more styles as needed */
 @media (max-width: 920px) {
   .user-container {
     margin: 2rem;
