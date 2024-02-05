@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { IoMdCheckmark } from 'react-icons/io'
 import { MdClose } from 'react-icons/md'
 import { BiMessageSquareDetail } from 'react-icons/bi'
@@ -27,6 +28,9 @@ const PendingApprovals = () => {
 
   return (
     <div className='pending'>
+      <Link to='/home' className='btn back'>
+        Back to Home
+      </Link>
       <div className='pending-container'>
         <div className='pending-header'>
           <div className='pending-title'>

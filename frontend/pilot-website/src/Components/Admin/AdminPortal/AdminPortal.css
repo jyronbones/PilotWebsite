@@ -2,6 +2,18 @@
   min-height: 80vh;
   margin-top: 6rem;
 }
+.btn.back {
+  background-color: var(--color-main);
+  color: var(--color-white);
+  margin-left: 2rem;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
+}
+.btn.back:hover {
+  background-color: #005bb5;
+  transform: translateY(-5px);
+}
 .user-container {
   margin: 3rem;
   background-color: #f5f5f5;

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import moment from 'moment'
 import './AdminPortal.css'
 
@@ -129,6 +130,9 @@ const AdminPortal = () => {
 
   return (
     <div className='user'>
+      <Link to='/home' className='btn back'>
+        Back to Home
+      </Link>
       <div className='user-container'>
         <div className='user-header'>
           <div className='user-title'>
