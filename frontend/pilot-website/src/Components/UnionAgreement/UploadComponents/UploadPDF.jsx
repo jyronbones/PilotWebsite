@@ -62,7 +62,9 @@ const UploadPDF = () => {
 
   return (
     <div>
-      <button onClick={openModal}>Open File Dialog</button>
+      <button className='opendialog-button' onClick={openModal}>
+        Upload File
+      </button>
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
@@ -72,7 +74,7 @@ const UploadPDF = () => {
       >
         {file ? (
           <div>
-            <p>Dragged file: {filename}</p>
+            <p>Selected file: {filename}</p>
           </div>
         ) : (
           <div
@@ -89,7 +91,11 @@ const UploadPDF = () => {
             <p>Drag and drop your PDF file here</p>
           </div>
         )}
-        {file && <button onClick={handleUpload}>Upload PDF</button>}
+        {file && (
+          <button className='upload-button' onClick={handleUpload}>
+            Upload PDF
+          </button>
+        )}
         {!file && (
           <label>
             <br />
