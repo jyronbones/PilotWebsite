@@ -1,7 +1,7 @@
 import React, { useState } from 'react' //useRef removed temp
 import { Grid } from '@material-ui/core'
 import './UnionAgreement.css'
-import DropZone from './UploadComponents/DropZone'
+import UploadPDF from './UploadComponents/UploadPDF'
 
 const UnionAgreement = () => {
   const [agreements, setAgreements] = useState([
@@ -45,11 +45,7 @@ const UnionAgreement = () => {
   return (
     <div className='union-container'>
       <h2>Union Agreements</h2>
-      {/* <button className='btn add-agreement' onClick={handleClick}>
-        Upload File
-        <input type='file' ref={hiddenFileInput} style={{ display: 'none' }} />
-      </button> */}
-      <DropZone className='p-16 mt-10 border border-neutral-200' />
+      <div className='uploadrow'>{sessionStorage.getItem('user_type') == 1 && <UploadPDF />}</div>
       <div className='agreement-list'>
         {agreements.map((agreement, index) => (
           <Grid container spacing={2} key={index} justifyContent='center' alignItems='center' className='agreement-row'>

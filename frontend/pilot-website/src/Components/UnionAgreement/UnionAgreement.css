@@ -16,12 +16,16 @@ h2 {
   align-items: center;
   gap: 2rem;
   margin: 0 3rem;
+  margin-top: 2rem;
 }
 .agreement-row {
   border-radius: 10px;
   background-color: var(--color-white);
 }
-.btn.add-agreement {
+.uploadrow {
+  margin-top: 1rem;
+}
+/* .btn.add-agreement {
   margin: auto;
   margin-top: 3rem;
   background-color: #333;
@@ -33,4 +37,4 @@ h2 {
 }
 .btn.add-agreement:hover {
   background-color: #555;
-}
+} */
