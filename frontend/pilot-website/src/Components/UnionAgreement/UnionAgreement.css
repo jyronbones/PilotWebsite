@@ -18,7 +18,7 @@ h2 {
   align-items: center;
   gap: 2rem;
   margin: 0 3rem;
-  margin-top: 2rem;
+  margin-top: 5rem;
 }
 .agreement-row {
   border-radius: 10px;
@@ -26,6 +26,9 @@ h2 {
 }
 .uploadrow {
   margin-top: 1rem;
+  position: fixed;
+  float: right;
+  right: 8rem;
 }
 /* .btn.add-agreement {
   margin: auto;
