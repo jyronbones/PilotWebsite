@@ -29,4 +29,7 @@ h2 {
   float: right;
   right: 8rem;
   margin-top: 1rem;
+  position: fixed;
+  float: right;
+  right: 8rem;
 }
