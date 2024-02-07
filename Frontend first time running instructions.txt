@@ -1,0 +1,5 @@
+1. Go to frontend>pilot-website folder in the terminal
+
+2. Run this command in the terminal to install the required packages: npm install
+
+3. Run this command in the terminal to start frontend: npm start
