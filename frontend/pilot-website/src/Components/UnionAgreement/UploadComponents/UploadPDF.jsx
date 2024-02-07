@@ -1,29 +1,31 @@
-// UploadPDF.js
 import React, { useState, useCallback } from 'react'
 import Modal from 'react-modal'
+import PropTypes from 'prop-types'
 import './UploadPDF.css'
 
 const customModalStyles = {
   content: {
     width: '500px',
-    height: '250px',
+    height: '350px',
     margin: 'auto'
   }
 }
 
-const UploadPDF = () => {
+const UploadPDF = ({ onUpload }) => {
   const [file, setFile] = useState(null)
   const [filename, setFilename] = useState('')
-  const [isModalOpen, setModalOpen] = useState(false)
+  const [date, setDate] = useState('')
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const openModal = () => {
-    setModalOpen(true)
+    setIsModalOpen(true)
   }
 
   const closeModal = () => {
+    setIsModalOpen(false)
     setFile(null)
     setFilename('')
-    setModalOpen(false)
+    setDate('')
   }
 
   const handleFileChange = (selectedFile) => {
@@ -32,11 +34,9 @@ const UploadPDF = () => {
   }
 
   const handleUpload = () => {
-    closeModal()
     if (file) {
-      // You can perform any additional logic here before uploading the file
-      console.log('File:', file)
-      console.log('Filename:', filename)
+      onUpload({ file, filename, date })
+      closeModal()
     } else {
       alert('Please select a file before uploading.')
     }
@@ -72,9 +72,22 @@ const UploadPDF = () => {
         style={customModalStyles}
         portalClassName='modal-portal'
       >
+        <h2 style={{ fontSize: '100%' }}>Upload file</h2>
         {file ? (
-          <div>
-            <p>Selected file: {filename}</p>
+          <div className='confirmUpload'>
+            <h3>Selected file</h3>
+            <label>
+              <b>Filename:</b>
+              <input type='text' value={filename} onChange={(e) => setFilename(e.target.value)} />
+            </label>
+            <label>
+              <b>Date:</b>
+              <input type='date' value={date} onChange={(e) => setDate(e.target.value)} />
+            </label>
+            <br />
+            <button className='upload-button' onClick={handleUpload}>
+              Upload PDF
+            </button>
           </div>
         ) : (
           <div
@@ -91,11 +104,6 @@ const UploadPDF = () => {
             <p>Drag and drop your PDF file here</p>
           </div>
         )}
-        {file && (
-          <button className='upload-button' onClick={handleUpload}>
-            Upload PDF
-          </button>
-        )}
         {!file && (
           <label>
             <br />
@@ -104,11 +112,15 @@ const UploadPDF = () => {
           </label>
         )}
         <button className='close-button' onClick={closeModal}>
-          x
+          X
         </button>
       </Modal>
     </div>
   )
+}
+
+UploadPDF.propTypes = {
+  onUpload: PropTypes.func.isRequired
 }
 
 export default UploadPDF
