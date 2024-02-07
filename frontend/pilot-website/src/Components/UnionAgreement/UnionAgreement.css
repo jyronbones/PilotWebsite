@@ -23,21 +23,8 @@ h2 {
   background-color: var(--color-white);
 }
 .uploadrow {
-  margin-top: 1rem;
   position: fixed;
   float: right;
   right: 8rem;
+  margin-top: 1rem;
 }
-/* .btn.add-agreement {
-  margin: auto;
-  margin-top: 3rem;
-  background-color: #333;
-  color: var(--color-white);
-  border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-.btn.add-agreement:hover {
-  background-color: #555;
-} */

@@ -18,12 +18,12 @@
 }
 
 .upload-button {
-  background-color: grey;
+  background-color: skyblue;
   color: black;
 }
 
 .upload-button:hover {
-  background-color: grey;
+  background-color: lightblue;
 }
 
 .opendialog-button {
@@ -38,4 +38,9 @@
   padding: '20px';
   text-align: 'center';
   cursor: 'pointer';
+}
+
+.confirmUpload {
+  margin-top: 3rem;
+  margin-left: 2rem;
 }
