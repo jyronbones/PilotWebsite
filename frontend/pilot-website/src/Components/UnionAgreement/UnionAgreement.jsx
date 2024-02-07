@@ -2,73 +2,94 @@ import React, { useState } from 'react' //useRef removed temp
 import { Grid } from '@material-ui/core'
 import './UnionAgreement.css'
 import UploadPDF from './UploadComponents/UploadPDF'
+import EditPDF from './UploadComponents/EditPDF'
 
 const UnionAgreement = () => {
-  const [agreements, setAgreements] = useState([
-    { date: '13 June 2023', title: 'Example Agreement 1' },
-    { date: '26 December 2023', title: 'Example Agreement 2' },
-    { date: '01 March 2023', title: 'Example Agreement 3' }
-  ])
-  // const hiddenFileInput = useRef(null)
+  // const [agreements, setAgreements] = useState([
+  //   { date: '13 June 2023', title: 'Example Agreement 1' },
+  //   { date: '26 December 2023', title: 'Example Agreement 2' },s
+  //   { date: '01 March 2023', title: 'Example Agreement 3' }
+  // ])
+  const [agreements, setAgreements] = useState([])
+  const [editIndex, setEditIndex] = useState(-1)
+  //const [editedFilename, setEditedFilename] = useState('')
+  //const [editedDate, setEditedDate] = useState('')
 
-  // const handleClick = () => {
-  //   hiddenFileInput.current.click()
-  // }
-
-  // const addAgreement = () => {
-  //   // Placeholder for admin check
-  //   // if (!isAdmin) return;
-
-  //   const agreement = window.prompt('Enter the union agreement:')
-  //   if (agreement) {
-  //     setAgreements([...agreements, agreement])
-  //   }
-  // }
-
-  const editAgreement = (index) => {
-    const updatedAgreement = window.prompt('Edit the union agreement:', agreements[index])
-    if (updatedAgreement) {
-      const newAgreements = [...agreements]
-      newAgreements[index] = updatedAgreement
-      setAgreements(newAgreements)
-    }
+  const handleUpload = ({ file, filename, date }) => {
+    const uploadedFile = { file, filename, date }
+    setAgreements([...agreements, uploadedFile])
   }
 
-  const deleteAgreement = (index) => {
-    if (window.confirm('Are you sure you want to delete this agreement?')) {
-      const newAgreements = [...agreements]
-      newAgreements.splice(index, 1)
-      setAgreements(newAgreements)
-    }
+  const handleRemove = (index) => {
+    const newFiles = [...agreements]
+    newFiles.splice(index, 1)
+    setAgreements(newFiles)
   }
+
+  // const handleEdit = (index) => {
+  //   setEditedIndex(index)
+  //   setEditedFilename(agreements[index].filename)
+  //   setEditedDate(agreements[index].date)
+  // }
+
+  const handleEdit = (index) => {
+    setEditIndex(index)
+  }
+
+  const handleSaveEdit = (index, newFilename, newDate) => {
+    const updatedFiles = [...agreements]
+    updatedFiles[index].filename = newFilename
+    updatedFiles[index].date = newDate
+    setAgreements(updatedFiles)
+    setEditIndex(-1)
+  }
+
+  const handleCancelEdit = () => {
+    setEditIndex(-1)
+  }
+
+  // const handleSaveEdit = () => {
+  //   const updatedFiles = [...agreements]
+  //   updatedFiles[editedIndex].filename = editedFilename
+  //   updatedFiles[editedIndex].date = editedDate
+  //   setAgreements(updatedFiles)
+  //   setEditedIndex(-1)
+  //   setEditedFilename('')
+  //   setEditedDate('')
+  // }
+
+  // const handleCancelEdit = () => {
+  //   setEditedIndex(-1)
+  //   setEditedFilename('')
+  //   setEditedDate('')
+  // }
 
   return (
     <div className='union-container'>
       <h2>Union Agreements</h2>
-      <div className='uploadrow'>{sessionStorage.getItem('user_type') == 1 && <UploadPDF />}</div>
+      <div className='uploadrow'>{sessionStorage.getItem('user_type') == 1 && <UploadPDF onUpload={handleUpload} />}</div>
       <div className='agreement-list'>
-        {agreements.map((agreement, index) => (
+        {agreements.map((uploadedFile, index) => (
           <Grid container spacing={2} key={index} justifyContent='center' alignItems='center' className='agreement-row'>
             <Grid item xs={3}>
-              <p>{agreement.date}</p>
+              <p>{uploadedFile.filename}</p>
             </Grid>
             <Grid item xs={5}>
-              <h4>{agreement.title}</h4>
-              {/* Example CRUD buttons for each minute */}
+              <h4>{uploadedFile.date}</h4>
             </Grid>
             <Grid item xs={1}>
-              {sessionStorage.getItem('user_type') == 1 && (
-                <button className='btn edit' onClick={() => editAgreement(index)}>
-                  Edit
-                </button>
+              {sessionStorage.getItem('user_type') == 1 && <button onClick={() => handleEdit(index)}>Edit</button>}
+              {editIndex === index && (
+                <EditPDF
+                  initialFilename={uploadedFile.filename}
+                  initialDate={uploadedFile.date}
+                  onSave={(newFilename, newDate) => handleSaveEdit(index, newFilename, newDate)}
+                  onClose={handleCancelEdit} // Use onClose instead of onCancel
+                />
               )}
             </Grid>
             <Grid item xs={1}>
-              {sessionStorage.getItem('user_type') == 1 && (
-                <button className='btn delete' onClick={() => deleteAgreement(index)}>
-                  Delete
-                </button>
-              )}
+              {sessionStorage.getItem('user_type') == 1 && <button onClick={() => handleRemove(index)}>Remove</button>}
             </Grid>
           </Grid>
         ))}
