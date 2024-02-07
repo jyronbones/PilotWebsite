@@ -12,8 +12,6 @@ const UnionAgreement = () => {
   // ])
   const [agreements, setAgreements] = useState([])
   const [editIndex, setEditIndex] = useState(-1)
-  //const [editedFilename, setEditedFilename] = useState('')
-  //const [editedDate, setEditedDate] = useState('')
 
   const handleUpload = ({ file, filename, date }) => {
     const uploadedFile = { file, filename, date }
@@ -25,12 +23,6 @@ const UnionAgreement = () => {
     newFiles.splice(index, 1)
     setAgreements(newFiles)
   }
-
-  // const handleEdit = (index) => {
-  //   setEditedIndex(index)
-  //   setEditedFilename(agreements[index].filename)
-  //   setEditedDate(agreements[index].date)
-  // }
 
   const handleEdit = (index) => {
     setEditIndex(index)
@@ -48,21 +40,12 @@ const UnionAgreement = () => {
     setEditIndex(-1)
   }
 
-  // const handleSaveEdit = () => {
-  //   const updatedFiles = [...agreements]
-  //   updatedFiles[editedIndex].filename = editedFilename
-  //   updatedFiles[editedIndex].date = editedDate
-  //   setAgreements(updatedFiles)
-  //   setEditedIndex(-1)
-  //   setEditedFilename('')
-  //   setEditedDate('')
-  // }
-
-  // const handleCancelEdit = () => {
-  //   setEditedIndex(-1)
-  //   setEditedFilename('')
-  //   setEditedDate('')
-  // }
+  const handleDownload = (file) => {
+    const link = document.createElement('a')
+    link.href = URL.createObjectURL(file)
+    link.download = file.name
+    link.click()
+  }
 
   return (
     <div className='union-container'>
@@ -74,10 +57,10 @@ const UnionAgreement = () => {
             <Grid item xs={3}>
               <p>{uploadedFile.filename}</p>
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={3}>
               <h4>{uploadedFile.date}</h4>
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={1.5}>
               {sessionStorage.getItem('user_type') == 1 && <button onClick={() => handleEdit(index)}>Edit</button>}
               {editIndex === index && (
                 <EditPDF
@@ -88,8 +71,11 @@ const UnionAgreement = () => {
                 />
               )}
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={1.5}>
               {sessionStorage.getItem('user_type') == 1 && <button onClick={() => handleRemove(index)}>Remove</button>}
+            </Grid>
+            <Grid item xs={1}>
+              <button onClick={() => handleDownload(uploadedFile)}>Download</button>
             </Grid>
           </Grid>
         ))}
