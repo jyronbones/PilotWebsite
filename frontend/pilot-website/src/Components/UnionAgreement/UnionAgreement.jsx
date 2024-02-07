@@ -1,5 +1,5 @@
 import React, { useState } from 'react' //useRef removed temp
-import { Grid } from '@material-ui/core'
+import { Grid } from '@mui/material'
 import './UnionAgreement.css'
 import UploadPDF from './UploadComponents/UploadPDF'
 import EditPDF from './UploadComponents/EditPDF'
@@ -57,10 +57,10 @@ const UnionAgreement = () => {
             <Grid item xs={3}>
               <p>{uploadedFile.filename}</p>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               <h4>{uploadedFile.date}</h4>
             </Grid>
-            <Grid item xs={1.5}>
+            <Grid item xs={1}>
               {sessionStorage.getItem('user_type') == 1 && <button onClick={() => handleEdit(index)}>Edit</button>}
               {editIndex === index && (
                 <EditPDF
@@ -74,7 +74,7 @@ const UnionAgreement = () => {
             <Grid item xs={1.5}>
               {sessionStorage.getItem('user_type') == 1 && <button onClick={() => handleRemove(index)}>Remove</button>}
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={1.5}>
               <button onClick={() => handleDownload(uploadedFile)}>Download</button>
             </Grid>
           </Grid>
