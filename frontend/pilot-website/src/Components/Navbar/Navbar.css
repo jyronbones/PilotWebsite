@@ -1,13 +1,6 @@
 /* Basic reset for Navbar */
-.navbar-container {
-  height: 3rem;
-  width: 100%;
-  top: 0;
-  position: fixed;
-  z-index: 100; /* make navbar stays above all content */
-}
-
 .navbar {
+  margin: 0;
   border: none;
   border-radius: 0;
   display: flex;
@@ -107,18 +100,31 @@
     display: none;
   }
 }
-@media (max-width: 520px) {
-  .navbar-brand-text {
+@media (max-width: 767.98px) {
+  .navbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .navbar-brand {
     align-items: center;
-    font-size: 13px;
+  }
+
+  .nav {
+    display: block;
+    width: 100%;
+    text-align: center;
   }
 
   .nav-link,
   .logout-button {
-    padding: 0.5rem 0.5rem !important;
-    font-size: 1rem;
+    padding: 0.5rem 0 !important;
     display: block;
     width: 100%;
     text-align: center;
+  }
+
+  .navbar-hamburger {
+    display: none;
   }
 }
