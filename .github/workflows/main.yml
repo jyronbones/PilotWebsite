@@ -21,16 +21,18 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: frontend/pilot-website/
 
       - name: Build app
         run: npm run build
+        working-directory: frontend/pilot-website/
 
       - name: Upload to S3
         uses: jakejarvis/s3-sync-action@master
         with:
-          args: --acl public-read
+          args: --acl public-read --delete
         env:
-          SOURCE_DIR: build/
+          SOURCE_DIR: frontend/pilot-website/build/
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
