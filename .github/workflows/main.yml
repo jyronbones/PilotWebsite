@@ -29,14 +29,13 @@ jobs:
         working-directory: frontend/pilot-website/
 
       - name: React Deploy to S3
-        uses: jeanlescure/react-deploy-to-s3-action@v1.1.0
+        uses: jeanlescure/react-deploy-to-s3-action@main
         with:
           args: --acl public-read --follow-symlinks --delete
+          SOURCE_DIR: "frontend/pilot-website/build"
         env:
           NODE_ENV: production
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: us-east-2
-          SOURCE_DIR: "build"
-        working-directory: frontend/pilot-website/
