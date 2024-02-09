@@ -30,7 +30,7 @@ jobs:
         working-directory: frontend/pilot-website/
 
       - name: React Deploy to S3
-        uses: jeanlescure/react-deploy-to-s3-action@main
+        uses: jyronbones/PilotWebsite@main
         with:
           args: --acl public-read --follow-symlinks --delete
         env:
