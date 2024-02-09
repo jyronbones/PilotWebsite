@@ -28,7 +28,7 @@ jobs:
         working-directory: frontend/pilot-website/
 
       - name: Upload to S3
-        uses: jyronbones/s3-sync-action@master
+        uses: PilotWebsite/s3-sync-action@master
         with:
           args: --acl public-read --delete
         env:
