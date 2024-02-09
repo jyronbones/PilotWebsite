@@ -3,11 +3,9 @@ name: Upload Website
 on:
   push:
     branches: ["main"]
-  pull_request:
-    branches: ["main"]
 
 jobs:
-  build:
+  build_and_deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,12 +25,13 @@ jobs:
         run: npm run build
         working-directory: frontend/pilot-website/
 
-      - name: Upload to S3
-        uses: jyronbones/PilotWebsite@main
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          args: --acl public-read --delete
-        env:
-          SOURCE_DIR: frontend/pilot-website/build/
-          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "us-east-2"
+
+      - name: Upload to S3
+        run: |
+          aws s3 sync frontend/pilot-website/build/ s3://${{ secrets.AWS_S3_BUCKET }} --acl public-read --delete
