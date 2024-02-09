@@ -3,6 +3,7 @@
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 2rem;
   margin: 3rem;
+  margin-top: 6rem;
   padding: 2rem;
   font-family: 'Roboto', sans-serif;
   background: linear-gradient(135deg, #2c3e50, #34495e);

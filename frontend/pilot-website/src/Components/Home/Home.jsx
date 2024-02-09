@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaShip, FaHandshake, FaClock, FaClipboard, FaBox, FaUserShield } from 'react-icons/fa'
+import { FaShip, FaHandshake, FaClock, FaClipboard, FaUserShield } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import './Home.css'
 
@@ -19,11 +19,6 @@ const Home = () => {
       <Link to='/scheduling' className='link-box'>
         <FaClock size={50} className='icon' />
         <h3>Scheduling</h3>
-      </Link>
-
-      <Link to='/klein' className='link-box'>
-        <FaBox size={50} className='icon' />
-        <h3>KLEIN Login</h3>
       </Link>
 
       <Link to='/union-agreement' className='link-box'>
