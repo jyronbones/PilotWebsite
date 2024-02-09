@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-
   pull_request:
     branches:
       - main
@@ -30,7 +29,7 @@ jobs:
         working-directory: frontend/pilot-website/
 
       - name: React Deploy to S3
-        uses: jyronbones/PilotWebsite@main
+        uses: jeanlescure/react-deploy-to-s3-action@v1.1.0
         with:
           args: --acl public-read --follow-symlinks --delete
         env:
