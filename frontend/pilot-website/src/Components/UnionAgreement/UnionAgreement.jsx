@@ -1,5 +1,5 @@
 import React, { useState } from 'react' //useRef removed temp
-import { Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import './UnionAgreement.css'
 import UploadPDF from './UploadComponents/UploadPDF'
 import EditPDF from './UploadComponents/EditPDF'
@@ -72,7 +72,11 @@ const UnionAgreement = () => {
               )}
             </Grid>
             <Grid item xs={1.5}>
-              {sessionStorage.getItem('user_type') == 1 && <button onClick={() => handleRemove(index)}>Remove</button>}
+              {sessionStorage.getItem('user_type') == 1 && (
+                <button className='btn remove' onClick={() => handleRemove(index)}>
+                  Remove
+                </button>
+              )}
             </Grid>
             <Grid item xs={1.5}>
               <button onClick={() => handleDownload(uploadedFile)}>Download</button>

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import { Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import './MeetingMinutes.css'
 
 const MeetingMinutes = () => {
