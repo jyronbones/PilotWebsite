@@ -23,7 +23,7 @@ const FooterComponent = () => {
           </a>
           <a href='http://www.weather.gc.ca/marine'>
             <div>
-              <p>Weather Marine</p>
+              <p>Weather Marine TEST</p>
             </div>
           </a>
           <a href='https://efiche.live.pilotagestlaurent.gc.ca/'>
