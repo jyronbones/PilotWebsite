@@ -154,7 +154,6 @@ const AdminPortal = () => {
                 <thead>
                   <tr>
                     <th>User Information</th>
-                    {/* <th>Email</th> */}
                     <th>User Type</th>
                     <th>Created At</th>
                     <th>Updated At</th>
@@ -171,7 +170,6 @@ const AdminPortal = () => {
                             <br />
                             {item?.email}
                           </td>
-                          {/* <td>{item?.email}</td> */}
                           <td>{item?.user_type == 1 ? 'Admin' : 'User'}</td>
                           <td>{moment(item?.created_at).format('MM/DD/YYYY, h:mma')}</td>
                           <td>{moment(item?.updated_at).format('MM/DD/YYYY, h:mma')}</td>
