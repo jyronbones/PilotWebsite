@@ -1,7 +1,8 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 import Modal from 'react-modal'
 import PropTypes from 'prop-types'
 import './UploadPDF.css'
+import s3 from '../../../aws-config'
 
 const customModalStyles = {
   content: {
@@ -14,7 +15,6 @@ const customModalStyles = {
 const UploadPDF = ({ onUpload }) => {
   const [file, setFile] = useState(null)
   const [filename, setFilename] = useState('')
-  const [date, setDate] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const openModal = () => {
@@ -22,10 +22,9 @@ const UploadPDF = ({ onUpload }) => {
   }
 
   const closeModal = () => {
-    setIsModalOpen(false)
     setFile(null)
     setFilename('')
-    setDate('')
+    setIsModalOpen(false)
   }
 
   const handleFileChange = (selectedFile) => {
@@ -33,27 +32,36 @@ const UploadPDF = ({ onUpload }) => {
     setFilename(selectedFile.name)
   }
 
-  const handleUpload = () => {
-    if (file) {
-      onUpload({ file, filename, date })
+  const handleUpload = async () => {
+    try {
+      if (!file) {
+        alert('Please select a file before uploading.')
+        return
+      }
+
+      const params = {
+        Bucket: 'awsbucket-files', // Replace with your S3 bucket name
+        Key: filename,
+        Body: file
+      }
+
+      await s3.upload(params).promise()
+      onUpload({ file, filename }) // You may pass additional data if needed
       closeModal()
-    } else {
-      alert('Please select a file before uploading.')
+    } catch (error) {
+      console.error('Error uploading file:', error)
     }
   }
 
-  const handleDragOver = useCallback((e) => {
+  const handleDragOver = (e) => {
     e.preventDefault()
-  }, [])
+  }
 
-  const handleDrop = useCallback(
-    (e) => {
-      e.preventDefault()
-      const droppedFile = e.dataTransfer.files[0]
-      handleFileChange(droppedFile)
-    },
-    [handleFileChange]
-  )
+  const handleDrop = (e) => {
+    e.preventDefault()
+    const droppedFile = e.dataTransfer.files[0]
+    handleFileChange(droppedFile)
+  }
 
   const handleFileInput = (e) => {
     const selectedFile = e.target.files[0]
@@ -62,32 +70,14 @@ const UploadPDF = ({ onUpload }) => {
 
   return (
     <div>
-      <button className='opendialog-button' onClick={openModal}>
-        Upload File
-      </button>
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        contentLabel='File Upload Modal'
-        style={customModalStyles}
-        portalClassName='modal-portal'
-      >
-        <h2 style={{ fontSize: '100%' }}>Upload file</h2>
+      <button onClick={openModal}>Upload PDF</button>
+      <Modal isOpen={isModalOpen} onRequestClose={closeModal} contentLabel='File Upload Modal' style={customModalStyles}>
+        <h2 style={{ fontSize: '100%' }}>Upload File</h2>
         {file ? (
           <div className='confirmUpload'>
-            <h3>Selected file</h3>
-            <label>
-              <b>Filename:</b>
-              <input type='text' value={filename} onChange={(e) => setFilename(e.target.value)} />
-            </label>
-            <label>
-              <b>Date:</b>
-              <input type='date' value={date} onChange={(e) => setDate(e.target.value)} />
-            </label>
-            <br />
-            <button className='upload-button' onClick={handleUpload}>
-              Upload PDF
-            </button>
+            <h3>Selected File</h3>
+            <label>Filename: {filename}</label>
+            <button onClick={handleUpload}>Upload</button>
           </div>
         ) : (
           <div
@@ -105,11 +95,12 @@ const UploadPDF = ({ onUpload }) => {
           </div>
         )}
         {!file && (
-          <label>
-            <br />
-            Or choose a PDF file:
-            <input type='file' onChange={handleFileInput} />
-          </label>
+          <div>
+            <label>
+              Or choose a PDF file:
+              <input type='file' onChange={handleFileInput} />
+            </label>
+          </div>
         )}
         <button className='close-button' onClick={closeModal}>
           X

@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react' //useRef removed temp
-// import Grid from '@mui/material/Grid'
+import React, { useState, useEffect } from 'react'
 import './UnionAgreement.css'
-// import UploadPDF from './UploadComponents/UploadPDF'
+import UploadPDF from './UploadComponents/UploadPDF'
 // import EditPDF from './UploadComponents/EditPDF'
 import s3 from '../../aws-config'
 
@@ -87,21 +86,32 @@ const UnionAgreement = () => {
     }
   }
 
-  // const handleUpload = async ({ file, filename, date }) => {
-  //   try {
-  //     const params = {
-  //       Bucket: 'awsbucket-files',
-  //       Key: filename,
-  //       Body: file
-  //     }
+  const handleUpload = async ({ file, filename }) => {
+    try {
+      const params = {
+        Bucket: bucketName,
+        Key: filename,
+        Body: file
+      }
 
-  //     await s3.upload(params).promise()
-  //     const uploadedFile = { filename, date }
-  //     setAgreements([...agreements, uploadedFile])
-  //   } catch (error) {
-  //     console.error('Error uploading file:', error)
-  //   }
-  // }
+      await s3.upload(params).promise()
+      const uploadedFile = { filename }
+      setFiles([...files, uploadedFile])
+      fetchData()
+    } catch (error) {
+      console.error('Error uploading file:', error)
+    }
+  }
+
+  const fetchData = async () => {
+    try {
+      // Fetch file data from the server or any other source
+      const fileList = await listFilesFromS3()
+      setFiles(fileList)
+    } catch (error) {
+      console.error('Error fetching file data:', error)
+    }
+  }
 
   // const handleEdit = (index) => {
   //   setEditIndex(index)
@@ -124,7 +134,9 @@ const UnionAgreement = () => {
       <div className='union-container'>
         <h2>Union Agreements</h2>
         <div className='p-2 p-md-4'>
-          <div className='create-btn'>{/* upload */}</div>
+          <div className='create-btn'>
+            <UploadPDF onUpload={handleUpload} />
+          </div>
 
           <div className='union-table-container'>
             <section className='scroll-section pt-4 table-main table-responsive' id='hoverableRows'>
