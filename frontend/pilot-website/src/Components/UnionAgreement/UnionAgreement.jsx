@@ -1,90 +1,176 @@
-import React, { useState } from 'react' //useRef removed temp
-import Grid from '@mui/material/Grid'
+import React, { useState, useEffect } from 'react' //useRef removed temp
+// import Grid from '@mui/material/Grid'
 import './UnionAgreement.css'
-import UploadPDF from './UploadComponents/UploadPDF'
-import EditPDF from './UploadComponents/EditPDF'
+// import UploadPDF from './UploadComponents/UploadPDF'
+// import EditPDF from './UploadComponents/EditPDF'
+import s3 from '../../aws-config'
+
+const bucketName = 'awsbucket-files' //change this
+
+const listFilesFromS3 = async () => {
+  try {
+    const params = {
+      Bucket: bucketName
+    }
+    const data = await s3.listObjectsV2(params).promise()
+    const filePromises = data.Contents.map(async (object) => {
+      const tagsParams = {
+        Bucket: bucketName,
+        Key: object.Key
+      }
+      const tagsData = await s3.getObjectTagging(tagsParams).promise()
+      const fileTypeTag = tagsData.TagSet.find((tag) => tag.Key === 'filetype')
+      const fileType = fileTypeTag ? fileTypeTag.Value : 'Unknown'
+      return {
+        filename: object.Key,
+        dateAdded: new Date(object.LastModified).toLocaleDateString(),
+        fileType: fileType
+      }
+    })
+    return Promise.all(filePromises)
+  } catch (error) {
+    console.error('Error listing files from S3:', error)
+    return []
+  }
+}
 
 const UnionAgreement = () => {
-  // const [agreements, setAgreements] = useState([
-  //   { date: '13 June 2023', title: 'Example Agreement 1' },
-  //   { date: '26 December 2023', title: 'Example Agreement 2' },s
-  //   { date: '01 March 2023', title: 'Example Agreement 3' }
-  // ])
-  const [agreements, setAgreements] = useState([])
-  const [editIndex, setEditIndex] = useState(-1)
+  const [files, setFiles] = useState([])
 
-  const handleUpload = ({ file, filename, date }) => {
-    const uploadedFile = { file, filename, date }
-    setAgreements([...agreements, uploadedFile])
+  useEffect(() => {
+    const fetchFiles = async () => {
+      const fileList = await listFilesFromS3()
+      setFiles(fileList)
+    }
+    fetchFiles()
+  }, [])
+
+  const handleDownload = async (filename) => {
+    try {
+      const params = {
+        Bucket: bucketName,
+        Key: filename
+      }
+      const data = await s3.getObject(params).promise()
+      const blob = new Blob([data.Body], { type: data.ContentType })
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', filename)
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    } catch (error) {
+      console.error('Error downloading file from S3:', error)
+    }
   }
 
-  const handleRemove = (index) => {
-    const newFiles = [...agreements]
-    newFiles.splice(index, 1)
-    setAgreements(newFiles)
+  const deleteFileFromS3 = async (filename) => {
+    try {
+      const params = {
+        Bucket: bucketName,
+        Key: filename
+      }
+      await s3.deleteObject(params).promise()
+      console.log('File deleted successfully:', filename)
+    } catch (error) {
+      console.error('Error deleting file from S3:', error)
+    }
   }
 
-  const handleEdit = (index) => {
-    setEditIndex(index)
+  const handleDelete = async (filename) => {
+    if (window.confirm(`Are you sure you want to delete ${filename}?`)) {
+      await deleteFileFromS3(filename)
+      // Refresh file list after filename
+      const updatedFiles = await listFilesFromS3()
+      setFiles(updatedFiles)
+    }
   }
 
-  const handleSaveEdit = (index, newFilename, newDate) => {
-    const updatedFiles = [...agreements]
-    updatedFiles[index].filename = newFilename
-    updatedFiles[index].date = newDate
-    setAgreements(updatedFiles)
-    setEditIndex(-1)
-  }
+  // const handleUpload = async ({ file, filename, date }) => {
+  //   try {
+  //     const params = {
+  //       Bucket: 'awsbucket-files',
+  //       Key: filename,
+  //       Body: file
+  //     }
 
-  const handleCancelEdit = () => {
-    setEditIndex(-1)
-  }
+  //     await s3.upload(params).promise()
+  //     const uploadedFile = { filename, date }
+  //     setAgreements([...agreements, uploadedFile])
+  //   } catch (error) {
+  //     console.error('Error uploading file:', error)
+  //   }
+  // }
 
-  const handleDownload = (file) => {
-    const link = document.createElement('a')
-    link.href = URL.createObjectURL(file)
-    link.download = file.name
-    link.click()
-  }
+  // const handleEdit = (index) => {
+  //   setEditIndex(index)
+  // }
+
+  // const handleSaveEdit = (index, newFilename, newDate) => {
+  //   const updatedFiles = [...agreements]
+  //   updatedFiles[index].filename = newFilename
+  //   updatedFiles[index].date = newDate
+  //   setAgreements(updatedFiles)
+  //   setEditIndex(-1)
+  // }
+
+  // const handleCancelEdit = () => {
+  //   setEditIndex(-1)
+  // }
 
   return (
-    <div className='union-container'>
-      <h2>Union Agreements</h2>
-      <div className='uploadrow'>{sessionStorage.getItem('user_type') == 1 && <UploadPDF onUpload={handleUpload} />}</div>
-      <div className='agreement-list'>
-        {agreements.map((uploadedFile, index) => (
-          <Grid container spacing={2} key={index} justifyContent='center' alignItems='center' className='agreement-row'>
-            <Grid item xs={3}>
-              <p>{uploadedFile.filename}</p>
-            </Grid>
-            <Grid item xs={2}>
-              <h4>{uploadedFile.date}</h4>
-            </Grid>
-            <Grid item xs={1}>
-              {sessionStorage.getItem('user_type') == 1 && <button onClick={() => handleEdit(index)}>Edit</button>}
-              {editIndex === index && (
-                <EditPDF
-                  initialFilename={uploadedFile.filename}
-                  initialDate={uploadedFile.date}
-                  onSave={(newFilename, newDate) => handleSaveEdit(index, newFilename, newDate)}
-                  onClose={handleCancelEdit} // Use onClose instead of onCancel
-                />
-              )}
-            </Grid>
-            <Grid item xs={1.5}>
-              {sessionStorage.getItem('user_type') == 1 && (
-                <button className='btn remove' onClick={() => handleRemove(index)}>
-                  Remove
-                </button>
-              )}
-            </Grid>
-            <Grid item xs={1.5}>
-              <button onClick={() => handleDownload(uploadedFile)}>Download</button>
-            </Grid>
-          </Grid>
-        ))}
+    <>
+      <div className='union-container'>
+        <h2>Union Agreements</h2>
+        <div className='p-2 p-md-4'>
+          <div className='create-btn'>{/* upload */}</div>
+
+          <div className='union-table-container'>
+            <section className='scroll-section pt-4 table-main table-responsive' id='hoverableRows'>
+              <table className='custom-union-table'>
+                <thead>
+                  <tr>
+                    <th>File Name</th>
+                    <th>Date Uploaded</th>
+                    <th>File Type</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {files?.length > 0 ? (
+                    <>
+                      {files.map((file, index) => (
+                        <tr key={index}>
+                          <td>{file.filename}</td>
+                          <td>{file.dateAdded}</td>
+                          <td>{file.fileType}</td>
+                          <td>
+                            <div className='action-container'>
+                              <button className='action-button'>Edit</button>
+                              <button className='action-button' onClick={() => handleDelete(file.filename)}>
+                                Delete
+                              </button>
+                              <button className='action-button' onClick={() => handleDownload(file.filename)}>
+                                Download
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </>
+                  ) : (
+                    <tr>
+                      <td colSpan={5}>No File</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </section>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

@@ -12,25 +12,47 @@ h2 {
   text-align: center;
   margin-bottom: 20px;
 }
-.agreement-list {
+
+.union-table-container {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  text-align: left;
+  padding: 1rem;
+}
+
+.custom-union-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.custom-union-table thead {
+  background-color: #ccc;
+}
+
+.custom-union-table th,
+.custom-union-table td {
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem;
+  padding-right: 17rem;
+}
+
+.user-link {
+  color: blue;
+  cursor: pointer;
+  margin: 0;
+  display: inline-block;
+}
+
+.action-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  margin: 0 3rem;
-  margin-top: 5rem;
+  justify-content: space-evenly;
 }
-.agreement-row {
-  border-radius: 10px;
-  background-color: var(--color-white);
-}
-.uploadrow {
-  position: fixed;
-  float: right;
-  right: 8rem;
-  margin-top: 1rem;
-  position: fixed;
-  float: right;
-  right: 8rem;
-  margin-top: 1rem;
+
+.action-button {
+  color: #fff;
+  background-color: rgb(21, 71, 163);
+  border-radius: 8px;
+  padding: 0.5rem 1.5rem;
+  margin: 0;
 }
