@@ -159,7 +159,7 @@ const UnionAgreement = () => {
                           <td>{file.fileType}</td>
                           <td>
                             <div className='action-container'>
-                              <button className='action-button'>Edit</button>
+                              <button className='action-button'>Edit</button> {/*TODO*/}
                               <button className='action-button' onClick={() => handleDelete(file.filename)}>
                                 Delete
                               </button>

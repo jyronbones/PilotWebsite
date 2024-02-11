@@ -39,14 +39,22 @@ const UploadPDF = ({ onUpload }) => {
         return
       }
 
+      let newFilename = filename // Initialize newFilename with the provided filename
+
+      // Check if ".pdf" is already present in the filename
+      if (!newFilename.toLowerCase().endsWith('.pdf')) {
+        // If not, append ".pdf" to the filename
+        newFilename += '.pdf'
+      }
+
       const params = {
         Bucket: 'awsbucket-files', // Replace with your S3 bucket name
-        Key: filename,
+        Key: newFilename,
         Body: file
       }
 
       await s3.upload(params).promise()
-      onUpload({ file, filename }) // You may pass additional data if needed
+      onUpload({ file, filename: newFilename }) // You may pass additional data if needed
       closeModal()
     } catch (error) {
       console.error('Error uploading file:', error)
@@ -68,6 +76,10 @@ const UploadPDF = ({ onUpload }) => {
     handleFileChange(selectedFile)
   }
 
+  const handleFilenameChange = (e) => {
+    setFilename(e.target.value)
+  }
+
   return (
     <div>
       <button onClick={openModal}>Upload PDF</button>
@@ -76,7 +88,10 @@ const UploadPDF = ({ onUpload }) => {
         {file ? (
           <div className='confirmUpload'>
             <h3>Selected File</h3>
-            <label>Filename: {filename}</label>
+            <label>
+              <b>Filename:</b>
+              <input type='text' value={filename} onChange={handleFilenameChange} />
+            </label>
             <button onClick={handleUpload}>Upload</button>
           </div>
         ) : (
