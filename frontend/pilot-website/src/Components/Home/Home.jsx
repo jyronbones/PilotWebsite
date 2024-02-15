@@ -6,7 +6,7 @@ import './Home.css'
 const Home = () => {
   return (
     <div className='Home'>
-      <Link to='/Productivity' className='link-box'>
+      <Link to='/productivity' className='link-box'>
         <FaShip size={50} className='icon' />
         <h3>Productivity</h3>
       </Link>

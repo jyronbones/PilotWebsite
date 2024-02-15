@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect, useRef } from 'react'
-import { FaShip, FaHandshake, FaClock, FaClipboard, FaUserShield } from 'react-icons/fa'
+import { FaShip, FaHandshake, FaClock, FaClipboard, FaUserShield, FaHome } from 'react-icons/fa'
 import { Twirl as Hamburger } from 'hamburger-react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -35,6 +35,10 @@ const Sidebar = ({ openSideBar, setOpenSideBar }) => {
           <Hamburger toggled={openSideBar} toggle={setOpenSideBar} rounded size={18} distance='md' />
         </div>
         <div className='sidebar-body'>
+          <Link className='sidebar-link' to='/home' onClick={(prevSideBar) => setOpenSideBar(!prevSideBar)}>
+            <FaHome size={25} className='sidebar-icon' />
+            Home
+          </Link>
           <Link className='sidebar-link' to='/productivity' onClick={(prevSideBar) => setOpenSideBar(!prevSideBar)}>
             <FaShip size={25} className='sidebar-icon' />
             Productivity

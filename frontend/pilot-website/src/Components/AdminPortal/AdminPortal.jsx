@@ -137,7 +137,6 @@ const AdminPortal = () => {
         <div className='user-header'>
           <div className='user-title'>
             <h1>Directory</h1>
-            <p>{list?.length}</p>
           </div>
         </div>
 
