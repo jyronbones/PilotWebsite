@@ -429,6 +429,3 @@ yarn-error.log*
 __pycache__/
 *.pyo.d
 *.pyc.d
-
-#aws S3
-aws.config.js
