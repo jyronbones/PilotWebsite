@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import Modal from 'react-modal'
 import PropTypes from 'prop-types'
 import './UploadPDF.css'
-import s3 from '../../../aws-config'
+import axios from 'axios'
+
+const API_URL = process.env.REACT_APP_API_URL
 
 const customModalStyles = {
   content: {
@@ -16,6 +18,7 @@ const UploadPDF = ({ onUpload }) => {
   const [file, setFile] = useState(null)
   const [filename, setFilename] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedOption, setSelectedOption] = useState('Union Agreement')
 
   const openModal = () => {
     setIsModalOpen(true)
@@ -25,11 +28,20 @@ const UploadPDF = ({ onUpload }) => {
     setFile(null)
     setFilename('')
     setIsModalOpen(false)
+    setSelectedOption('Union Agreement')
   }
 
   const handleFileChange = (selectedFile) => {
     setFile(selectedFile)
     setFilename(selectedFile.name)
+  }
+
+  const handleFilenameChange = (e) => {
+    let newFilename = e.target.value
+    if (!newFilename.endsWith('.pdf')) {
+      newFilename += '.pdf'
+    }
+    setFilename(newFilename)
   }
 
   const handleUpload = async () => {
@@ -39,65 +51,63 @@ const UploadPDF = ({ onUpload }) => {
         return
       }
 
-      let newFilename = filename // Initialize newFilename with the provided filename
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('filename', filename)
+      formData.append('category', selectedOption)
 
-      // Check if ".pdf" is already present in the filename
-      if (!newFilename.toLowerCase().endsWith('.pdf')) {
-        // If not, append ".pdf" to the filename
-        newFilename += '.pdf'
-      }
+      await axios.post(`${API_URL}/upload-file`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
 
-      const params = {
-        Bucket: 'awsbucket-files', // Replace with your S3 bucket name
-        Key: newFilename,
-        Body: file
-      }
-
-      await s3.upload(params).promise()
-      onUpload({ file, filename: newFilename }) // You may pass additional data if needed
+      onUpload()
       closeModal()
     } catch (error) {
       console.error('Error uploading file:', error)
     }
   }
 
-  const handleDragOver = (e) => {
-    e.preventDefault()
-  }
-
-  const handleDrop = (e) => {
-    e.preventDefault()
-    const droppedFile = e.dataTransfer.files[0]
-    handleFileChange(droppedFile)
-  }
-
-  const handleFileInput = (e) => {
-    const selectedFile = e.target.files[0]
-    handleFileChange(selectedFile)
-  }
-
-  const handleFilenameChange = (e) => {
-    setFilename(e.target.value)
-  }
-
   return (
     <div>
-      <button onClick={openModal}>Upload PDF</button>
-      <Modal isOpen={isModalOpen} onRequestClose={closeModal} contentLabel='File Upload Modal' style={customModalStyles}>
-        <h2 style={{ fontSize: '100%' }}>Upload File</h2>
+      <button onClick={openModal}>Upload File</button>
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        contentLabel='File Upload Modal'
+        style={customModalStyles}
+        portalClassName='modal-portal'
+      >
+        <h2 style={{ fontSize: '100%' }}>Upload file</h2>
         {file ? (
           <div className='confirmUpload'>
-            <h3>Selected File</h3>
+            <h3>Selected file</h3>
             <label>
-              <b>Filename:</b>
+              <b>File name:</b>
               <input type='text' value={filename} onChange={handleFilenameChange} />
             </label>
-            <button onClick={handleUpload}>Upload</button>
+            <label>
+              <b>File category:</b>
+              <select value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
+                <option value='Union Agreement'>Union Agreement</option>
+                <option value='Corporate Bylaw'>Corporate Bylaws</option>
+                <option value='Working Rules'>Working Rules</option>
+                <option value='Other'>Other</option>
+              </select>
+            </label>
+            <br />
+            <button className='upload-button' onClick={handleUpload}>
+              Upload PDF
+            </button>
           </div>
         ) : (
           <div
-            onDragOver={handleDragOver}
-            onDrop={handleDrop}
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={(e) => {
+              e.preventDefault()
+              handleFileChange(e.dataTransfer.files[0])
+            }}
             style={{
               border: '2px dashed #cccccc',
               borderRadius: '4px',
@@ -110,12 +120,11 @@ const UploadPDF = ({ onUpload }) => {
           </div>
         )}
         {!file && (
-          <div>
-            <label>
-              Or choose a PDF file:
-              <input type='file' onChange={handleFileInput} />
-            </label>
-          </div>
+          <label>
+            <br />
+            Or choose a PDF file:
+            <input type='file' onChange={(e) => handleFileChange(e.target.files[0])} />
+          </label>
         )}
         <button className='close-button' onClick={closeModal}>
           X

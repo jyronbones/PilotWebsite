@@ -1,8 +1,7 @@
-import React, { useState } from 'react' //useEffect
+import React, { useState, useEffect } from 'react'
 import './UnionAgreement.css'
-//import UploadPDF from './UploadComponents/UploadPDF'
+import UploadPDF from './UploadComponents/UploadPDF'
 // import EditPDF from './UploadComponents/EditPDF'
-//import s3 from '../../aws-config'
 import axios from 'axios'
 
 const API_URL = process.env.REACT_APP_API_URL
@@ -38,14 +37,18 @@ const API_URL = process.env.REACT_APP_API_URL
 
 const UnionAgreement = () => {
   const [files, setFiles] = useState([])
-
-  // useEffect(() => {
-  //   const fetchFiles = async () => {
-  //     const fileList = await listFilesFromS3()
-  //     setFiles(fileList)
-  //   }
-  //   fetchFiles()
-  // }, [])
+  useEffect(() => {
+    const fetchFiles = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/list-files`)
+        setFiles(response.data.files)
+      } catch (error) {
+        console.error('Error listing files from S3:', error)
+        setFiles([])
+      }
+    }
+    fetchFiles()
+  }, [])
 
   // const handleDownload = async (filename) => {
   //   try {
@@ -89,55 +92,6 @@ const UnionAgreement = () => {
   //   }
   // }
 
-  // const handleUpload = async ({ file, filename }) => {
-  //   try {
-  //     const params = {
-  //       Bucket: bucketName,
-  //       Key: filename,
-  //       Body: file
-  //     }
-
-  //     await s3.upload(params).promise()
-  //     const uploadedFile = { filename }
-  //     setFiles([...files, uploadedFile])
-  //     fetchData()
-  //   } catch (error) {
-  //     console.error('Error uploading file:', error)
-  //   }
-  // }
-
-  // const fetchData = async () => {
-  //   try {
-  //     // Fetch file data from the server or any other source
-  //     const fileList = await listFilesFromS3()
-  //     setFiles(fileList)
-  //   } catch (error) {
-  //     console.error('Error fetching file data:', error)
-  //   }
-  // }
-
-  //Django to S3
-  const handleFileChange = (e) => {
-    setFiles(e.target.files[0])
-  }
-  const handleUploadDjango = async () => {
-    event.preventDefault()
-
-    try {
-      const formData = new FormData()
-      formData.append('file', files)
-
-      const response = await axios.post(`${API_URL}/upload-file`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-      console.log('Upload successful:', response.data)
-    } catch (error) {
-      console.error('Upload failed:', error)
-    }
-  }
-
   // const handleEdit = (index) => {
   //   setEditIndex(index)
   // }
@@ -160,11 +114,7 @@ const UnionAgreement = () => {
         <h2>Union Agreements</h2>
         <div className='p-2 p-md-4'>
           <div className='create-btn'>
-            {/* <UploadPDF onUpload={handleUpload} /> */}
-            <form onSubmit={handleUploadDjango}>
-              <input type='file' onChange={handleFileChange} />
-              <button type='submit'>Upload</button>
-            </form>
+            <UploadPDF onUpload={() => {}} />
           </div>
 
           <div className='union-table-container'>
@@ -174,7 +124,7 @@ const UnionAgreement = () => {
                   <tr>
                     <th>File Name</th>
                     <th>Date Uploaded</th>
-                    <th>File Type</th>
+                    <th>Category</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -185,7 +135,7 @@ const UnionAgreement = () => {
                         <tr key={index}>
                           <td>{file.filename}</td>
                           <td>{file.dateAdded}</td>
-                          <td>{file.fileType}</td>
+                          <td>{file.category}</td>
                           <td>
                             <div className='action-container'>
                               <button className='action-button'>Edit</button> {/*TODO*/}
