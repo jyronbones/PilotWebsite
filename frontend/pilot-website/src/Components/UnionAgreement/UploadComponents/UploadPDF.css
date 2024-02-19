@@ -2,6 +2,10 @@
   position: relative;
 }
 
+.modalContainer {
+  margin-left: 2rem;
+}
+
 .close-button {
   position: absolute;
   top: 10px;
@@ -40,7 +44,19 @@
   cursor: 'pointer';
 }
 
-.confirmUpload {
-  margin-top: 3rem;
-  margin-left: 2rem;
+.filenameTextbox {
+  display: flex;
+}
+
+.pdfTextbox {
+  margin-left: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.errorMessage {
+  color: red;
+}
+
+.categoryCB {
+  width: 81%;
 }
