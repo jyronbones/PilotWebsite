@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 import moment from 'moment'
 import './AdminPortal.css'
 
@@ -55,7 +55,7 @@ const AdminPortal = () => {
     }
   }
 
-  const createUser = async ({ name, email, password, user_type }) => {
+  const createUser = async ({ name, email, password }) => {
     try {
       const response = await fetch(`${API_URL}/user`, {
         method: 'POST',
@@ -63,7 +63,7 @@ const AdminPortal = () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
         },
-        body: JSON.stringify({ full_name: name, email, password, user_type })
+        body: JSON.stringify({ full_name: name, email, password })
       })
 
       if (response.ok) {
@@ -77,7 +77,7 @@ const AdminPortal = () => {
     }
   }
 
-  const updateUser = async ({ name, email, password, user_type }) => {
+  const updateUser = async ({ name, email, password }) => {
     try {
       const response = await fetch(`${API_URL}/user`, {
         method: 'PUT',
@@ -85,7 +85,7 @@ const AdminPortal = () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
         },
-        body: JSON.stringify({ user_id: editUserData.id, full_name: name, email, password, user_type })
+        body: JSON.stringify({ user_id: editUserData.id, full_name: name, email, password })
       })
 
       if (response.ok) {
@@ -129,24 +129,30 @@ const AdminPortal = () => {
   }, [editUserData])
 
   return (
-    <>
-      <div className='admin-container'>
-        <h2>Users List</h2>
+    <div className='user'>
+      <Link to='/home' className='btn back'>
+        Back to Home
+      </Link>
+      <div className='user-container'>
+        <div className='user-header'>
+          <div className='user-title'>
+            <h1>Directory</h1>
+          </div>
+        </div>
 
-        <div className='p-2 p-md-4'>
+        <div>
           <div className='create-btn'>
-            <Button variant='primary' className='ml-1 pr-0 w-100 fs-12' onClick={() => setIsModalOpen(true)}>
-              <span className='fs-12'>Create User</span>
-            </Button>
+            <button className='btn create' onClick={() => setIsModalOpen(true)}>
+              Create User
+            </button>
           </div>
 
           <div className='user-table-container'>
             <section className='scroll-section pt-4 table-main table-responsive' id='hoverableRows'>
-              <table className='custom-table'>
+              <table className='user-table'>
                 <thead>
                   <tr>
-                    <th>Name</th>
-                    <th>Email</th>
+                    <th>User Information</th>
                     <th>User Type</th>
                     <th>Created At</th>
                     <th>Updated At</th>
@@ -158,24 +164,28 @@ const AdminPortal = () => {
                     <>
                       {list?.map((item, index) => (
                         <tr key={index}>
-                          <td>{item?.full_name}</td>
-                          <td>{item?.email}</td>
+                          <td>
+                            {item?.full_name}
+                            <br />
+                            {item?.email}
+                          </td>
                           <td>{item?.user_type == 1 ? 'Admin' : 'User'}</td>
-                          <td>{moment(item?.created_at).format('MMMM Do YYYY, h:mm:ss a')}</td>
-                          <td>{moment(item?.updated_at).format('MMMM Do YYYY, h:mm:ss a')}</td>
+                          <td>{moment(item?.created_at).format('MM/DD/YYYY, h:mma')}</td>
+                          <td>{moment(item?.updated_at).format('MM/DD/YYYY, h:mma')}</td>
                           <td>
                             <div className='action-container'>
-                              <button className='delete-button' onClick={() => changeUserStatus(item.id)}>
-                                Delete
-                              </button>
                               <button
-                                className='edit-button'
+                                className='btn edit'
+                                title='Edit User'
                                 onClick={() => {
                                   setEditUserData(item)
                                   setIsModalOpen(true)
                                 }}
                               >
                                 Edit
+                              </button>
+                              <button className='btn delete' title='Delete User' onClick={() => changeUserStatus(item.id)}>
+                                Delete
                               </button>
                             </div>
                           </td>
@@ -200,7 +210,7 @@ const AdminPortal = () => {
             <span className='close-button' onClick={handleClose}>
               &times;
             </span>
-            <div className='modal-body'>
+            <div className='modal-body admin'>
               <label>
                 Name:
                 <input type='text' value={name} onChange={(e) => setName(e.target.value)} />
@@ -225,12 +235,14 @@ const AdminPortal = () => {
                   <option value='2'>User</option>
                 </select>
               </label>
-              <button onClick={handleSubmit}>{Object.keys(editUserData).length > 0 ? 'Edit' : 'Create'} user</button>
+              <button className='btn create' onClick={handleSubmit}>
+                {Object.keys(editUserData).length > 0 ? 'Edit' : 'Create'} user
+              </button>
             </div>
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }
 

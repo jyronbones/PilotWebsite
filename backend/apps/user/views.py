@@ -252,12 +252,12 @@ def auth_me(request):
 #         is_active = True
 #         is_authenticated = True
 #         last_login = None
-#
+
 #         # If the new user is admin then do this:
 #         if user_type == 1:
 #             is_superuser = True
 #             is_staff = True
-#
+
 #         # Retrun a fail msg if the user is already exist in the DB
 #         user_exist = check_user(email)
 #         if user_exist:
@@ -267,7 +267,7 @@ def auth_me(request):
 #                     "message": f"User with the {email} email is already exist!",
 #                 }
 #             )
-#
+
 #         # New user data to be saved on database:
 #         record = UserNew(
 #             id=user_id,
