@@ -74,6 +74,7 @@ def auth_me(request):
         return Response({'success': False, 'message': f'bad request {e}'}, status.HTTP_400_BAD_REQUEST)
 
 
+<<<<<<< Updated upstream
 @api_view(['POST'])
 def refresh_token(request):
     get_refresh_token = request.data.get('refresh_token')
@@ -88,6 +89,73 @@ def refresh_token(request):
                         status=status.HTTP_200_OK)
     except Exception as e:
         return Response({'success': False, 'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+=======
+# This view is just for testing purpose,
+# if you want to create an admin quickly without any restrictions you can use this
+@api_view(["POST"])
+def create_admin_account(request):
+    try:
+        user_id = str(uuid.uuid4())
+        full_name = request.data["full_name"]
+        first_name = ""
+        last_name = ""
+        email = request.data["email"]
+        user_type = int(request.data["user_type"])
+        password = make_password(request.data["password"])
+        date_joined = timestamp
+        created_at = timestamp
+        updated_at = timestamp
+        is_superuser = False
+        is_staff = False
+        is_active = True
+        is_authenticated = True
+        last_login = None
+
+        # If the new user is admin then do this:
+        if user_type == 1:
+            is_superuser = True
+            is_staff = True
+
+        # Retrun a fail msg if the user is already exist in the DB
+        user_exist = check_user(email)
+        if user_exist:
+            return Response(
+                {
+                    "success": False,
+                    "message": f"User with the {email} email is already exist!",
+                }
+            )
+
+        # New user data to be saved on database:
+        record = UserNew(
+            id=user_id,
+            full_name=full_name,
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            user_type=user_type,
+            password=password,
+            date_joined=date_joined,
+            created_at=created_at,
+            updated_at=updated_at,
+            is_superuser=is_superuser,
+            is_staff=is_staff,
+            is_active=is_active,
+            is_authenticated=is_authenticated,
+            last_login=last_login,
+        )
+        # Save the data gathered for new user on DynamoDB
+        record.save()
+        return Response(
+            {"success": True, "message": "User created successfully"},
+            status.HTTP_201_CREATED,
+        )
+    except Exception as e:
+        return Response(
+            {"success": False, "message": f"Bad request: {str(e)}"},
+            status.HTTP_400_BAD_REQUEST,
+        )
+>>>>>>> Stashed changes
 
 
 @api_view(['POST', 'PUT', 'GET', 'DELETE'])
@@ -142,4 +210,34 @@ def admin_user_crud(request, user_id=None):
             return Response({'success': True, 'message': 'User deleted successfully'})
 
     except Exception as e:
+<<<<<<< Updated upstream
         return Response({'success': False, 'message': f'Bad request: {str(e)}'}, status.HTTP_400_BAD_REQUEST)
+=======
+        return Response(
+            {"success": False, "message": f"Bad request: {str(e)}"},
+            status.HTTP_400_BAD_REQUEST,
+        )
+
+
+# Fetch or get all users from DynamoDB
+def get_all_users():
+    # Fetch all users:
+    result = table.scan()
+    users_count = result["Count"]
+    result = result["Items"]
+    # Convert decimal values in users list into integers
+    for item in result:
+        for key, value in item.items():
+            if isinstance(value, Decimal):
+                item[key] = int(value)
+    return {"all": result, "count": users_count}
+
+
+# Check the user email in DynamoDB if it's exist or not
+def check_user(email):
+    user = list(UserNew.scan(email=email))
+    if user:
+        return True
+    else:
+        return False
+>>>>>>> Stashed changes
