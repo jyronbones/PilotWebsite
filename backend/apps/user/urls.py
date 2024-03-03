@@ -16,3 +16,4 @@ urlpatterns = [
     # re_path(r"^create_admin", create_admin_account),
     re_path(r"^test_aws", test_aws),
 ]
+

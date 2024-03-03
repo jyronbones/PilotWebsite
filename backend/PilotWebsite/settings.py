@@ -46,6 +46,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Fetch SECRET_KEY from AWS Secrets Manager
 SECRET_KEY = get_aws_secret_key("prod/pilotwebsite/djangosecretkey", "django_secret_key")
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -57,19 +58,6 @@ CORS_ALLOW_ALL_ORIGINS = True
 # Application definition
 
 INSTALLED_APPS = [
-<<<<<<< Updated upstream
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'apps.user',
-    'corsheaders',
-    'rest_framework',
-    'rest_framework_simplejwt.token_blacklist',
-
-=======
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -81,7 +69,6 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",
->>>>>>> Stashed changes
 ]
 
 MIDDLEWARE = [
