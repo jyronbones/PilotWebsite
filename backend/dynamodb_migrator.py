@@ -64,6 +64,34 @@ def create_outstandingtoken_table(dynamodb=dynamodb):
             print("An error occurred:", e)
 
 
+def create_employees_table(dynamodb=dynamodb):
+    table_name = "Employees"
+    try:
+        table = dynamodb.create_table(
+            TableName=table_name,
+            KeySchema=[
+                {"AttributeName": "employee_id", "KeyType": "HASH"}  # Partition key
+            ],
+            AttributeDefinitions=[
+                {"AttributeName": "employee_id", "AttributeType": "S"},  # Attribute type is string (S)
+            ],
+            ProvisionedThroughput={
+                "ReadCapacityUnits": 5,
+                "WriteCapacityUnits": 5
+            }
+        )
+        table.meta.client.get_waiter('table_exists').wait(TableName=table_name)
+        print(f"Table {table_name} created successfully.")
+        print("Item count:", table.item_count)
+
+    except ClientError as e:
+        if e.response['Error']['Code'] == "ResourceInUseException":
+            print(f"Table {table_name} already exists.")
+        else:
+            print("An error occurred:", e)
+
+
 if __name__ == "__main__":
     create_users_table()
     create_outstandingtoken_table()
+    create_employees_table()
