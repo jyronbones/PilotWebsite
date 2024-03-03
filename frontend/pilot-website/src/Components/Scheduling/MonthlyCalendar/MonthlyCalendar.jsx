@@ -7,72 +7,181 @@ import './MonthlyCalendar.css'
 
 const localizer = momentLocalizer(moment)
 
+const API_URL = process.env.REACT_APP_API_BASE_URL // Fallback to empty if not defined
+
 const MonthlyCalendar = () => {
   const [events, setEvents] = useState([])
+  const [employees, setEmployees] = useState([])
+  const [selectedEmployee, setSelectedEmployee] = useState(null)
   const [showForm, setShowForm] = useState(false)
+  const [selectedEvent, setSelectedEvent] = useState(null)
+  const [eventRange, setEventRange] = useState({ start: null, end: null })
   const [selectedDate, setSelectedDate] = useState(null)
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    floaterId: '',
-    shiftType: 'full-day'
-  })
+  const [newEmployeeName, setNewEmployeeName] = useState('')
 
-  // const shiftColors = ['LightBlue', 'LightGreen', 'LightPink', 'LightSalmon', 'LightSkyBlue', 'LightYellow']
   const formContainerRef = useRef(null)
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (formContainerRef.current && !formContainerRef.current.contains(event.target)) {
-        setShowForm(false)
-      }
-    }
-
+    fetchEmployees()
     document.addEventListener('click', handleClickOutside)
-
     return () => {
       document.removeEventListener('click', handleClickOutside)
     }
   }, [])
 
-  const handleSelect = ({ start }) => {
-    setSelectedDate(moment(start))
-    setShowForm(true)
+  const fetchEmployees = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/scheduling/employees/`)
+      if (response.ok) {
+        const data = await response.json()
+        if (Array.isArray(data)) {
+          setEmployees(data)
+        } else {
+          console.error('Received unexpected data format:', data)
+          setEmployees([]) // Reset to empty array if data is not an array
+        }
+      } else {
+        console.error('Failed to fetch employees')
+        setEmployees([]) // Reset to empty array if response is not OK
+      }
+    } catch (error) {
+      console.error('Error:', error)
+    }
   }
 
-  const handleFormSubmit = () => {
-    const newEvent = {
-      start: selectedDate,
-      end: selectedDate,
-      title: `${formData.firstName} ${formData.lastName}`,
-      floaterId: formData.floaterId,
-      shiftColor: formData.shiftColor,
-      shiftType: formData.shiftType
+  // Adding new employees to the database
+  const addEmployee = async () => {
+    try {
+      const employeeData = {
+        name: newEmployeeName,
+        employee_id: generateUniqueEmployeeId().toString()
+      }
+
+      const response = await fetch(`${API_URL}/api/sheduling/add-employee/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(employeeData)
+      })
+
+      if (response.ok) {
+        fetchEmployees() // Refresh the employees list
+        setNewEmployeeName('')
+      } else {
+        console.error('Failed to add employee:', await response.text())
+      }
+    } catch (error) {
+      console.error('Error:', error)
+    }
+  }
+
+  const handleClickOutside = (event) => {
+    if (formContainerRef.current && !formContainerRef.current.contains(event.target)) {
+      setShowForm(false)
+      setSelectedEvent(null)
+    }
+  }
+
+  const handleSelectSlot = ({ start, end }) => {
+    setEventRange({ start: moment(start).toDate(), end: moment(end).toDate() })
+    setShowForm(true)
+    setSelectedEvent(null)
+    setSelectedDate(moment(start).toDate())
+  }
+
+  const handleSelectEvent = (event) => {
+    setSelectedEvent(event)
+    setShowForm(true)
+    setSelectedEmployee(employees.find((emp) => emp.id === event.employeeId))
+    setEventRange({ start: event.start, end: event.end })
+    setSelectedDate(moment(event.start).toDate())
+  }
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault()
+
+    if (!selectedEmployee) {
+      console.error('No employee selected')
+      return // Exit the function if no employee is selected
     }
 
-    setEvents([...events, newEvent])
+    const newEvent = {
+      title: selectedEmployee.name,
+      start: eventRange.start,
+      end: eventRange.end,
+      employee: selectedEmployee,
+      color: selectedEmployee.color
+    }
+
+    if (selectedEvent) {
+      const updatedEvents = events.map((event) => (event === selectedEvent ? newEvent : event))
+      setEvents(updatedEvents)
+    } else {
+      setEvents([...events, newEvent])
+    }
+
     setShowForm(false)
   }
 
   const handleFormCancel = () => {
     setShowForm(false)
+    setSelectedEvent(null)
   }
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setFormData({ ...formData, [name]: value })
+  const renderAddEmployeeForm = () => (
+    <form onSubmit={handleAddEmployeeSubmit}>
+      <input
+        type='text'
+        placeholder='New Employee Name'
+        value={newEmployeeName}
+        onChange={(e) => setNewEmployeeName(e.target.value)}
+        required
+      />
+      <button type='submit'>Add</button>
+    </form>
+  )
+
+  const handleAddEmployeeSubmit = async (e) => {
+    e.preventDefault() // Prevent default form submission behavior
+
+    if (!newEmployeeName.trim()) {
+      alert('Please enter a valid name.') // Simple validation
+      return
+    }
+
+    await addEmployee()
+    setNewEmployeeName('') // Reset input field after submission
   }
 
-  const handleEditEvent = (event) => {
-    // Implement edit functionality as needed
-    console.log('Edit event:', event)
+  // eslint-disable-next-line no-unused-vars
+  const deleteEmployee = async (employeeId) => {
+    try {
+      const response = await fetch(`${API_URL}/api/scheduling/delete-employee/${employeeId}`, {
+        method: 'DELETE'
+      })
+
+      if (response.ok) {
+        alert('Employee deleted successfully')
+        fetchEmployees() // Refresh the employees list
+      } else {
+        console.error('Failed to delete employee')
+        alert('Failed to delete employee')
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      alert('Error: ' + error)
+    }
   }
 
-  const handleDeleteEvent = () => {
-    // Implement delete functionality as needed
-    const updatedEvents = events.filter((event) => !moment(event.start).isSame(selectedDate, 'day'))
-    setEvents(updatedEvents)
-    setShowForm(false)
+  // Dummy function to represent generating a unique ID, replace with your actual logic
+  function generateUniqueEmployeeId() {
+    return Math.floor(Math.random() * 10000).toString()
+  }
+
+  function removeEvent(eventToRemove) {
+    setEvents(events.filter((event) => event !== eventToRemove))
+    setShowForm(false) // Hide the form after deleting the event
   }
 
   return (
@@ -90,57 +199,81 @@ const MonthlyCalendar = () => {
         <Calendar
           localizer={localizer}
           defaultDate={new Date()}
-          defaultview='month'
-          views={['month']} // Remove 'day' 'week' and 'agenda' views
-          events={events}
+          defaultView='month'
+          views={['month']}
+          events={events.map((event) => ({ ...event, style: { backgroundColor: event.color } }))}
           style={{ height: '500px' }}
           selectable={true}
-          onSelectSlot={handleSelect}
-          onSelectEvent={handleEditEvent}
+          onSelectSlot={handleSelectSlot}
+          onSelectEvent={handleSelectEvent}
         />
         {showForm && (
-          <div className='form-container'>
-            <div className='event-form'>
-              <h3>Add Event for {moment(selectedDate).format('LL')}</h3>
-              <label>Date:</label>
-              <input type='text' value={moment(selectedDate).format('LL')} readOnly />
-              <label>Shift Type:</label>
-              <select name='shiftType' value={formData.shiftType} onChange={handleInputChange}>
-                <option value='full-day'>Full Day</option>
-                <option value='half-day'>Half Day</option>
-                <option value='partial'>Partial</option>
+          <div className='form-container' ref={formContainerRef}>
+            <form onSubmit={handleFormSubmit}>
+              <h3>{selectedEvent ? 'Edit Event' : 'Add Event'}</h3>
+              <label>From Date:</label>
+              <input
+                type='date'
+                value={moment(eventRange.start).format('YYYY-MM-DD')}
+                onChange={(e) => setEventRange({ ...eventRange, start: new Date(e.target.value) })}
+              />
+              <label>To Date:</label>
+              <input
+                type='date'
+                value={moment(eventRange.end).format('YYYY-MM-DD')}
+                onChange={(e) => setEventRange({ ...eventRange, end: new Date(e.target.value) })}
+              />
+              <label>Employee:</label>
+              <select
+                value={selectedEmployee ? selectedEmployee.employee_id : ''}
+                onChange={(e) => setSelectedEmployee(employees.find((emp) => emp.employee_id === e.target.value))}
+              >
+                <option value=''>Select Employee</option>
+                {employees?.map((emp) => (
+                  <option key={emp.employee_id} value={emp.employee_id}>
+                    {emp.name}
+                  </option>
+                )) || []}
               </select>
-              <label>First Name:</label>
-              <input type='text' name='firstName' value={formData.firstName} onChange={handleInputChange} placeholder='First Name' />
-              <label>Last Name:</label>
-              <input type='text' name='lastName' value={formData.lastName} onChange={handleInputChange} placeholder='Last Name' />
-              <label>Floater ID:</label>
-              <input type='text' name='floaterId' value={formData.floaterId} onChange={handleInputChange} placeholder='Floater ID' />
+              {renderAddEmployeeForm()}
               <div className='form-buttons'>
-                <button onClick={handleFormSubmit}>Submit</button>
-                <button onClick={handleFormCancel}>Cancel</button>
-                <button onClick={handleDeleteEvent}>Delete</button>
+                <button type='submit'>Submit</button>
+                <button type='button' onClick={handleFormCancel}>
+                  Cancel
+                </button>
               </div>
+            </form>
+            {selectedEvent && (
+              <div className='selected-info'>
+                <h3>Schedule Information</h3>
+                <p>{selectedEvent.title}</p>
+                <p>Date: {moment(selectedEvent.start).format('LL')}</p>
+                <button type='button' onClick={() => removeEvent(selectedEvent)}>
+                  Remove Employee
+                </button>
+              </div>
+            )}
+            <div className='sel-info-box'>
+              <h3>Schedule Information</h3>
+              {events
+                .filter((event) => moment(event.start).isSame(selectedDate, 'day'))
+                .map((event, index) => (
+                  <div key={index}>
+                    <list>
+                      <ol>
+                        <p>{event.title}</p>
+                        <p>Starts: {moment(event.start).format('LL')}</p>
+                        <p>Ends: {moment(event.end).format('LL')}</p>
+                      </ol>
+                    </list>
+                  </div>
+                ))}
             </div>
           </div>
         )}
       </div>
-      <div className='selected-info'>
-        <div className='sel-info-box'>
-          <h3>Schedule Information</h3>
-          {events
-            .filter((event) => moment(event.start).isSame(selectedDate, 'day'))
-            .map((event, index) => (
-              <div key={index}>
-                <p>{event.title}</p>
-                <p>Floater ID: {event.floaterId}</p>
-                <p>Shift Type: {event.shiftType}</p>
-                <p>Date: {moment(event.start).format('LL')}</p>
-              </div>
-            ))}
-        </div>
-      </div>
     </div>
   )
 }
+
 export default MonthlyCalendar
