@@ -1,0 +1,17 @@
+1. Go to backend folder in the terminal
+
+2. Run this command in the terminal to create the virtual env: py -m venv venv
+
+3. Run this command in the terminal if you're in Windows PC to activate the virtual env: ./venv/scripts/activate
+
+3. Run this command in the terminal if you're in Mac to activate the virtual env: source venv/bin/activate
+
+4. Run this command in the terminal to install all required Python packages & frameworks: pip install -r requirements.txt
+
+5. Run this command to generate the tables on DynamoDB: py dynamodb_migrator.py
+
+6. Finally, run this command to start the backend Django: py manage.py runserver 8080
+
+
+
+Note: You can change your AWS DynamoDB service credentials on backend>.env file

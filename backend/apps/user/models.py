@@ -1,60 +1,69 @@
-import uuid
+from dynamorm import DynaModel
+from django.conf import settings
+from marshmallow import fields
+import os
+from dotenv import load_dotenv
 
-from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractUser
-from django.utils.translation import gettext_lazy as _
+load_dotenv()
 
-from apps.user.enum import USER_TYPES_CHOICES
-
-
-class UserManager(BaseUserManager):
-    """Define a model manager for User model with no username field."""
-
-    use_in_migrations = True
-
-    def _create_user(self, email, password, **extra_fields):
-        """Create and save a User with the given email and password."""
-        if not email:
-            raise ValueError('The given email must be set')
-        email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_user(self, email, password=None, **extra_fields):
-        """Create and save a regular User with the given email and password."""
-        extra_fields.setdefault('is_staff', False)
-        extra_fields.setdefault('is_superuser', False)
-        return self._create_user(email, password, **extra_fields)
-
-    def create_superuser(self, email, password, **extra_fields):
-        """Create and save a SuperUser with the given email and password."""
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError('Superuser must have is_staff=True.')
-        if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Superuser must have is_superuser=True.')
-
-        return self._create_user(email, password, **extra_fields)
+endpoint_url = os.getenv("DB_ENDPOINT")
+region_name = os.getenv("DB_REGION_NAME")
+aws_access_key_id = os.getenv("DB_AWS_ACCESS_KEY_ID")
+aws_secret_access_key = os.getenv("DB_AWS_SECRET_ACCESS_KEY")
 
 
-class User(AbstractUser):
-    id = models.UUIDField(max_length=200, unique=True, default=uuid.uuid4, primary_key=True, editable=False,
-                          db_index=True)
-    username = None
-    full_name = models.CharField(max_length=255, null=True, blank=True)
-    email = models.EmailField(_('email address'), unique=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    user_type = models.IntegerField(choices=USER_TYPES_CHOICES, default=1)
+# This is User model for users
+class UserNew(DynaModel):
+    class Table:
+        resource_kwargs = {
+            "endpoint_url": endpoint_url,
+            "region_name": region_name,
+            "aws_access_key_id": aws_access_key_id,
+            "aws_secret_access_key": aws_secret_access_key
+        }
+        name = settings.DB_TABLE
+        hash_key = "id"
+        read = 25
+        write = 5
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    class Schema:
+        id = fields.UUID(required=True)
+        full_name = fields.String()
+        first_name = fields.String()
+        last_name = fields.String()
+        email = fields.String(required=True)
+        user_type = fields.Integer(required=True)
+        password = fields.String(required=True)
+        date_joined = fields.DateTime(format="iso")
+        created_at = fields.DateTime(format="iso")
+        updated_at = fields.DateTime(format="iso")
+        is_superuser = fields.Boolean(required=True)
+        is_staff = fields.Boolean(required=True)
+        is_active = fields.Boolean(required=True)
+        is_authenticated = fields.Boolean(required=True, default=True)
+        last_login = fields.DateTime(allow_none=True, format="iso")
 
-    objects = UserManager()
 
-    def __str__(self):
-        return self.email
+# This is token model
+class outstandingToken(DynaModel):
+    class Table:
+        resource_kwargs = {
+            "endpoint_url": endpoint_url,
+            "region_name": region_name,
+            "aws_access_key_id": aws_access_key_id,
+            "aws_secret_access_key": aws_secret_access_key
+        }
+        name = "token_blacklist_outstanding"
+        hash_key = "id"
+        read = 25
+        write = 5
+
+    class Schema:
+        id = fields.UUID(required=True)
+        token_type = fields.String(required=True)
+        token = fields.String(required=True)
+        created_at = fields.DateTime(format="iso", required=True)
+        expires_at = fields.DateTime(format="iso", required=True)
+        user_id = fields.UUID(required=True)
+        is_authenticated = fields.Boolean(required=True, default=True)
+        jti = fields.String(required=True)
