@@ -52,7 +52,7 @@ const Login = () => {
         <form className='login-form' onSubmit={handleLogin}>
           {errorMessage && <div className='error-message'>{errorMessage}</div>}
           <div className='input-group'>
-            <label htmlFor='email'>E-mail TEST:</label>
+            <label htmlFor='email'>E-mail:</label>
             <input type='email' id='email' name='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
           </div>
 
