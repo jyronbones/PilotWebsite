@@ -38,17 +38,8 @@ const API_URL = process.env.REACT_APP_API_URL
 const UnionAgreement = () => {
   const [files, setFiles] = useState([])
   useEffect(() => {
-    const fetchFiles = async () => {
-      try {
-        const response = await axios.get(`${API_URL}/list-files`)
-        setFiles(response.data.files)
-      } catch (error) {
-        console.error('Error listing files from S3:', error)
-        setFiles([])
-      }
-    }
     fetchFiles()
-  }, [])
+  }, []) //files
 
   const handleDelete = async (filename) => {
     if (window.confirm(`Are you sure you want to delete ${filename}?`)) {
@@ -85,6 +76,21 @@ const UnionAgreement = () => {
     }
   }
 
+  const handleUpload = () => {
+    // Call fetchFiles after successful upload
+    fetchFiles()
+  }
+
+  const fetchFiles = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/list-files`)
+      setFiles(response.data.files)
+    } catch (error) {
+      console.error('Error listing files from S3:', error)
+      setFiles([])
+    }
+  }
+
   // const handleEdit = (index) => {
   //   setEditIndex(index)
   // }
@@ -107,7 +113,7 @@ const UnionAgreement = () => {
         <h2>Union Agreements</h2>
         <div className='p-2 p-md-4'>
           <div className='create-btn'>
-            <UploadPDF onUpload={() => {}} />
+            <UploadPDF onUpload={handleUpload} />
           </div>
 
           <div className='union-table-container'>
@@ -131,7 +137,7 @@ const UnionAgreement = () => {
                           <td>{file.category}</td>
                           <td>
                             <div className='action-container'>
-                              <button className='action-button'>Edit</button> {/*TODO*/}
+                              {/* <button className='action-button'>Edit</button> TODO */}
                               <button className='action-button' onClick={() => handleDelete(file.filename)}>
                                 Delete
                               </button>

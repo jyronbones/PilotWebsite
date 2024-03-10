@@ -69,22 +69,6 @@ def delete_file(request, filename):
   except Exception as e:
     return Response({'error': str(e)}, status=500)
 
-# @api_view(['GET'])
-# def download_file(request, filename):
-#   try:
-#     url = s3.generate_presigned_url(
-#       'get_object',
-#       Params={'Bucket': bucket_name, 'Key': filename},
-#       HttpMethod='GET',
-#       ExpiresIn=3600)  # Generated URL expires in 3600 seconds
-#     response = HttpResponse(status=302)
-#     response['Location'] = url
-#     response['Content-Type'] = 'application/pdf'
-#     response['Content-Disposition'] = f'attachment; filename="{filename}"'
-#     return response
-#   except Exception as e:
-#     return Response({'error': str(e)}, status=500)
-
 @api_view(['GET'])
 def download_file(request, filename):
   try:
