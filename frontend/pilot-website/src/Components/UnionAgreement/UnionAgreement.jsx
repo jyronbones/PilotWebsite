@@ -6,35 +6,6 @@ import axios from 'axios'
 
 const API_URL = process.env.REACT_APP_API_URL
 
-//const bucketName = 'awsbucket-files' //change this
-
-// const listFilesFromS3 = async () => {
-//   try {
-//     const params = {
-//       Bucket: bucketName
-//     }
-//     const data = await s3.listObjectsV2(params).promise()
-//     const filePromises = data.Contents.map(async (object) => {
-//       const tagsParams = {
-//         Bucket: bucketName,
-//         Key: object.Key
-//       }
-//       const tagsData = await s3.getObjectTagging(tagsParams).promise()
-//       const fileTypeTag = tagsData.TagSet.find((tag) => tag.Key === 'filetype')
-//       const fileType = fileTypeTag ? fileTypeTag.Value : 'Unknown'
-//       return {
-//         filename: object.Key,
-//         dateAdded: new Date(object.LastModified).toLocaleDateString(),
-//         fileType: fileType
-//       }
-//     })
-//     return Promise.all(filePromises)
-//   } catch (error) {
-//     console.error('Error listing files from S3:', error)
-//     return []
-//   }
-// }
-
 const UnionAgreement = () => {
   const [files, setFiles] = useState([])
   useEffect(() => {
