@@ -4,8 +4,11 @@ import json
 
 def get_secret():
 
-    secret_name = "dev/pilotwebsite/agreementfiles"
-    region_name = "ca-central-1"
+    # secret_name = "dev/pilotwebsite/agreementfiles"
+    # region_name = "ca-central-1"
+
+    secret_name = "prod/pilotwebsite/agreementfileskeys"
+    region_name = "us-east-1"
 
     # Create a Secrets Manager client
     session = boto3.session.Session()
