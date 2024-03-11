@@ -55,7 +55,7 @@ const AdminPortal = () => {
     }
   }
 
-  const createUser = async ({ name, email, password }) => {
+  const createUser = async ({ name, email, password, user_type }) => {
     try {
       const response = await fetch(`${API_URL}/user`, {
         method: 'POST',
@@ -63,7 +63,7 @@ const AdminPortal = () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
         },
-        body: JSON.stringify({ full_name: name, email, password })
+        body: JSON.stringify({ full_name: name, email, password, user_type })
       })
 
       if (response.ok) {
@@ -77,7 +77,7 @@ const AdminPortal = () => {
     }
   }
 
-  const updateUser = async ({ name, email, password }) => {
+  const updateUser = async ({ name, email, password, user_type }) => {
     try {
       const response = await fetch(`${API_URL}/user`, {
         method: 'PUT',
@@ -85,7 +85,7 @@ const AdminPortal = () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
         },
-        body: JSON.stringify({ user_id: editUserData.id, full_name: name, email, password })
+        body: JSON.stringify({ user_id: editUserData.id, full_name: name, email, password, user_type })
       })
 
       if (response.ok) {
