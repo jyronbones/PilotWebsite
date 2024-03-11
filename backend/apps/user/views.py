@@ -1,5 +1,9 @@
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.decorators import (
+    api_view,
+    permission_classes,
+    authentication_classes,
+)
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from .authentication import DynamoDBJWTAuthentication
 from rest_framework.response import Response
@@ -15,6 +19,7 @@ import boto3
 from PilotWebsite.settings import DB_ENDPOINT, DB_TABLE
 import os
 from dotenv import load_dotenv
+
 load_dotenv()
 
 timestamp = datetime.now().isoformat()
@@ -91,6 +96,14 @@ def generate_tokens(user_id):
     }
 
 
+@api_view(["GET"])
+def test_aws(request):
+    return Response(
+        {"status": "success", "msg": "Congrats! Your backend is working on AWS!"},
+        status=status.HTTP_200_OK,
+    )
+
+
 # # This view not used anywhere in the frontend
 @api_view(["POST"])
 def refresh_token(request):
@@ -124,7 +137,7 @@ def refresh_token(request):
 
 dynamodb = boto3.resource(
     "dynamodb",
-    endpoint_url=os.getenv("DB_ENDPOINT"),
+    # endpoint_url=os.getenv("DB_ENDPOINT"),
     region_name=os.getenv("DB_REGION_NAME"),
     aws_access_key_id=os.getenv("DB_AWS_ACCESS_KEY_ID"),
     aws_secret_access_key=os.getenv("DB_AWS_SECRET_ACCESS_KEY"),
@@ -368,11 +381,14 @@ def admin_user_crud(request, user_id=None):
             password = request.data["password"]
             user_type = request.data["user_type"]
             user = UserNew.get(id=user_id)
-            user.update(full_name=full_name, email=email, password=password, updated_at=datetime.now(),
-                        user_type=user_type)
-            return Response(
-                {"success": True, "message": "User updated successfully"}
+            user.update(
+                full_name=full_name,
+                email=email,
+                password=password,
+                updated_at=datetime.now(),
+                user_type=user_type,
             )
+            return Response({"success": True, "message": "User updated successfully"})
 
         elif request.method == "GET":
             # Fetch all users:
