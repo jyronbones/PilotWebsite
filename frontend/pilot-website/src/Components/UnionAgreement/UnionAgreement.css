@@ -1,58 +1,42 @@
 .union-container {
   background-color: #f5f5f5;
-  border-radius: 20px;
-  box-shadow: 0 10px 25px var(--color-shadow);
-  padding: 3rem;
-  margin: 2rem;
-  margin-top: 7rem;
-  margin-bottom: 7rem;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px var(--color-shadow);
+  padding: 20px;
+  margin: 20px;
   font-family: 'Roboto', sans-serif;
 }
+
 h2 {
   text-align: center;
   margin-bottom: 20px;
 }
 
-.union-table-container {
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  text-align: left;
-  padding: 1rem;
+ul {
+  list-style-type: none;
+  padding: 0;
 }
 
-.custom-union-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.custom-union-table thead {
-  background-color: #ccc;
-}
-
-.custom-union-table th,
-.custom-union-table td {
-  font-size: 1rem;
-  font-weight: 500;
-  padding: 0.5rem;
-  padding-right: 17rem;
-}
-
-.user-link {
-  color: blue;
-  cursor: pointer;
-  margin: 0;
-  display: inline-block;
-}
-
-.action-container {
+li {
+  background-color: var(--color-white);
+  border-radius: 10px;
+  margin: 10px 0;
+  padding: 10px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.action-button {
-  color: #fff;
-  background-color: rgb(21, 71, 163);
-  border-radius: 8px;
-  padding: 0.5rem 1.5rem;
-  margin: 0;
+button {
+  margin-left: 10px;
+  background-color: #333;
+  color: var(--color-white);
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #555;
 }

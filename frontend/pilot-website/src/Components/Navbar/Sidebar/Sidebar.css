@@ -3,6 +3,7 @@
   background-color: var(--color-main);
   color: var(--color-white);
   overflow: hidden;
+  display: flex;
   flex-direction: column;
   height: 100vh;
   width: 0;
@@ -13,13 +14,14 @@
   transition: all 0.3s ease-in;
 }
 .sidebar-menu.active {
-  width: max-content;
+  width: 20%;
   transition: all 0.3s ease-in;
 }
 .sidebar-header {
   gap: 40%;
   display: flex;
   padding: 10%;
+
   transition: all 0.3s ease;
 }
 /* Logo styling */
@@ -36,33 +38,21 @@
 .sidebar-body {
   display: flex;
   flex-direction: column;
-  margin: 5% 5%;
-  gap: 1.5rem;
+  margin-left: 5%;
+  margin-top: 5%;
+  gap: 3rem;
 }
 .sidebar-link {
-  display: flex;
-  gap: 1rem;
-  width: 100%;
-  height: max-content;
-  box-sizing: border-box;
+  margin-left: 10%;
   color: var(--color-white);
   cursor: pointer;
+  transition: all 0.1s ease;
   font-size: 19px;
-  border-radius: 10px;
-  padding: 10px;
-  transition:
-    background-color 0.3s ease,
-    transform 0.3s ease;
-}
-.sidebar-icon {
-  color: var(--color-white);
 }
 .sidebar-link:hover {
-  background-color: var(--color-shadow);
-}
-.sidebar-link:hover > .sidebar-icon,
-.sidebar-link:hover > .sidebar-link {
-  color: rgba(231, 231, 231, 0.601);
+  transition: all 0.3s ease;
+  font-size: 21px;
+  color: var(--color-secondary-dark);
 }
 
 /* Mobile styles */

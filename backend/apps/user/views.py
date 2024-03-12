@@ -1,9 +1,5 @@
 from rest_framework import status
-from rest_framework.decorators import (
-    api_view,
-    permission_classes,
-    authentication_classes,
-)
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from .authentication import DynamoDBJWTAuthentication
 from rest_framework.response import Response
@@ -19,7 +15,6 @@ import boto3
 from PilotWebsite.settings import DB_ENDPOINT, DB_TABLE
 import os
 from dotenv import load_dotenv
-
 load_dotenv()
 
 timestamp = datetime.now().isoformat()
@@ -96,14 +91,6 @@ def generate_tokens(user_id):
     }
 
 
-@api_view(["GET"])
-def test_aws(request):
-    return Response(
-        {"status": "success", "msg": "Congrats! Your backend is working on AWS!"},
-        status=status.HTTP_200_OK,
-    )
-
-
 # # This view not used anywhere in the frontend
 @api_view(["POST"])
 def refresh_token(request):
@@ -137,7 +124,7 @@ def refresh_token(request):
 
 dynamodb = boto3.resource(
     "dynamodb",
-    # endpoint_url=os.getenv("DB_ENDPOINT"),
+    endpoint_url=os.getenv("DB_ENDPOINT"),
     region_name=os.getenv("DB_REGION_NAME"),
     aws_access_key_id=os.getenv("DB_AWS_ACCESS_KEY_ID"),
     aws_secret_access_key=os.getenv("DB_AWS_SECRET_ACCESS_KEY"),
@@ -247,69 +234,69 @@ def auth_me(request):
 
 # # This view is just for testing purpose,
 # # if you want to create an admin quickly without any restrictions you can use this
-@api_view(["POST"])
-def create_admin_account(request):
-    try:
-        user_id = str(uuid.uuid4())
-        full_name = request.data["full_name"]
-        first_name = ""
-        last_name = ""
-        email = request.data["email"]
-        user_type = int(request.data["user_type"])
-        password = make_password(request.data["password"])
-        date_joined = timestamp
-        created_at = timestamp
-        updated_at = timestamp
-        is_superuser = False
-        is_staff = False
-        is_active = True
-        is_authenticated = True
-        last_login = None
-
-        # If the new user is admin then do this:
-        if user_type == 1:
-            is_superuser = True
-            is_staff = True
-
-        # Retrun a fail msg if the user is already exist in the DB
-        user_exist = check_user(email)
-        if user_exist:
-            return Response(
-                {
-                    "success": False,
-                    "message": f"User with the {email} email is already exist!",
-                }
-            )
-
-        # New user data to be saved on database:
-        record = UserNew(
-            id=user_id,
-            full_name=full_name,
-            first_name=first_name,
-            last_name=last_name,
-            email=email,
-            user_type=user_type,
-            password=password,
-            date_joined=date_joined,
-            created_at=created_at,
-            updated_at=updated_at,
-            is_superuser=is_superuser,
-            is_staff=is_staff,
-            is_active=is_active,
-            is_authenticated=is_authenticated,
-            last_login=last_login,
-        )
-        # Save the data gathered for new user on DynamoDB
-        record.save()
-        return Response(
-            {"success": True, "message": "User created successfully"},
-            status.HTTP_201_CREATED,
-        )
-    except Exception as e:
-        return Response(
-            {"success": False, "message": f"Bad request: {str(e)}"},
-            status.HTTP_400_BAD_REQUEST,
-        )
+# @api_view(["POST"])
+# def create_admin_account(request):
+#     try:
+#         user_id = str(uuid.uuid4())
+#         full_name = request.data["full_name"]
+#         first_name = ""
+#         last_name = ""
+#         email = request.data["email"]
+#         user_type = int(request.data["user_type"])
+#         password = make_password(request.data["password"])
+#         date_joined = timestamp
+#         created_at = timestamp
+#         updated_at = timestamp
+#         is_superuser = False
+#         is_staff = False
+#         is_active = True
+#         is_authenticated = True
+#         last_login = None
+#
+#         # If the new user is admin then do this:
+#         if user_type == 1:
+#             is_superuser = True
+#             is_staff = True
+#
+#         # Retrun a fail msg if the user is already exist in the DB
+#         user_exist = check_user(email)
+#         if user_exist:
+#             return Response(
+#                 {
+#                     "success": False,
+#                     "message": f"User with the {email} email is already exist!",
+#                 }
+#             )
+#
+#         # New user data to be saved on database:
+#         record = UserNew(
+#             id=user_id,
+#             full_name=full_name,
+#             first_name=first_name,
+#             last_name=last_name,
+#             email=email,
+#             user_type=user_type,
+#             password=password,
+#             date_joined=date_joined,
+#             created_at=created_at,
+#             updated_at=updated_at,
+#             is_superuser=is_superuser,
+#             is_staff=is_staff,
+#             is_active=is_active,
+#             is_authenticated=is_authenticated,
+#             last_login=last_login,
+#         )
+#         # Save the data gathered for new user on DynamoDB
+#         record.save()
+#         return Response(
+#             {"success": True, "message": "User created successfully"},
+#             status.HTTP_201_CREATED,
+#         )
+#     except Exception as e:
+#         return Response(
+#             {"success": False, "message": f"Bad request: {str(e)}"},
+#             status.HTTP_400_BAD_REQUEST,
+#         )
 
 
 @api_view(["POST", "PUT", "GET", "DELETE"])
@@ -381,14 +368,11 @@ def admin_user_crud(request, user_id=None):
             password = request.data["password"]
             user_type = request.data["user_type"]
             user = UserNew.get(id=user_id)
-            user.update(
-                full_name=full_name,
-                email=email,
-                password=password,
-                updated_at=datetime.now(),
-                user_type=user_type,
+            user.update(full_name=full_name, email=email, password=password, updated_at=datetime.now(),
+                        user_type=user_type)
+            return Response(
+                {"success": True, "message": "User updated successfully"}
             )
-            return Response({"success": True, "message": "User updated successfully"})
 
         elif request.method == "GET":
             # Fetch all users:
