@@ -37,7 +37,7 @@ jobs:
         run: |
           . env/bin/activate
           python -m pip install --upgrade pip
-          pip install -r backend/requirements.txt
+          pip install -r requirements.txt  # The path is relative to the working-directory
           deactivate
         working-directory: ./backend
 
