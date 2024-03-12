@@ -20,22 +20,17 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
+      - name: Install dependencies and update Zappa deployment
         run: |
           python -m pip install --upgrade pip
+          pip install virtualenv
+          python -m venv venv
+          source venv/bin/activate
           pip install zappa
           pip install -r requirements.txt
+          zappa update dev
         working-directory: ./backend
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_ZAPPA }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ZAPPA }}
-          aws-region: ${{ secrets.AWS_REGION}}
-
-      - name: Update Zappa deployment
-        run: zappa update dev
         env:
           AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION}}
-        working-directory: ./backend
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_ZAPPA }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_ZAPPA }}
