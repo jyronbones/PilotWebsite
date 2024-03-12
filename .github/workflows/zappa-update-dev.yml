@@ -32,10 +32,10 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_ZAPPA }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ZAPPA }}
-          aws-region: ${{ secrets.AWS_REGION_ZAPPA}}
+          aws-region: ${{ secrets.AWS_REGION}}
 
       - name: Update Zappa deployment
         run: zappa update dev
         env:
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION_ZAPPA}}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION}}
         working-directory: ./backend
