@@ -3,10 +3,10 @@ name: Zappa Update Dev
 on:
   push:
     branches:
-      - main
-  pull_request:
-    branches:
-      - main
+      - test
+  # pull_request:
+  #   branches:
+  #     - main
 
 jobs:
   deploy-django-serverless:
@@ -37,7 +37,7 @@ jobs:
         run: |
           . env/bin/activate
           python -m pip install --upgrade pip
-          pip install -r requirements.txt  # The path is relative to the working-directory
+          pip install -r requirements.txt
           deactivate
         working-directory: ./backend
 
