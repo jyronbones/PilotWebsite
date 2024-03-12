@@ -35,7 +35,11 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION}}
 
       - name: Update Zappa deployment
-        run: zappa update dev
+        run: |
+          zappa update dev --aws-access-key-id ${{ secrets.AWS_ACCESS_KEY_ID_ZAPPA }} --aws-secret-access-key ${{ secrets.AWS_SECRET_ACCESS_KEY_ZAPPA }}
         env:
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION}}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION_ZAPPA }}
+          AWS_REGION: ${{ secrets.AWS_REGION_ZAPPA }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_ZAPPA }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_ZAPPA }}
         working-directory: ./backend
