@@ -6,6 +6,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: hidden;
 }
 
 .back-btn {
@@ -84,24 +85,26 @@
 }
 
 .sel-info-box {
-  background-color: var(--color-secondary-light);
-  border-radius: 5px;
-  border: 1px solid #8486a4;
-  color: #333;
+  background-color: #f9fafa;
+  border: 1px solid #b5b5ba;
+  border-radius: 2px;
+  color: #303132;
   padding: 20px;
+  width: 90%;
   text-align: justify;
+  margin-top: 1rem;
   margin-bottom: 2rem;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .rbc-calendar {
   background-color: var(--color-secondary-light);
-  border-radius: 15px;
+  border-radius: 10px;
   box-shadow: 0 4px 15px var(--color-shadow);
   overflow: hidden;
   width: 100%;
   min-width: 300px;
-  max-width: 700px;
+  max-width: 800px;
   margin: 0 auto;
 }
 
@@ -130,6 +133,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-height: calc(100% - 100px);
+  overflow-y: auto;
 }
 
 .event-form {
@@ -187,6 +192,20 @@
 .form-buttons button:hover {
   background-color: #005bb5;
   transform: translateY(-2px);
+}
+
+.selected-info {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.selected-info h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.selected-info div {
+  margin-top: 10px;
 }
 
 .selected-info {
