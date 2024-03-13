@@ -1,5 +1,6 @@
 .rbc-container {
   padding: 3rem;
+  margin-top: 2rem;
   background: linear-gradient(135deg, #cadff7, #82b1ea);
   border-radius: 15px;
   box-shadow: 0 10px 20px var(--color-shadow);
@@ -135,15 +136,22 @@
   align-items: center;
   max-height: calc(100% - 100px);
   overflow-y: auto;
+  width: 400px; /* Set width to 300px */
+  max-width: 500px; /* Ensure it doesn't exceed the screen width */
+}
+
+.input-group {
+  margin-bottom: 15px; /* Space between input groups */
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px; /* Space between label and input */
 }
 
 .event-form {
-  background: white;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .event-form h3 {
@@ -160,29 +168,34 @@
   margin-top: 10px;
 }
 
-.event-form input,
+.event-form input[type='date'],
 .event-form select {
-  display: block;
-  margin: 10px auto;
-  padding: 5px;
   width: 100%;
+  padding: 8px;
+  border-radius: 5px;
   border: 1px solid #ccc;
-  border-radius: 3px;
 }
 
 .form-buttons {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .form-buttons button {
-  padding: 5px 10px;
-  background-color: #0073e6;
-  color: white;
+  flex-grow: 1;
+  margin-right: 10px;
+  padding: 10px;
+  border-radius: 5px;
   border: none;
-  border-radius: 3px;
+  color: #fff;
+  background-color: #007bff;
   cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.form-buttons button:last-child {
+  margin-right: 0;
 }
 
 .form-buttons button:nth-child(2) {
@@ -190,13 +203,27 @@
 }
 
 .form-buttons button:hover {
-  background-color: #005bb5;
-  transform: translateY(-2px);
+  background-color: #0056b3;
 }
 
 .selected-info {
   margin-top: 2rem;
   text-align: center;
+}
+
+.selected-info button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.selected-info button:hover {
+  background-color: #c82333;
 }
 
 .selected-info h3 {

@@ -17,7 +17,6 @@ const MonthlyCalendar = () => {
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [eventRange, setEventRange] = useState({ start: null, end: null })
   const [selectedDate, setSelectedDate] = useState(null)
-  const [newEmployeeName, setNewEmployeeName] = useState('')
 
   const formContainerRef = useRef(null)
 
@@ -43,33 +42,6 @@ const MonthlyCalendar = () => {
       } else {
         console.error('Failed to fetch employees')
         setEmployees([]) // Reset to empty array if response is not OK
-      }
-    } catch (error) {
-      console.error('Error:', error)
-    }
-  }
-
-  // Adding new employees to the database
-  const addEmployee = async () => {
-    try {
-      const employeeData = {
-        name: newEmployeeName,
-        employee_id: generateUniqueEmployeeId().toString()
-      }
-
-      const response = await fetch(`${API_URL}/api/sheduling/add-employee/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(employeeData)
-      })
-
-      if (response.ok) {
-        fetchEmployees() // Refresh the employees list
-        setNewEmployeeName('')
-      } else {
-        console.error('Failed to add employee:', await response.text())
       }
     } catch (error) {
       console.error('Error:', error)
@@ -129,31 +101,6 @@ const MonthlyCalendar = () => {
     setSelectedEvent(null)
   }
 
-  const renderAddEmployeeForm = () => (
-    <form onSubmit={handleAddEmployeeSubmit}>
-      <input
-        type='text'
-        placeholder='New Employee Name'
-        value={newEmployeeName}
-        onChange={(e) => setNewEmployeeName(e.target.value)}
-        required
-      />
-      <button type='submit'>Add</button>
-    </form>
-  )
-
-  const handleAddEmployeeSubmit = async (e) => {
-    e.preventDefault() // Prevent default form submission behavior
-
-    if (!newEmployeeName.trim()) {
-      alert('Please enter a valid name.') // Simple validation
-      return
-    }
-
-    await addEmployee()
-    setNewEmployeeName('') // Reset input field after submission
-  }
-
   // eslint-disable-next-line no-unused-vars
   const deleteEmployee = async (employeeId) => {
     try {
@@ -172,11 +119,6 @@ const MonthlyCalendar = () => {
       console.error('Error:', error)
       alert('Error: ' + error)
     }
-  }
-
-  // Dummy function to represent generating a unique ID, replace with your actual logic
-  function generateUniqueEmployeeId() {
-    return Math.floor(Math.random() * 10000).toString()
   }
 
   function removeEvent(eventToRemove) {
@@ -209,33 +151,41 @@ const MonthlyCalendar = () => {
         />
         {showForm && (
           <div className='form-container' ref={formContainerRef}>
-            <form onSubmit={handleFormSubmit}>
+            <form onSubmit={handleFormSubmit} className='event-form'>
               <h3>{selectedEvent ? 'Edit Event' : 'Add Event'}</h3>
-              <label>From Date:</label>
-              <input
-                type='date'
-                value={moment(eventRange.start).format('YYYY-MM-DD')}
-                onChange={(e) => setEventRange({ ...eventRange, start: new Date(e.target.value) })}
-              />
-              <label>To Date:</label>
-              <input
-                type='date'
-                value={moment(eventRange.end).format('YYYY-MM-DD')}
-                onChange={(e) => setEventRange({ ...eventRange, end: new Date(e.target.value) })}
-              />
-              <label>Employee:</label>
-              <select
-                value={selectedEmployee ? selectedEmployee.employee_id : ''}
-                onChange={(e) => setSelectedEmployee(employees.find((emp) => emp.employee_id === e.target.value))}
-              >
-                <option value=''>Select Employee</option>
-                {employees?.map((emp) => (
-                  <option key={emp.employee_id} value={emp.employee_id}>
-                    {emp.name}
-                  </option>
-                )) || []}
-              </select>
-              {renderAddEmployeeForm()}
+
+              <div className='input-group'>
+                <label>From Date:</label>
+                <input
+                  type='date'
+                  value={moment(eventRange.start).format('YYYY-MM-DD')}
+                  onChange={(e) => setEventRange({ ...eventRange, start: new Date(e.target.value) })}
+                />
+              </div>
+
+              <div className='input-group'>
+                <label>To Date:</label>
+                <input
+                  type='date'
+                  value={moment(eventRange.end).format('YYYY-MM-DD')}
+                  onChange={(e) => setEventRange({ ...eventRange, end: new Date(e.target.value) })}
+                />
+              </div>
+
+              <div className='input-group'>
+                <label>Employee:</label>
+                <select
+                  value={selectedEmployee ? selectedEmployee.employee_id : ''}
+                  onChange={(e) => setSelectedEmployee(employees.find((emp) => emp.employee_id === e.target.value))}
+                >
+                  <option value=''>Select Employee</option>
+                  {employees?.map((emp) => (
+                    <option key={emp.employee_id} value={emp.employee_id}>
+                      {emp.name}
+                    </option>
+                  )) || []}
+                </select>
+              </div>
               <div className='form-buttons'>
                 <button type='submit'>Submit</button>
                 <button type='button' onClick={handleFormCancel}>
@@ -243,6 +193,7 @@ const MonthlyCalendar = () => {
                 </button>
               </div>
             </form>
+
             {selectedEvent && (
               <div className='selected-info'>
                 <h3>Schedule Information</h3>
@@ -253,6 +204,7 @@ const MonthlyCalendar = () => {
                 </button>
               </div>
             )}
+
             <div className='sel-info-box'>
               <h3>Schedule Information</h3>
               {events
