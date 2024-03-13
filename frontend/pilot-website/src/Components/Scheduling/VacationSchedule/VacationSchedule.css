@@ -1,5 +1,6 @@
 .vacation-container {
   padding: 3rem;
+  margin-top: 2rem;
   background: linear-gradient(135deg, #cadff7, #82b1ea);
   border-radius: 5px;
   box-shadow: 0 10px 20px var(--colow-shadow);
