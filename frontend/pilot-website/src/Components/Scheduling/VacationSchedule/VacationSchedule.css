@@ -2,16 +2,17 @@
   padding: 3rem;
   margin-top: 2rem;
   background: linear-gradient(135deg, #cadff7, #82b1ea);
-  border-radius: 5px;
-  box-shadow: 0 10px 20px var(--colow-shadow);
+  border-radius: 15px;
+  box-shadow: 0 10px 20px var(--color-shadow);
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: hidden;
 }
 
 .button-container {
   padding: 1rem;
-  border-radius: 5px;
+  border-radius: 15px;
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -28,6 +29,9 @@
   transition:
     background-color 0.3s ease,
     transform 0.3s ease;
+  box-shadow:
+    0 8px 16px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
   display: flex;
   align-items: center;
   gap: 10px;

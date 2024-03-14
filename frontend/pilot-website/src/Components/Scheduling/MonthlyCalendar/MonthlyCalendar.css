@@ -10,6 +10,14 @@
   overflow: hidden;
 }
 
+.button-container {
+  padding: 1rem;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
 .back-btn {
   align-self: flex-start;
   background-color: var(--color-main);
@@ -56,14 +64,6 @@
 .vac-btn:hover {
   background-color: #005bb5;
   transform: translateY(-2px);
-}
-
-.button-container {
-  padding: 1rem;
-  border-radius: 15px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
 }
 
 .calendar-title {

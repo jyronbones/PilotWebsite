@@ -101,26 +101,6 @@ const MonthlyCalendar = () => {
     setSelectedEvent(null)
   }
 
-  // eslint-disable-next-line no-unused-vars
-  const deleteEmployee = async (employeeId) => {
-    try {
-      const response = await fetch(`${API_URL}/api/scheduling/delete-employee/${employeeId}`, {
-        method: 'DELETE'
-      })
-
-      if (response.ok) {
-        alert('Employee deleted successfully')
-        fetchEmployees() // Refresh the employees list
-      } else {
-        console.error('Failed to delete employee')
-        alert('Failed to delete employee')
-      }
-    } catch (error) {
-      console.error('Error:', error)
-      alert('Error: ' + error)
-    }
-  }
-
   function removeEvent(eventToRemove) {
     setEvents(events.filter((event) => event !== eventToRemove))
     setShowForm(false) // Hide the form after deleting the event
@@ -194,30 +174,23 @@ const MonthlyCalendar = () => {
               </div>
             </form>
 
-            {selectedEvent && (
-              <div className='selected-info'>
-                <h3>Schedule Information</h3>
-                <p>{selectedEvent.title}</p>
-                <p>Date: {moment(selectedEvent.start).format('LL')}</p>
-                <button type='button' onClick={() => removeEvent(selectedEvent)}>
-                  Remove Employee
-                </button>
-              </div>
-            )}
-
             <div className='sel-info-box'>
               <h3>Schedule Information</h3>
               {events
-                .filter((event) => moment(event.start).isSame(selectedDate, 'day'))
+                .filter(
+                  (event) =>
+                    moment(event.start).isSame(selectedDate, 'day') ||
+                    moment(event.end).isSame(selectedDate, 'day') ||
+                    (moment(event.start).isBefore(selectedDate, 'day') && moment(event.end).isAfter(selectedDate, 'day'))
+                )
                 .map((event, index) => (
                   <div key={index}>
-                    <list>
-                      <ol>
-                        <p>{event.title}</p>
-                        <p>Starts: {moment(event.start).format('LL')}</p>
-                        <p>Ends: {moment(event.end).format('LL')}</p>
-                      </ol>
-                    </list>
+                    <p>{event.title}</p>
+                    <p>Starts: {moment(event.start).format('LL')}</p>
+                    <p>Ends: {moment(event.end).format('LL')}</p>
+                    <button type='button' onClick={() => removeEvent(event)}>
+                      Remove Employee
+                    </button>
                   </div>
                 ))}
             </div>

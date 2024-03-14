@@ -17,8 +17,6 @@ const VacationSchedule = () => {
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [eventRange, setEventRange] = useState({ start: null, end: null })
   const [selectedDate, setSelectedDate] = useState(null)
-  const [newEmployeeName, setNewEmployeeName] = useState('')
-
   const formContainerRef = useRef(null)
 
   useEffect(() => {
@@ -47,58 +45,6 @@ const VacationSchedule = () => {
     } catch (error) {
       console.error('Error:', error)
     }
-  }
-
-  // Adding new employees to the database
-  const addEmployee = async () => {
-    try {
-      const employeeData = {
-        name: newEmployeeName,
-        employee_id: generateUniqueEmployeeId().toString()
-      }
-
-      const response = await fetch(`${API_URL}/api/sheduling/add-employee/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(employeeData)
-      })
-
-      if (response.ok) {
-        fetchEmployees() // Refresh the employees list
-        setNewEmployeeName('')
-      } else {
-        console.error('Failed to add employee:', await response.text())
-      }
-    } catch (error) {
-      console.error('Error:', error)
-    }
-  }
-
-  const renderAddEmployeeForm = () => (
-    <form onSubmit={handleAddEmployeeSubmit}>
-      <input
-        type='text'
-        placeholder='New Employee Name'
-        value={newEmployeeName}
-        onChange={(e) => setNewEmployeeName(e.target.value)}
-        required
-      />
-      <button type='submit'>Add</button>
-    </form>
-  )
-
-  const handleAddEmployeeSubmit = async (e) => {
-    e.preventDefault() // Prevent default form submission behavior
-
-    if (!newEmployeeName.trim()) {
-      alert('Please enter a valid name.') // Simple validation
-      return
-    }
-
-    await addEmployee()
-    setNewEmployeeName('') // Reset input field after submission
   }
 
   const handleFormSubmit = (e) => {
@@ -161,9 +107,9 @@ const VacationSchedule = () => {
     }
   }
 
-  // Dummy function to represent generating a unique ID, replace with your actual logic
-  function generateUniqueEmployeeId() {
-    return Math.floor(Math.random() * 10000).toString()
+  function removeEvent(eventToRemove) {
+    setEvents(events.filter((event) => event !== eventToRemove))
+    setShowForm(false) // Hide the form after deleting the event
   }
 
   return (
@@ -191,33 +137,42 @@ const VacationSchedule = () => {
         />
         {showForm && (
           <div className='form-container' ref={formContainerRef}>
-            <form onSubmit={handleFormSubmit}>
+            <form onSubmit={handleFormSubmit} className='event-form'>
               <h3>{selectedEvent ? 'Edit Event' : 'Add Event'}</h3>
-              <label>From Date:</label>
-              <input
-                type='date'
-                value={moment(eventRange.start).format('YYYY-MM-DD')}
-                onChange={(e) => setEventRange({ ...eventRange, start: new Date(e.target.value) })}
-              />
-              <label>To Date:</label>
-              <input
-                type='date'
-                value={moment(eventRange.end).format('YYYY-MM-DD')}
-                onChange={(e) => setEventRange({ ...eventRange, end: new Date(e.target.value) })}
-              />
-              <label>Employee:</label>
-              <select
-                value={selectedEmployee ? selectedEmployee.employee_id : ''}
-                onChange={(e) => setSelectedEmployee(employees.find((emp) => emp.employee_id === e.target.value))}
-              >
-                <option value=''>Select Employee</option>
-                {employees?.map((emp) => (
-                  <option key={emp.employee_id} value={emp.employee_id}>
-                    {emp.name}
-                  </option>
-                )) || []}
-              </select>
-              {renderAddEmployeeForm()}
+
+              <div className='input-group'>
+                <label>From Date:</label>
+                <input
+                  type='date'
+                  value={moment(eventRange.start).format('YYYY-MM-DD')}
+                  onChange={(e) => setEventRange({ ...eventRange, start: new Date(e.target.value) })}
+                />
+              </div>
+
+              <div className='input-group'>
+                <label>To Date:</label>
+                <input
+                  type='date'
+                  value={moment(eventRange.end).format('YYYY-MM-DD')}
+                  onChange={(e) => setEventRange({ ...eventRange, end: new Date(e.target.value) })}
+                />
+              </div>
+
+              <div className='input-group'>
+                <label>Employee:</label>
+                <select
+                  value={selectedEmployee ? selectedEmployee.employee_id : ''}
+                  onChange={(e) => setSelectedEmployee(employees.find((emp) => emp.employee_id === e.target.value))}
+                >
+                  <option value=''>Select Employee</option>
+                  {employees?.map((emp) => (
+                    <option key={emp.employee_id} value={emp.employee_id}>
+                      {emp.name}
+                    </option>
+                  )) || []}
+                </select>
+              </div>
+
               <div className='form-buttons'>
                 <button type='submit'>Submit</button>
                 <button type='button' onClick={handleFormCancel}>
@@ -225,26 +180,24 @@ const VacationSchedule = () => {
                 </button>
               </div>
             </form>
-            {selectedEvent && (
-              <div className='selected-info'>
-                <h3>Schedule Information</h3>
-                <p>{selectedEvent.title}</p>
-                <p>Date: {moment(selectedEvent.start).format('LL')}</p>
-              </div>
-            )}
+
             <div className='sel-info-box'>
               <h3>Schedule Information</h3>
               {events
-                .filter((event) => moment(event.start).isSame(selectedDate, 'day'))
+                .filter(
+                  (event) =>
+                    moment(event.start).isSame(selectedDate, 'day') ||
+                    moment(event.end).isSame(selectedDate, 'day') ||
+                    (moment(event.start).isBefore(selectedDate, 'day') && moment(event.end).isAfter(selectedDate, 'day'))
+                )
                 .map((event, index) => (
                   <div key={index}>
-                    <list>
-                      <ol>
-                        <p>{event.title}</p>
-                        <p>Starts: {moment(event.start).format('LL')}</p>
-                        <p>Ends: {moment(event.end).format('LL')}</p>
-                      </ol>
-                    </list>
+                    <p>{event.title}</p>
+                    <p>Starts: {moment(event.start).format('LL')}</p>
+                    <p>Ends: {moment(event.end).format('LL')}</p>
+                    <button type='button' onClick={() => removeEvent(event)}>
+                      Remove Employee
+                    </button>
                   </div>
                 ))}
             </div>
