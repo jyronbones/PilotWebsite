@@ -13,17 +13,12 @@ aws_access_key_id = os.getenv("DB_AWS_ACCESS_KEY_ID")
 aws_secret_access_key = os.getenv("DB_AWS_SECRET_ACCESS_KEY")
 
 class ScheduleSchema(Schema):
-    date = fields.Date(required=True)
-    shift = fields.String(required=True)
-    hours = fields.Integer(required=True)
-    notes = fields.String(allow_none=True)
+    startDate = fields.Date(required=True, format='%Y-%m-%d')
+    endDate = fields.Date(required=True, format='%Y-%m-%d')
 
 class VacationSchema(Schema):
     startDate = fields.Date(required=True)
     endDate = fields.Date(required=True)
-    type = fields.String(required=True)
-    status = fields.String(required=True)
-    details = fields.String(allow_none=True)
 
 # Employee model for the scheduling app
 class Employee(DynaModel):
