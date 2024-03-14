@@ -173,7 +173,7 @@ React - The web library used for the frontend
 DynamoDB - NoSQL database service provided by Amazon Web Services
 Zappa - Serverless Python web services
 
-## Authors
+## Contributors
 
 Byron Jones - @jyronbones
 Amy Fujimoto - @fuji0014
