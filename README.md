@@ -1,6 +1,7 @@
 # Pilot Website
 
-The Pilot Website is a modern web application designed to provide a seamless user experience. It's built using Django for the backend and React for the frontend, with AWS DynamoDB as the database.
+The Pilot Website is a modern web application designed to provide a seamless paperless appraoch to the Upper St. Lawrence Pilots.
+It's built using Django for the backend and React for the frontend, with AWS DynamoDB as the database.
 
 ## Getting Started
 
