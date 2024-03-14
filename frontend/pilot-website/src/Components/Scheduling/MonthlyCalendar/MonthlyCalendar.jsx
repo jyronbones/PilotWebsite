@@ -7,7 +7,7 @@ import './MonthlyCalendar.css'
 
 const localizer = momentLocalizer(moment)
 
-const API_URL = process.env.REACT_APP_API_BASE_URL // Fallback to empty if not defined
+const API_URL = process.env.REACT_APP_API_BASE_URL
 
 const MonthlyCalendar = () => {
   const [events, setEvents] = useState([])
@@ -17,7 +17,6 @@ const MonthlyCalendar = () => {
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [eventRange, setEventRange] = useState({ start: null, end: null })
   const [selectedDate, setSelectedDate] = useState(null)
-
   const formContainerRef = useRef(null)
 
   useEffect(() => {
@@ -37,11 +36,11 @@ const MonthlyCalendar = () => {
           setEmployees(data)
         } else {
           console.error('Received unexpected data format:', data)
-          setEmployees([]) // Reset to empty array if data is not an array
+          setEmployees([])
         }
       } else {
         console.error('Failed to fetch employees')
-        setEmployees([]) // Reset to empty array if response is not OK
+        setEmployees([])
       }
     } catch (error) {
       console.error('Error:', error)
@@ -75,7 +74,7 @@ const MonthlyCalendar = () => {
 
     if (!selectedEmployee) {
       console.error('No employee selected')
-      return // Exit the function if no employee is selected
+      return
     }
 
     const newEvent = {

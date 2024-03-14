@@ -7,7 +7,7 @@ import './VacationSchedule.css'
 
 const localizer = momentLocalizer(moment)
 
-const API_URL = process.env.REACT_APP_API_BASE_URL // Fallback to empty if not defined
+const API_URL = process.env.REACT_APP_API_BASE_URL
 
 const VacationSchedule = () => {
   const [events, setEvents] = useState([])
@@ -36,11 +36,11 @@ const VacationSchedule = () => {
           setEmployees(data)
         } else {
           console.error('Received unexpected data format:', data)
-          setEmployees([]) // Reset to empty array if data is not an array
+          setEmployees([])
         }
       } else {
         console.error('Failed to fetch employees')
-        setEmployees([]) // Reset to empty array if response is not OK
+        setEmployees([])
       }
     } catch (error) {
       console.error('Error:', error)

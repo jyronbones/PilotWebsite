@@ -81,6 +81,29 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-height: calc(100% - 100px);
+  overflow-y: auto;
+  width: 400px;
+  max-width: 500px;
+}
+
+.vacation-title {
+  color: #333;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.vacation-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.vacation-wrapper {
+  flex: 2;
+  margin-right: 2rem;
 }
 
 .event-form {
@@ -92,29 +115,28 @@
   text-align: center;
 }
 
-.vacation-title {
-  color: #333;
-  text-align: center;
+.sel-info-box {
+  background-color: #f9fafa;
+  border: 1px solid #b5b5ba;
+  border-radius: 2px;
+  color: #303132;
+  padding: 20px;
+  width: 90%;
+  text-align: justify;
+  margin-top: 1rem;
   margin-bottom: 2rem;
-  font-size: 2rem;
-  font-weight: 600;
+  font-weight: 400;
 }
 
-.sel-info-box {
-  background-color: var(--color-secondary-light);
-  border-radius: 5px;
-  border: 1px solid #8486a4;
-  color: #333;
-  padding: 20px;
-  text-align: justify;
-  margin-bottom: 2rem;
-  font-weight: 600;
-}
 .rbc-calendar {
   background-color: var(--color-secondary-light);
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 4px 15px var(--color-shadow);
   overflow: hidden;
+  width: 100%;
+  min-width: 300px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .rbc-event {
@@ -123,7 +145,7 @@
 }
 
 .rbc-toolbar {
-  background-color: #d3c7bc;
+  background-color: rgba(220, 187, 139, 0.265);
   color: #333;
   padding: 1rem;
 }
@@ -134,4 +156,108 @@
 
 .rbc-today {
   background-color: rgba(0, 115, 230, 0.2);
+}
+
+.input-group {
+  margin-bottom: 15px; /* Space between input groups */
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px; /* Space between label and input */
+}
+
+.event-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.event-form h3 {
+  margin: 0 0 10px;
+}
+
+.event-form label {
+  display: block;
+  margin-top: 10px;
+}
+
+.event-form input[type='date'],
+.event-form select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.form-buttons button {
+  flex-grow: 1;
+  margin-right: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  background-color: #007bff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.form-buttons button:last-child {
+  margin-right: 0;
+}
+
+.form-buttons button:nth-child(2) {
+  background-color: #e74c3c;
+}
+
+.form-buttons button:hover {
+  background-color: #0056b3;
+}
+
+.selected-info {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.selected-info button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.selected-info button:hover {
+  background-color: #c82333;
+}
+
+.selected-info h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.selected-info div {
+  margin-top: 10px;
+}
+
+.selected-info {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.selected-info h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.selected-info div {
+  margin-top: 10px;
 }
