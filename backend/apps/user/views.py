@@ -34,7 +34,7 @@ def generate_tokens(user_id):
         return None
 
     # Convert UTC now to Eastern Time
-    now_utc = datetime.utcnow().replace(tzinfo=ZoneInfo("UTC"))
+    now_utc = datetime.now(ZoneInfo("UTC"))
     now_et = now_utc.astimezone(ZoneInfo("US/Eastern"))
 
     # Generate a unique JWT ID (jti) for access token
