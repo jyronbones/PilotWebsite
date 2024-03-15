@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from .authentication import DynamoDBJWTAuthentication
 from rest_framework.response import Response
 from validators.email import email as email_validator
+from zoneinfo import ZoneInfo
 from datetime import datetime
 import uuid
 from decimal import Decimal
@@ -32,14 +33,18 @@ def generate_tokens(user_id):
     except UserNew.DoesNotExist:
         return None
 
+    # Convert UTC now to Eastern Time
+    now_utc = datetime.utcnow().replace(tzinfo=ZoneInfo("UTC"))
+    now_et = now_utc.astimezone(ZoneInfo("US/Eastern"))
+
     # Generate a unique JWT ID (jti) for access token
     jti_access_token = uuid.uuid4()
 
     # Create JWT access token
     access_token_payload = {
         "user_id": str(user.id),
-        "exp": datetime.utcnow() + settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"],
-        "iat": datetime.utcnow(),
+        "exp": now_et + settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"],
+        "iat": now_et,
         "jti": str(jti_access_token),
     }
     access_token = encode(access_token_payload, settings.SECRET_KEY, algorithm="HS256")
@@ -51,24 +56,23 @@ def generate_tokens(user_id):
     refresh_token_payload = {
         "token_type": "refresh",
         "user_id": str(user.id),
-        "exp": datetime.utcnow() + settings.SIMPLE_JWT["REFRESH_TOKEN_LIFETIME"],
-        "iat": datetime.utcnow(),
+        "exp": now_et + settings.SIMPLE_JWT["REFRESH_TOKEN_LIFETIME"],
+        "iat": now_et,
         "jti": str(jti_refresh_token),
     }
     refresh_token = encode(
         refresh_token_payload, settings.SECRET_KEY, algorithm="HS256"
     )
 
-    # Save tokens in DynamoDB table
-    now = datetime.utcnow()
-    expires_at_access = now + settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"]
-    expires_at_refresh = now + settings.SIMPLE_JWT["REFRESH_TOKEN_LIFETIME"]
+    # Expiration times for saving in the database, already in Eastern Time
+    expires_at_access = now_et + settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"]
+    expires_at_refresh = now_et + settings.SIMPLE_JWT["REFRESH_TOKEN_LIFETIME"]
 
     save_access_token = outstandingToken(
         id=jti_access_token,
         token_type="access",
         token=access_token,
-        created_at=now.isoformat(),
+        created_at=now_et.isoformat(),
         expires_at=expires_at_access.isoformat(),
         user_id=user.id,
         is_authenticated=True,
@@ -81,7 +85,7 @@ def generate_tokens(user_id):
         id=jti_refresh_token,
         token_type="refresh",
         token=refresh_token,
-        created_at=now.isoformat(),
+        created_at=now_et.isoformat(),
         expires_at=expires_at_refresh.isoformat(),
         user_id=user.id,
         is_authenticated=True,
@@ -105,31 +109,31 @@ def test_aws(request):
 
 
 # # This view not used anywhere in the frontend
-@api_view(["POST"])
-def refresh_token(request):
-    get_refresh_token = request.data.get("refresh_token")
+# @api_view(["POST"])
+# def refresh_token(request):
+#     get_refresh_token = request.data.get("refresh_token")
 
-    if not get_refresh_token:
-        return Response(
-            {"success": False, "error": "Refresh token is required."},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
-    try:
-        refreshToken = RefreshToken(get_refresh_token)
-        access_token = str(refreshToken.access_token)
-        new_refresh_token = str(refreshToken)
-        return Response(
-            {
-                "success": True,
-                "accessToken": access_token,
-                "refreshToken": new_refresh_token,
-            },
-            status=status.HTTP_200_OK,
-        )
-    except Exception as e:
-        return Response(
-            {"success": False, "message": str(e)}, status=status.HTTP_400_BAD_REQUEST
-        )
+#     if not get_refresh_token:
+#         return Response(
+#             {"success": False, "error": "Refresh token is required."},
+#             status=status.HTTP_400_BAD_REQUEST,
+#         )
+#     try:
+#         refreshToken = RefreshToken(get_refresh_token)
+#         access_token = str(refreshToken.access_token)
+#         new_refresh_token = str(refreshToken)
+#         return Response(
+#             {
+#                 "success": True,
+#                 "accessToken": access_token,
+#                 "refreshToken": new_refresh_token,
+#             },
+#             status=status.HTTP_200_OK,
+#         )
+#     except Exception as e:
+#         return Response(
+#             {"success": False, "message": str(e)}, status=status.HTTP_400_BAD_REQUEST
+#         )
 
 
 # DynamoDB Solution:
