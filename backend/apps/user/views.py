@@ -64,7 +64,7 @@ def generate_tokens(user_id):
         refresh_token_payload, settings.SECRET_KEY, algorithm="HS256"
     )
 
-    # Expiration times for saving in the database, already in Eastern Time
+    # Expiration times for saving in the database
     expires_at_access = now_et + settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"]
     expires_at_refresh = now_et + settings.SIMPLE_JWT["REFRESH_TOKEN_LIFETIME"]
 
