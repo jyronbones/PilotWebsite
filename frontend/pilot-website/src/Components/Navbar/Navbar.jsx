@@ -43,7 +43,7 @@ const CustomNavbar = () => {
           <Navbar.Brand href={sessionStorage.getItem('authToken') !== null ? '/home' : '/#'}>
             <img src='/images/logo/logo.png' alt='Logo' className='navbar-logo' />
             <div className='navbar-brand-text'>
-              <span>Upper St. Lawrence Pilots Association</span>
+              <span>Upper St. Lawrence Pilots</span>
             </div>
           </Navbar.Brand>
         </div>
