@@ -7,6 +7,7 @@ from rest_framework.decorators import (
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from .authentication import DynamoDBJWTAuthentication
 from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
 from validators.email import email as email_validator
 from zoneinfo import ZoneInfo
 from datetime import datetime
@@ -109,31 +110,31 @@ def test_aws(request):
 
 
 # # This view not used anywhere in the frontend
-# @api_view(["POST"])
-# def refresh_token(request):
-#     get_refresh_token = request.data.get("refresh_token")
+@api_view(["POST"])
+def refresh_token(request):
+    get_refresh_token = request.data.get("refresh_token")
 
-#     if not get_refresh_token:
-#         return Response(
-#             {"success": False, "error": "Refresh token is required."},
-#             status=status.HTTP_400_BAD_REQUEST,
-#         )
-#     try:
-#         refreshToken = RefreshToken(get_refresh_token)
-#         access_token = str(refreshToken.access_token)
-#         new_refresh_token = str(refreshToken)
-#         return Response(
-#             {
-#                 "success": True,
-#                 "accessToken": access_token,
-#                 "refreshToken": new_refresh_token,
-#             },
-#             status=status.HTTP_200_OK,
-#         )
-#     except Exception as e:
-#         return Response(
-#             {"success": False, "message": str(e)}, status=status.HTTP_400_BAD_REQUEST
-#         )
+    if not get_refresh_token:
+        return Response(
+            {"success": False, "error": "Refresh token is required."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    try:
+        refreshToken = RefreshToken(get_refresh_token)
+        access_token = str(refreshToken.access_token)
+        new_refresh_token = str(refreshToken)
+        return Response(
+            {
+                "success": True,
+                "accessToken": access_token,
+                "refreshToken": new_refresh_token,
+            },
+            status=status.HTTP_200_OK,
+        )
+    except Exception as e:
+        return Response(
+            {"success": False, "message": str(e)}, status=status.HTTP_400_BAD_REQUEST
+        )
 
 
 # DynamoDB Solution:
