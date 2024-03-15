@@ -7,7 +7,7 @@ import './MonthlyCalendar.css'
 
 const localizer = momentLocalizer(moment)
 
-const API_URL = process.env.REACT_APP_API_BASE_URL
+const API_URL = process.env.REACT_APP_API_URL
 
 const MonthlyCalendar = () => {
   const [events, setEvents] = useState([])
