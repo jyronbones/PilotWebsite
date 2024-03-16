@@ -14,7 +14,7 @@ from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
 import os
-from PilotWebsite.utils import get_aws_secret_key
+from PilotWebsite.utils import get_aws_secret
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # Fetch Django SECRET_KEY from AWS Secrets Manager
-SECRET_KEY = get_aws_secret_key("prod/pilotwebsite/djangosecretkey", "django_secret_key", "us-east-1")
+SECRET_KEY = get_aws_secret("prod/pilotwebsite/djangosecretkey", "django_secret_key", "us-east-1")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
