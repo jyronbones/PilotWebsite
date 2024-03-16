@@ -14,7 +14,7 @@ from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
 import os
-from utils import get_aws_secret_key
+from PilotWebsite.utils import get_aws_secret_key
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
