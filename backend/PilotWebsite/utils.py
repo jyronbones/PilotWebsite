@@ -1,9 +1,24 @@
 import boto3
-from botocore.exceptions import ClientError
 import json
+from botocore.exceptions import ClientError, NoCredentialsError, PartialCredentialsError
+
+def get_aws_secret_key(secret_name, secret_key, region_name):
+
+    # Create a Secrets Manager client
+    session = boto3.session.Session()
+    client = session.client(service_name='secretsmanager', region_name=region_name)
+
+    try:
+        # Fetch the secret from Secrets Manager
+        response = client.get_secret_value(SecretId=secret_name)
+        secret = json.loads(response['SecretString'])
+        return secret[secret_key]
+    except (NoCredentialsError, PartialCredentialsError) as e:
+        raise Exception(f"Credentials error fetching secret: {e}")
+    except Exception as e:
+        raise Exception(f"Error fetching secret: {e}")
 
 def get_secret():
-
     # secret_name = "dev/pilotwebsite/agreementfiles"
     # region_name = "ca-central-1"
 
