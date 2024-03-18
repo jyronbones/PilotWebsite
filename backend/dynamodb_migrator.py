@@ -63,6 +63,58 @@ def create_outstandingtoken_table(dynamodb=dynamodb):
         else:
             print("An error occurred:", e)
 
+def create_usertrip_table(dynamodb=dynamodb):
+    try:
+        table = dynamodb.create_table(
+            TableName="usertrip_table",
+            KeySchema=[{"AttributeName": "id", "KeyType": "HASH"}],
+            AttributeDefinitions=[
+                {"AttributeName": "id", "AttributeType": "S"},
+            ],
+            ProvisionedThroughput={"ReadCapacityUnits": 5, "WriteCapacityUnits": 2},
+        )
+        table.meta.client.get_waiter("table_exists").wait(
+            TableName="token_blacklist_outstanding"
+        )
+        print(
+            "usertrip_table Table created successfully. Table status:",
+            table.table_status,
+        )
+        print("Item count:", table.item_count)
+
+    except ClientError as e:
+        if e.response["Error"]["Code"] == "ResourceInUseException":
+            print(f"Table usertrip_table already exists.")
+        else:
+            print("An error occurred:", e)
+
+def create_productivity_table(dynamodb=dynamodb):
+    try:
+        table = dynamodb.create_table(
+            TableName="productivity_table",
+            KeySchema=[{"AttributeName": "id", "KeyType": "HASH"},
+                       {"AttributeName": "user_id", "KeyType": "RANGE"}],
+            AttributeDefinitions=[
+                {"AttributeName": "id", "AttributeType": "S"},
+                {"AttributeName": "user_id", "AttributeType": "R"},
+            ],
+            ProvisionedThroughput={"ReadCapacityUnits": 5, "WriteCapacityUnits": 2},
+        )
+        table.meta.client.get_waiter("table_exists").wait(
+            TableName="productivity_table"
+        )
+        print(
+            "productivity_table Table created successfully. Table status:",
+            table.table_status,
+        )
+        print("Item count:", table.item_count)
+
+    except ClientError as e:
+        if e.response["Error"]["Code"] == "ResourceInUseException":
+            print(f"Table productivity_table already exists.")
+        else:
+            print("An error occurred:", e)
+
 
 def create_employees_table(dynamodb=dynamodb):
     try:

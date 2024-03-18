@@ -105,6 +105,8 @@ WSGI_APPLICATION = "PilotWebsite.wsgi.application"
 DB_ENDPOINT = os.getenv("DB_ENDPOINT")
 DB_TABLE = os.getenv("DB_TABLE")
 DB_EMPLOYEES_TABLE_NAME= os.getenv("DB_EMPLOYEES_TABLE_NAME")
+DB_USERTRIP_TABLE = os.getenv("DB_USERTRIP_TABLE")
+DB_PROD_TABLE = os.getenv("DB_PROD_TABLE")
 
 PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.PBKDF2PasswordHasher",

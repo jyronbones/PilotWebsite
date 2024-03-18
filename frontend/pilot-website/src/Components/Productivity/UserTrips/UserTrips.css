@@ -1,0 +1,191 @@
+.usertrip {
+  min-height: 80vh;
+  margin-top: 6rem;
+}
+.usertrip-container {
+  margin: 3rem;
+  background-color: #f5f5f5;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  font-weight: 500;
+  font-size: 24px;
+  color: #333;
+}
+.usertrip-header {
+  display: flex;
+  align-items: center;
+  border-bottom: 3px solid var(--color-secondary-light);
+}
+.usertrip-title {
+  color: #333;
+  display: flex;
+  gap: 1rem;
+  font-weight: 600;
+}
+.usertrip-title p {
+  font-size: 26px;
+  color: darkgrey;
+  font-weight: 600;
+}
+.create-btn {
+  display: flex;
+  justify-content: flex-end;
+  margin: 1rem 0;
+}
+
+/* External CSS for UserTable component */
+.usertrip-table-container {
+  padding: 0;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  text-align: left;
+}
+.usertrip-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.usertrip-table thead {
+  background-color: #ccc;
+}
+.usertrip-table th,
+.usertrip-table td {
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem;
+}
+.delete-button,
+.edit-button {
+  padding: 0;
+  font-weight: bold;
+}
+.action-container {
+  display: flex;
+}
+.btn.delete {
+  color: #fff;
+  background-color: red;
+  border-radius: 8px;
+  padding: 0.5rem 1.5rem;
+  margin-left: 1rem;
+}
+.btn.edit {
+  color: #fff;
+  background-color: blue;
+  border-radius: 8px;
+  padding: 0.5rem 1.5rem;
+  margin: 0;
+}
+
+/* External CSS for CustomModal component */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  width: 400px;
+  max-width: 80%;
+}
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.modal-body {
+  padding: 10px;
+}
+
+/* Style form elements */
+.modal-body.admin label {
+  display: block;
+  margin-bottom: 10px;
+}
+.modal-body.admin input,
+.modal-body.admin select {
+  padding: 8px;
+  margin-top: 4px;
+  margin-bottom: 10px;
+  display: block;
+  width: 100%;
+}
+input {
+  width: 360px !important;
+}
+.btn.create {
+  background-color: #4caf50;
+  color: white;
+}
+.btn.create:hover {
+  background-color: #45a049;
+}
+
+/* Add more styles as needed */
+@media (max-width: 920px) {
+  .user {
+    margin-top: 6rem;
+  }
+  .user-container {
+    margin: 2rem;
+  }
+  .btn.back {
+    margin-left: 2rem;
+  }
+  .user-table-container {
+    overflow-x: scroll;
+  }
+  .user-title {
+    font-size: 1.5rem;
+  }
+  .user-title p {
+    font-size: 18px;
+    color: darkgrey;
+    font-weight: 600;
+  }
+}
+
+@media (max-width: 638px) {
+  .user-container {
+    margin: 1rem;
+    padding: 20px;
+  }
+  .user-table th,
+  .user-table td {
+    font-size: 12px;
+    font-weight: 400;
+    padding: 0.5rem;
+  }
+  .user-title {
+    font-size: 16px;
+  }
+  .btn.back {
+    margin-left: 1rem;
+  }
+  .btn {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 470px) {
+  .user-container {
+    padding: 20px;
+  }
+  .user-title {
+    font-size: 14px;
+  }
+}

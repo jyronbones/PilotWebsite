@@ -255,39 +255,39 @@ def auth_me(request):
 
 # # This view is just for testing purpose,
 # # if you want to create an admin quickly without any restrictions you can use this
-# @api_view(["POST"])
-# def create_admin_account(request):
-#     try:
-#         user_id = str(uuid.uuid4())
-#         full_name = request.data["full_name"]
-#         first_name = ""
-#         last_name = ""
-#         email = request.data["email"]
-#         user_type = int(request.data["user_type"])
-#         password = make_password(request.data["password"])
-#         date_joined = timestamp
-#         created_at = timestamp
-#         updated_at = timestamp
-#         is_superuser = False
-#         is_staff = False
-#         is_active = True
-#         is_authenticated = True
-#         last_login = None
+@api_view(["POST"])
+def create_admin_account(request):
+    try:
+        user_id = str(uuid.uuid4())
+        full_name = request.data["full_name"]
+        first_name = ""
+        last_name = ""
+        email = request.data["email"]
+        user_type = int(request.data["user_type"])
+        password = make_password(request.data["password"])
+        date_joined = timestamp
+        created_at = timestamp
+        updated_at = timestamp
+        is_superuser = False
+        is_staff = False
+        is_active = True
+        is_authenticated = True
+        last_login = None
 
-#         # If the new user is admin then do this:
-#         if user_type == 1:
-#             is_superuser = True
-#             is_staff = True
+        # If the new user is admin then do this:
+        if user_type == 1:
+            is_superuser = True
+            is_staff = True
 
-#         # Retrun a fail msg if the user is already exist in the DB
-#         user_exist = check_user(email)
-#         if user_exist:
-#             return Response(
-#                 {
-#                     "success": False,
-#                     "message": f"User with the {email} email is already exist!",
-#                 }
-#             )
+        # Retrun a fail msg if the user is already exist in the DB
+        user_exist = check_user(email)
+        if user_exist:
+            return Response(
+                {
+                    "success": False,
+                    "message": f"User with the {email} email is already exist!",
+                }
+            )
 
 #         # New user data to be saved on database:
 #         record = UserNew(
@@ -440,6 +440,18 @@ def get_all_users():
                 item[key] = int(value)
     return {"all": result, "count": users_count}
 
+@api_view(["GET"])
+@authentication_classes([DynamoDBJWTAuthentication])
+def get_one_user(request):
+    user_id = request.user.id
+    result = table.scan()
+    result = result["Items"]
+    filtered_user = {}
+    for item in result:
+        for key, value in item.items():
+            if item['id'] == user_id:
+                filtered_user = item
+    return {"data": filtered_user}
 
 # Check the user email in DynamoDB if it's exist or not
 def check_user(email):
