@@ -3,9 +3,9 @@ from django.http import HttpResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import os
-from PilotWebsite.utils import get_secret
+from PilotWebsite.utils import get_aws_secrets
 
-AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME, AWS_S3_REGION_NAME = get_secret()
+AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME, AWS_S3_REGION_NAME = get_aws_secrets()
 
 s3 = boto3.client(
   's3',
