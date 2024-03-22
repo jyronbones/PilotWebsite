@@ -137,7 +137,7 @@ def refresh_token(request):
 
 dynamodb = boto3.resource(
     "dynamodb",
-    # endpoint_url=os.getenv("DB_ENDPOINT"),
+    endpoint_url=os.getenv("DB_ENDPOINT"), # this is used for localhost
     region_name=os.getenv("DB_REGION_NAME"),
     aws_access_key_id=os.getenv("DB_AWS_ACCESS_KEY_ID"),
     aws_secret_access_key=os.getenv("DB_AWS_SECRET_ACCESS_KEY"),

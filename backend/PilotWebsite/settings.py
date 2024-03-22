@@ -47,8 +47,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # Fetch SECRET_KEY from AWS Secrets Manager
-SECRET_KEY = get_aws_secret_key("prod/pilotwebsite/djangosecretkey", "django_secret_key")
-
+# SECRET_KEY = get_aws_secret_key("prod/pilotwebsite/djangosecretkey", "django_secret_key") # comment out for localhost
+SECRET_KEY = "django-insecure-q(*j%t%%+d_mhgg1h%j-uumx5#^yvc9v+i==z5u)gf$cd3jkfo" # DELETE for "This is Local Testing" localhost
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
