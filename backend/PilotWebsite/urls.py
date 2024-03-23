@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('apps.user.urls')),
     path('api/v1/', include('apps.files.urls')),
+    path('error/', include('apps.PilotWebsite.error_urls')),
 ]

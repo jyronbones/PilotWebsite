@@ -1,0 +1,73 @@
+.error-page {
+  min-height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 6rem;
+  background: linear-gradient(135deg, #2c3e50, #34495e);
+  font-family: 'Roboto', sans-serif;
+}
+
+.error-container {
+  width: 60%; /* Adjust width to desired size */
+  display: flex; /* Use flexbox for centering contents */
+  flex-direction: column; /* Stack children vertically */
+  justify-content: center; /* Center vertically */
+  align-items: center; /* Center horizontally */
+  padding: 2rem;
+  background: #ecf0f1;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px var(--color-shadow);
+  color: #333;
+  border: 2px solid transparent;
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.3s ease;
+}
+
+.error-container h1 {
+  font-size: 2.5rem;
+  color: #e74c3c; /* Assuming this is the --color-error variable */
+  margin-bottom: 1rem;
+}
+
+.error-container p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.error-actions {
+  display: flex;
+  justify-content: center; /* Ensure buttons are also centered */
+  gap: 1rem; /* Gives some space between buttons */
+}
+
+.error-back-button,
+.error-home-button {
+  padding: 12px 24px;
+  background-color: #3498db; /* Assuming this is the --color-main variable */
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+}
+
+.error-back-button:hover,
+.error-home-button:hover {
+  background-color: #2980b9; /* Assuming this is the --color-accent variable */
+}
+
+@media (max-width: 768px) {
+  .error-container {
+    width: 80%;
+  }
+}
+
+@media (max-width: 576px) {
+  .error-container {
+    width: 90%;
+  }
+}
