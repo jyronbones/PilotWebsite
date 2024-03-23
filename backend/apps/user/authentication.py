@@ -1,6 +1,6 @@
 from rest_framework.authentication import BaseAuthentication
 from rest_framework.exceptions import AuthenticationFailed
-from .models import outstandingToken, UserNew  # Assuming Token is your DynamoDB model for storing tokens
+from .models import outstandingToken, UserNew
 import jwt
 from django.conf import settings
 
@@ -26,5 +26,7 @@ class DynamoDBJWTAuthentication(BaseAuthentication):
             # You may need to add additional checks here, like token expiration
 
             return user_record[0], token_record[0]  # Return the authenticated token and user record
-        except outstandingToken.DoesNotExist:
-            raise AuthenticationFailed('Invalid token')
+        except jwt.exceptions.DecodeError as e:
+            raise AuthenticationFailed('Error decoding token: {}'.format(str(e)))
+        # except outstandingToken.DoesNotExist:
+        #     raise AuthenticationFailed('Invalid token')

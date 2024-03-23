@@ -29,7 +29,7 @@ const MonthlyCalendar = () => {
 
   const fetchEmployees = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/scheduling/employees/`)
+      const response = await fetch(`${API_URL}/scheduling/employees/`)
       if (response.ok) {
         const data = await response.json()
         if (Array.isArray(data)) {

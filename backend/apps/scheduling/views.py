@@ -16,14 +16,6 @@ dynamodb = boto3.resource(
     aws_secret_access_key=os.getenv("DB_AWS_SECRET_ACCESS_KEY"),
 )
 
-# ONLY TO BE USED FOR TESTING
-# dynamodb = boto3.resource(
-#     "dynamodb",
-#     endpoint_url="http://localhost:8000",
-#     region_name="us-east-2",
-#     aws_access_key_id="dummy",
-#     aws_secret_access_key="dummy",
-# )
 
 table = dynamodb.Table('Employees')
 

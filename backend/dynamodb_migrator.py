@@ -1,6 +1,6 @@
 import boto3
 from botocore.exceptions import ClientError
-from PilotWebsite.settings import DB_ENDPOINT, DB_TABLE
+from PilotWebsite.settings import DB_ENDPOINT, DB_TABLE, DB_EMPLOYEES_TABLE_NAME
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -65,10 +65,9 @@ def create_outstandingtoken_table(dynamodb=dynamodb):
 
 
 def create_employees_table(dynamodb=dynamodb):
-    table_name = "Employees"
     try:
         table = dynamodb.create_table(
-            TableName=table_name,
+            TableName=DB_EMPLOYEES_TABLE_NAME,
             KeySchema=[
                 {"AttributeName": "employee_id", "KeyType": "HASH"}  # Partition key
             ],
@@ -80,13 +79,13 @@ def create_employees_table(dynamodb=dynamodb):
                 "WriteCapacityUnits": 5
             }
         )
-        table.meta.client.get_waiter('table_exists').wait(TableName=table_name)
-        print(f"Table {table_name} created successfully.")
+        table.meta.client.get_waiter('table_exists').wait(TableName=DB_EMPLOYEES_TABLE_NAME)
+        print(f"Table {DB_EMPLOYEES_TABLE_NAME} created successfully.")
         print("Item count:", table.item_count)
 
     except ClientError as e:
         if e.response['Error']['Code'] == "ResourceInUseException":
-            print(f"Table {table_name} already exists.")
+            print(f"Table {DB_EMPLOYEES_TABLE_NAME} already exists.")
         else:
             print("An error occurred:", e)
 
