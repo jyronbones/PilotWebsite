@@ -9,11 +9,11 @@
 }
 
 .error-container {
-  width: 60%; /* Adjust width to desired size */
-  display: flex; /* Use flexbox for centering contents */
-  flex-direction: column; /* Stack children vertically */
-  justify-content: center; /* Center vertically */
-  align-items: center; /* Center horizontally */
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 2rem;
   background: #ecf0f1;
   border-radius: 10px;
@@ -27,7 +27,7 @@
 
 .error-container h1 {
   font-size: 2.5rem;
-  color: #e74c3c; /* Assuming this is the --color-error variable */
+  color: #e74c3c;
   margin-bottom: 1rem;
 }
 
@@ -38,14 +38,14 @@
 
 .error-actions {
   display: flex;
-  justify-content: center; /* Ensure buttons are also centered */
-  gap: 1rem; /* Gives some space between buttons */
+  justify-content: center;
+  gap: 1rem;
 }
 
 .error-back-button,
 .error-home-button {
   padding: 12px 24px;
-  background-color: #3498db; /* Assuming this is the --color-main variable */
+  background-color: #3498db;
   border: none;
   color: white;
   border-radius: 4px;
@@ -57,7 +57,7 @@
 
 .error-back-button:hover,
 .error-home-button:hover {
-  background-color: #2980b9; /* Assuming this is the --color-accent variable */
+  background-color: #2980b9;
 }
 
 @media (max-width: 768px) {
