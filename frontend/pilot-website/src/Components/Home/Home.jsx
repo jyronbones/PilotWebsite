@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaShip, FaHandshake, FaClock, FaClipboard, FaUserShield } from 'react-icons/fa'
+import { FaShip, FaHandshake, FaClock, FaClipboard, FaUserShield, FaBox } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import './Home.css'
 
@@ -32,6 +32,11 @@ const Home = () => {
           <h3>Admin Panel</h3>
         </Link>
       )}
+
+      <Link to='https://glpms.pilotcontrol.ca/Login.aspx' className='link-box'>
+        <FaBox size={50} className='icon' />
+        <h3>KLEIN Login</h3>
+      </Link>
     </div>
   )
 }
