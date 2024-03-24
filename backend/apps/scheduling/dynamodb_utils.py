@@ -1,13 +1,13 @@
 import boto3
 import os
-from botocore.exceptions import ClientError  # Import ClientError
+from botocore.exceptions import ClientError
 
 # Load environment variables
 endpoint_url = os.getenv("DB_ENDPOINT")
 region_name = os.getenv("DB_REGION_NAME")
 aws_access_key_id = os.getenv("DB_AWS_ACCESS_KEY_ID")
 aws_secret_access_key = os.getenv("DB_AWS_SECRET_ACCESS_KEY")
-db_users_table_name = os.getenv("DB_TABLE")  # Assuming this is your users table name
+db_users_table_name = os.getenv("DB_TABLE")
 db_employees_table_name = os.getenv("DB_EMPLOYEES_TABLE_NAME")
 
 def get_dynamodb_resource():
@@ -39,15 +39,20 @@ def sync_user_to_employee(user_id):
         
         # Insert or update the employee in the Employees table
         response = employees_table.put_item(Item=employee_data)
-        print(f"Synchronized user {user_id} to DynamoDB successfully.")
-        
+
+        # Check if the operation was successful
+        if response['ResponseMetadata']['HTTPStatusCode'] == 200:
+            print(f"Synchronized user {full_name} to DynamoDB successfully.")
+        else:
+            print(f"Failed to synchronize user {full_name} to DynamoDB.")
+
     except ClientError as e:
         print(f"Failed to sync user {user_id} to DynamoDB: {e.response['Error']['Message']}")
 
 
 def get_user_instance_from_dynamodb(user_id):
     dynamodb = get_dynamodb_resource()
-    users_table = dynamodb.Table(os.getenv("DB_TABLE"))  # Assuming you have this table for users
+    users_table = dynamodb.Table(os.getenv("DB_TABLE"))
 
     try:
         response = users_table.get_item(Key={'id': str(user_id)})
@@ -67,7 +72,7 @@ def delete_employee_from_dynamodb(user_id):
 
     try:
         # Delete the employee from the Employees table
-        response = employees_table.delete_item(Key={'employee_id': str(user_id)})  # Ensure the ID is a string
+        response = employees_table.delete_item(Key={'employee_id': str(user_id)})
         print(f"Deleted user {user_id} from Employees table successfully.")
     except ClientError as e:
         print(f"Failed to delete user {user_id} from Employees table: {e.response['Error']['Message']}")

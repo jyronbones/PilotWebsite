@@ -19,6 +19,7 @@ import boto3
 from PilotWebsite.settings import DB_ENDPOINT, DB_TABLE
 import os
 from dotenv import load_dotenv
+from apps.scheduling.dynamodb_utils import sync_user_to_employee, delete_employee_from_dynamodb
 
 load_dotenv()
 
@@ -301,10 +302,6 @@ def create_admin_account(request):
         )
         # Save the data gathered for new user on DynamoDB
         record.save()
-        return Response(
-            {"success": True, "message": "User created successfully"},
-            status.HTTP_201_CREATED,
-        )
     except Exception as e:
         return Response(
             {"success": False, "message": f"Bad request: {str(e)}"},
@@ -369,6 +366,7 @@ def admin_user_crud(request, user_id=None):
             )
             # Save the data gathered for new user on DynamoDB
             record.save()
+            sync_user_to_employee(user_id)
             return Response(
                 {"success": True, "message": "User created successfully"},
                 status.HTTP_201_CREATED,
@@ -405,6 +403,7 @@ def admin_user_crud(request, user_id=None):
             user_id = request.GET.get("user_id")
             # Delete the user from the DB
             table.delete_item(Key={"id": user_id})
+            delete_employee_from_dynamodb(user_id) # Delete the user from employee table on DynamoDB
             return Response({"success": True, "message": "User deleted successfully"})
 
     except Exception as e:
