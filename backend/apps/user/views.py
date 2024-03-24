@@ -302,6 +302,10 @@ def create_admin_account(request):
         )
         # Save the data gathered for new user on DynamoDB
         record.save()
+        return Response(
+            {"Success": True, "message": "User created successfully"},
+            status.HTTP_201_CREATED,
+        )
     except Exception as e:
         return Response(
             {"success": False, "message": f"Bad request: {str(e)}"},
