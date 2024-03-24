@@ -3,18 +3,19 @@ from django.http import HttpResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import os
-from PilotWebsite.utils import get_aws_secrets
+# from PilotWebsite.utils import get_secret
+from PilotWebsite.settings import get_aws_secret_key
 
-AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME, AWS_S3_REGION_NAME = get_aws_secrets()
+# AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME, AWS_S3_REGION_NAME = get_secret()
+secret_name = "prod/pilotwebsite/agreementfiles"
 
 s3 = boto3.client(
   's3',
-  aws_access_key_id=AWS_ACCESS_KEY_ID,
-  aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-  region_name=AWS_S3_REGION_NAME
+  aws_access_key_id=get_aws_secret_key(secret_name,"AWS_ACCESS_KEY_ID"),
+  aws_secret_access_key=get_aws_secret_key(secret_name,"AWS_SECRET_ACCESS_KEY"),
+  region_name=get_aws_secret_key(secret_name,"AWS_S3_REGION_NAME")
 )
-
-bucket_name = AWS_STORAGE_BUCKET_NAME
+bucket_name = get_aws_secret_key(secret_name,"AWS_STORAGE_BUCKET_NAME")
 
 @api_view(['POST'])
 def upload_file(request):
