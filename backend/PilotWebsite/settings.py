@@ -27,6 +27,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Fetch Django SECRET_KEY from AWS Secrets Manager
 SECRET_KEY = get_aws_secret("prod/pilotwebsite/djangosecretkey", "django_secret_key", "us-east-1")
 
+# secret_name to retrieve AWS Secrets for files
+SECRET_NAME = "prod/pilotwebsite/agreementfileskeys"
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

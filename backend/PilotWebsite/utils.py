@@ -29,13 +29,10 @@ def get_aws_secret(secret_name, secret_key, region_name):
     secret_dict = fetch_secrets_dict_from_aws(secret_name, region_name)
     return secret_dict.get(secret_key, '')
 
-def get_aws_secrets():
+def get_aws_secrets(secret_name, region_name):
     """
     Fetches specific secrets for AWS configuration
     """
-    secret_name = "prod/pilotwebsite/agreementfileskeys"
-    region_name = "us-east-1"
-
     secrets_dict = fetch_secrets_dict_from_aws(secret_name, region_name)
 
     AWS_ACCESS_KEY_ID = secrets_dict.get('AWS_ACCESS_KEY_ID', '')
