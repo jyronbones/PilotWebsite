@@ -23,7 +23,7 @@ const Home = () => {
 
       <Link to='/union-agreement' className='link-box'>
         <FaHandshake size={50} className='icon' />
-        <h3>Union Agreement</h3>
+        <h3>Collective Agreement</h3>
       </Link>
 
       {sessionStorage.getItem('user_type') == 1 && (
