@@ -6,11 +6,6 @@ const FooterComponent = () => {
     <div className='footer'>
       <div className='footer-container'>
         <div className='footer-links'>
-          <a href='https://glpms.pilotcontrol.ca/Login.aspx'>
-            <div>
-              <p>KLEIN</p>
-            </div>
-          </a>
           <a href='http://www.marinetraffic.com'>
             <div>
               <p>Marine Traffic</p>
@@ -34,6 +29,21 @@ const FooterComponent = () => {
           <a href='http://www.tides.gc.ca/en/stations'>
             <div>
               <p>Tides Stations</p>
+            </div>
+          </a>
+          <a href='https://www.windy.com/'>
+            <div>
+              <p>Windy</p>
+            </div>
+          </a>
+          <a href='https://seaway-greatlakes.com/environment-info/flow-currents#!'>
+            <div>
+              <p>Flow / Current (MLO)</p>
+            </div>
+          </a>
+          <a href='https://seaway-greatlakes.com/vessel-transit/order-of-turn?LocationId=7315'>
+            <div>
+              <p>Vessel Transit Info</p>
             </div>
           </a>
         </div>

@@ -81,7 +81,7 @@ const UnionAgreement = () => {
   return (
     <>
       <div className='union-container'>
-        <h2>Union Agreements</h2>
+        <h2>Collective Agreements</h2>
         <div className='p-2 p-md-4'>
           <div className='create-btn'>
             <UploadPDF onUpload={handleUpload} />
