@@ -1,5 +1,6 @@
 .Home {
-  min-height: 70vh;
+  height: 500px auto;
+  width: 700px auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 2rem;
@@ -10,6 +11,7 @@
   background: linear-gradient(135deg, #2c3e50, #34495e);
   border-radius: 15px;
   box-shadow: 0 10px 20px var(--color-shadow);
+  overflow: auto;
 }
 
 .link-box {
