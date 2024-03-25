@@ -27,7 +27,7 @@ def upload_file(request):
   if file.size > 10 * 1024 * 1024:  # 10MB limit
     return Response({'error': 'File size exceeds the limit'}, status=400)
 
-  #TODO check for malicous content
+  #TODO check for malicous contents 
 
   try:
     s3.upload_fileobj(file, bucket_name, filename, ExtraArgs={'Metadata': {'category': category}})
