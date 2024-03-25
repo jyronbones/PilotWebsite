@@ -79,7 +79,9 @@ const UploadPDF = ({ onUpload }) => {
 
   return (
     <div>
-      <button onClick={openModal}>Upload File</button>
+      <button className='btn create' onClick={openModal}>
+        Upload File
+      </button>
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
