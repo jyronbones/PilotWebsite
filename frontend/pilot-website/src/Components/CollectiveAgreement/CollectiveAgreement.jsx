@@ -103,6 +103,7 @@ const UnionAgreement = () => {
   const hasUnionFiles = files?.some((file) => file.category === 'Union Agreement')
   const hasCorportateFiles = files?.some((file) => file.category === 'Corporate Bylaw')
   const hasRulesFiles = files?.some((file) => file.category === 'Working Rules')
+  const hasOtherFiles = files?.some((file) => file.category === 'Other')
 
   return (
     <>
@@ -120,6 +121,7 @@ const UnionAgreement = () => {
                 <Tab label='Union Agreements' {...a11yProps(0)} />
                 <Tab label='Corportate Bylaws' {...a11yProps(1)} />
                 <Tab label='Working Rules' {...a11yProps(2)} />
+                <Tab label='Other Files' {...a11yProps(3)} />
               </Tabs>
             </Box>
             <CustomTabPanel value={tab} index={0}>
@@ -259,6 +261,54 @@ const UnionAgreement = () => {
                       ) : (
                         <tr>
                           <td colSpan={4}>No Working Rules File</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </section>
+              </div>
+            </CustomTabPanel>
+            <CustomTabPanel value={tab} index={3}>
+              {/* OTHER FILES */}
+              <div className='union-table-container'>
+                <section className='scroll-section pt-3 table-main table-responsive' id='hoverableRows'>
+                  <table className='custom-union-table'>
+                    <thead>
+                      <tr>
+                        <th>File Name</th>
+                        <th>Date Uploaded</th>
+                        <th>Category</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {files?.length > 0 && hasOtherFiles ? (
+                        <>
+                          {files
+                            .filter((file) => file.category === 'Other')
+                            .map((file, index) => (
+                              <tr key={index}>
+                                <td>{file.filename.split('.').slice(0, -1).join('.')}</td>
+                                <td>{file.dateAdded}</td>
+                                <td>{file.category}</td>
+                                <td>
+                                  <div className='action-container'>
+                                    {sessionStorage.getItem('user_type') == 1 && (
+                                      <button className='action-button' onClick={() => handleDelete(file.filename)}>
+                                        Delete
+                                      </button>
+                                    )}
+                                    <button className='action-button' onClick={() => handleDownload(file.filename)}>
+                                      Download
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                        </>
+                      ) : (
+                        <tr>
+                          <td colSpan={4}>No Other Files</td>
                         </tr>
                       )}
                     </tbody>
