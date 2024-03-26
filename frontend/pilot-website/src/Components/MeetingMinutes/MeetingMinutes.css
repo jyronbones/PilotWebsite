@@ -1,48 +1,106 @@
-.minutes-container {
-  background: linear-gradient(135deg, #f0e4d7, #e8d5c1);
+.meeting-container {
+  background-color: #f5f5f5;
   border-radius: 20px;
   box-shadow: 0 10px 25px var(--color-shadow);
   padding: 3rem;
   margin: 2rem;
   margin-top: 7rem;
+  margin-bottom: 7rem;
   font-family: 'Roboto', sans-serif;
 }
 h2 {
-  color: #333;
   text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2.2rem;
-  font-weight: 600;
-  border-bottom: 3px solid var(--color-secondary-light);
-  padding-bottom: 1rem;
+  margin-bottom: 20px;
 }
-.minute-list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  margin: 0 3rem;
-}
-.minute-row {
-  border-radius: 10px;
-  background-color: var(--color-secondary-light);
-}
-.btn-minute {
-  display: flex;
-  margin: auto;
-}
-.btn.add-minute {
-  background-color: var(--color-main);
-  color: var(--color-white);
-  border: none;
-  margin: auto;
+
+.meeting-table-container {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  text-align: left;
+  padding: 1rem;
   margin-top: 2rem;
-  border-radius: 5px;
-  padding: 0.5rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: 5px;
 }
-.btn.add-minute:hover {
-  background-color: #005bb5;
+
+.custom-meeting-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.custom-meeting-table thead {
+  background-color: #ccc;
+}
+
+.custom-meeting-table th,
+.custom-meeting-table td {
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem;
+}
+
+.custom-meeting-table th:first-child,
+.custom-meeting-table td:first-child {
+  width: 30%;
+}
+
+.custom-meeting-table th:nth-child(2),
+.custom-meeting-table td:nth-child(2) {
+  width: 20%;
+}
+
+.custom-meeting-table th:nth-child(3),
+.custom-meeting-table td:nth-child(3) {
+  width: 30%;
+}
+
+.custom-meeting-table th:last-child,
+.custom-meeting-table td:last-child {
+  width: 20%;
+}
+
+.user-link {
+  color: blue;
+  cursor: pointer;
+  margin: 0;
+  display: inline-block;
+}
+
+.action-container {
+  display: flex;
+  justify-content: left;
+}
+
+.action-button {
+  color: #fff;
+  background-color: rgb(21, 71, 163);
+  border-radius: 8px;
+  padding: 0.5rem 1.5rem;
+  margin-right: 2rem;
+}
+
+@media (max-width: 815px) {
+  .action-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .action-button {
+    margin-bottom: 0.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .custom-meeting-table th:nth-child(2),
+  .custom-meeting-table td:nth-child(2),
+  .custom-meeting-table th:nth-child(3),
+  .custom-meeting-table td:nth-child(3) {
+    display: none;
+  }
+  .action-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .action-button {
+    margin-right: 0rem;
+  }
 }

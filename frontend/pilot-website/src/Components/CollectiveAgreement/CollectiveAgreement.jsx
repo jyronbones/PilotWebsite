@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './CollectiveAgreement.css'
-//import { Link } from 'react-router-dom'
 import UploadPDF from './UploadComponents/UploadPDF'
-// import EditPDF from './UploadComponents/EditPDF'
 import PropTypes from 'prop-types'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
