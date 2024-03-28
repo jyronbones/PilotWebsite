@@ -21,6 +21,11 @@ const Home = () => {
         <h3>Scheduling</h3>
       </Link>
 
+      <Link to='https://glpms.pilotcontrol.ca/Login.aspx' className='link-box'>
+        <FaBox size={50} className='icon' />
+        <h3>KLEIN Login</h3>
+      </Link>
+
       <Link to='/collective-agreement' className='link-box'>
         <FaHandshake size={50} className='icon' />
         <h3>Collective Agreement</h3>
@@ -32,11 +37,6 @@ const Home = () => {
           <h3>Admin Panel</h3>
         </Link>
       )}
-
-      <Link to='https://glpms.pilotcontrol.ca/Login.aspx' className='link-box'>
-        <FaBox size={50} className='icon' />
-        <h3>KLEIN Login</h3>
-      </Link>
     </div>
   )
 }

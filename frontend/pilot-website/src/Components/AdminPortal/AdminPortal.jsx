@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import moment from 'moment'
 import './AdminPortal.css'
 
@@ -13,6 +13,8 @@ const AdminPortal = () => {
   const [userType, setUserType] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  const navigate = useNavigate()
 
   const handleClose = () => {
     setIsModalOpen(false)
@@ -130,13 +132,13 @@ const AdminPortal = () => {
 
   return (
     <div className='user'>
-      <Link to='/home' className='btn back'>
-        Back to Home
-      </Link>
+      <button onClick={() => navigate(-1)} className='btn back'>
+        Go Back
+      </button>
       <div className='user-container'>
         <div className='user-header'>
           <div className='user-title'>
-            <h1>Directory</h1>
+            <h1>Users</h1>
           </div>
         </div>
 
