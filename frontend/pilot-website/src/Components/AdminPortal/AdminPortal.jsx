@@ -139,7 +139,7 @@ const AdminPortal = () => {
         <div className='user-container'>
           <div className='user-header'>
             <div className='user-title'>
-              <h1>Directory</h1>
+              <h1>Users</h1>
             </div>
           </div>
         </div>
