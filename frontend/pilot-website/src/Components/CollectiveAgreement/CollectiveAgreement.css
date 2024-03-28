@@ -1,4 +1,4 @@
-.meeting-container {
+.union-container {
   background-color: #f5f5f5;
   border-radius: 20px;
   box-shadow: 0 10px 25px var(--color-shadow);
@@ -13,7 +13,7 @@ h2 {
   margin-bottom: 20px;
 }
 
-.meeting-table-container {
+.union-table-container {
   border: 1px solid #ccc;
   border-radius: 12px;
   text-align: left;
@@ -21,39 +21,39 @@ h2 {
   margin-top: 2rem;
 }
 
-.custom-meeting-table {
+.custom-union-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.custom-meeting-table thead {
+.custom-union-table thead {
   background-color: #ccc;
 }
 
-.custom-meeting-table th,
-.custom-meeting-table td {
+.custom-union-table th,
+.custom-union-table td {
   font-size: 1rem;
   font-weight: 500;
   padding: 0.5rem;
 }
 
-.custom-meeting-table th:first-child,
-.custom-meeting-table td:first-child {
+.custom-union-table th:first-child,
+.custom-union-table td:first-child {
   width: 30%;
 }
 
-.custom-meeting-table th:nth-child(2),
-.custom-meeting-table td:nth-child(2) {
+.custom-union-table th:nth-child(2),
+.custom-union-table td:nth-child(2) {
   width: 20%;
 }
 
-.custom-meeting-table th:nth-child(3),
-.custom-meeting-table td:nth-child(3) {
+.custom-union-table th:nth-child(3),
+.custom-union-table td:nth-child(3) {
   width: 30%;
 }
 
-.custom-meeting-table th:last-child,
-.custom-meeting-table td:last-child {
+.custom-union-table th:last-child,
+.custom-union-table td:last-child {
   width: 20%;
 }
 
@@ -89,10 +89,10 @@ h2 {
 }
 
 @media (max-width: 600px) {
-  .custom-meeting-table th:nth-child(2),
-  .custom-meeting-table td:nth-child(2),
-  .custom-meeting-table th:nth-child(3),
-  .custom-meeting-table td:nth-child(3) {
+  .custom-union-table th:nth-child(2),
+  .custom-union-table td:nth-child(2),
+  .custom-union-table th:nth-child(3),
+  .custom-union-table td:nth-child(3) {
     display: none;
   }
   .action-container {

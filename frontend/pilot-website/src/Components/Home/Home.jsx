@@ -21,7 +21,7 @@ const Home = () => {
         <h3>Scheduling</h3>
       </Link>
 
-      <Link to='/union-agreement' className='link-box'>
+      <Link to='/collective-agreement' className='link-box'>
         <FaHandshake size={50} className='icon' />
         <h3>Collective Agreement</h3>
       </Link>
