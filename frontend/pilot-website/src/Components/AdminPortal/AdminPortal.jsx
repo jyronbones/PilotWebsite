@@ -136,11 +136,9 @@ const AdminPortal = () => {
         Go Back
       </button>
       <div className='user-container'>
-        <div className='user-container'>
-          <div className='user-header'>
-            <div className='user-title'>
-              <h1>Users</h1>
-            </div>
+        <div className='user-header'>
+          <div className='user-title'>
+            <h1>Users</h1>
           </div>
         </div>
 
