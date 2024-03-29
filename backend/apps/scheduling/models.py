@@ -10,7 +10,8 @@ endpoint_url = os.getenv("DB_ENDPOINT")
 region_name = os.getenv("DB_REGION_NAME")
 aws_access_key_id = os.getenv("DB_AWS_ACCESS_KEY_ID")
 aws_secret_access_key = os.getenv("DB_AWS_SECRET_ACCESS_KEY")
-employees_table = os.getenv("DB_EMPLOYEES_TABLE_NAME")
+# employees_table = os.getenv("DB_EMPLOYEES_TABLE_NAME")
+employees_table = 'Employees'
 
 # Defines the structure for an event
 class EventSchema(Schema):
@@ -24,7 +25,7 @@ class EventSchema(Schema):
 class Employee(DynaModel):
     class Table:
         resource_kwargs = {
-            "endpoint_url": endpoint_url, # this is used for localhost
+            # "endpoint_url": endpoint_url, # this is used for localhost
             "region_name": region_name,
             "aws_access_key_id": aws_access_key_id,
             "aws_secret_access_key": aws_secret_access_key,

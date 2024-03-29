@@ -1,7 +1,7 @@
 from django.utils.dateparse import parse_date
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
-from PilotWebsite.settings import DB_ENDPOINT, DB_TABLE
+from PilotWebsite.settings import DB_ENDPOINT, DB_EMPLOYEES_TABLE_NAME
 from decimal import Decimal
 from .models import Employee
 from datetime import datetime
@@ -12,15 +12,16 @@ import os
 # # DynamoDB Solution:
 dynamodb = boto3.resource(
     "dynamodb",
-    endpoint_url=os.getenv("DB_ENDPOINT"), # this is used for localhost
+    # endpoint_url=os.getenv("DB_ENDPOINT"), # this is used for localhost
     region_name=os.getenv("DB_REGION_NAME"),
     aws_access_key_id=os.getenv("DB_AWS_ACCESS_KEY_ID"),
     aws_secret_access_key=os.getenv("DB_AWS_SECRET_ACCESS_KEY"),
 )
 
 # table = dynamodb.Table('Employees')
-table_name=os.getenv("DB_EMPLOYEES_TABLE_NAME")
-table = dynamodb.Table("Employees")  # Correct table initialization
+table_name=DB_EMPLOYEES_TABLE_NAME
+table = dynamodb.Table(DB_EMPLOYEES_TABLE_NAME)
+# table = dynamodb.Table("Employees")  # Correct table initialization
 
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
