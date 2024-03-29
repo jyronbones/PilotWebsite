@@ -16,7 +16,6 @@ const MonthlyCalendar = () => {
   const [showForm, setShowForm] = useState(false)
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [eventRange, setEventRange] = useState({ start: null, end: null })
-  // const [selectedDate, setSelectedDate] = useState(null)
   const formContainerRef = useRef(null)
 
   useEffect(() => {
@@ -67,8 +66,6 @@ const MonthlyCalendar = () => {
   const handleSelectSlot = ({ start, end }) => {
     setEventRange({ start: moment(start).toDate(), end: moment(end).toDate() })
     setShowForm(true)
-    // setSelectedEvent(null)
-    // setSelectedDate(moment(start).toDate())
   }
 
   const handleSelectEvent = (event) => {
@@ -76,7 +73,6 @@ const MonthlyCalendar = () => {
     setShowForm(true)
     setSelectedEmployee(employees.find((emp) => emp.employee_id === event.employeeId))
     setEventRange({ start: event.start, end: event.end })
-    // setSelectedDate(moment(event.start).toDate())
   }
 
   const handleFormSubmit = async (e) => {

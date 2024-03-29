@@ -16,7 +16,6 @@ const VacationSchedule = () => {
   const [showForm, setShowForm] = useState(false)
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [eventRange, setEventRange] = useState({ start: null, end: null })
-  const [selectedDate, setSelectedDate] = useState(null)
   const formContainerRef = useRef(null)
 
   useEffect(() => {
@@ -31,46 +30,66 @@ const VacationSchedule = () => {
     try {
       const response = await fetch(`${API_URL}/scheduling/employees/`)
       if (response.ok) {
-        const data = await response.json()
-        if (Array.isArray(data)) {
-          setEmployees(data)
-        } else {
-          console.error('Received unexpected data format:', data)
-          setEmployees([])
-        }
+        const employeesData = await response.json()
+        const transformedEmployees = employeesData.map((emp) => ({
+          ...emp,
+          // events: emp.events.map((event) => ({
+          //   ...event,
+          //   start: new Date(event.startDate),
+          //   end: new Date(event.endDate),
+          //   event_id: event.id
+          // }))
+          events: emp.events || []
+        }))
+        setEmployees(transformedEmployees)
+        const allEvents = transformedEmployees.flatMap((emp) => emp.events)
+        setEvents(allEvents)
       } else {
         console.error('Failed to fetch employees')
         setEmployees([])
+        setEvents([])
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      setEmployees([])
+      setEvents([])
+    }
+  }
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault()
+    if (!selectedEmployee || !eventRange.start || !eventRange.end) {
+      console.error('Missing required information')
+      return
+    }
+    // Assuming the backend expects a start, end, and title within an 'event' object
+    const eventData = {
+      start: moment(eventRange.start).format('YYYY-MM-DD'),
+      end: moment(eventRange.end).format('YYYY-MM-DD'),
+      title: selectedEmployee.name // Assuming your backend uses 'title
+    }
+
+    try {
+      // Adjust the API call URL as per your actual endpoint
+      const response = await fetch(`${API_URL}/scheduling/employee-events/${selectedEmployee.employee_id}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ event: eventData })
+      })
+
+      if (response.ok) {
+        console.log('Event added successfully')
+        await fetchEmployees() // Refresh employees and their events after updating
+        setShowForm(false)
+      } else {
+        const errorData = await response.json()
+        console.error('Failed to update employee events', errorData)
       }
     } catch (error) {
       console.error('Error:', error)
     }
-  }
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault()
-
-    if (!selectedEmployee) {
-      console.error('No employee selected')
-      return // Exit the function if no employee is selected
-    }
-
-    const newEvent = {
-      title: selectedEmployee.name,
-      start: eventRange.start,
-      end: eventRange.end,
-      employee: selectedEmployee,
-      color: selectedEmployee.color
-    }
-
-    if (selectedEvent) {
-      const updatedEvents = events.map((event) => (event === selectedEvent ? newEvent : event))
-      setEvents(updatedEvents)
-    } else {
-      setEvents([...events, newEvent])
-    }
-
-    setShowForm(false)
   }
 
   const handleFormCancel = () => {
@@ -88,28 +107,38 @@ const VacationSchedule = () => {
   const handleSelectSlot = ({ start, end }) => {
     setEventRange({ start: moment(start).toDate(), end: moment(end).toDate() })
     setShowForm(true)
-    setSelectedEvent(null)
-    setSelectedDate(moment(start).toDate())
   }
 
   const handleSelectEvent = (event) => {
-    const action = window.prompt("Choose an action: 'edit', 'approve', or 'deny'")
-    if (action === 'edit') {
-      const title = window.prompt('Please edit vacation details', event.title)
-      const newEvents = events.map((e) => (e === event ? { ...e, title } : e))
-      setEvents(newEvents)
-    } else if (action === 'approve') {
-      const newEvents = events.map((e) => (e === event ? { ...e, vacationType: 'Vacation' } : e))
-      setEvents(newEvents)
-    } else if (action === 'deny') {
-      const newEvents = events.map((e) => (e === event ? { ...e, vacationType: 'Sick' } : e))
-      setEvents(newEvents)
-    }
+    setSelectedEvent(event)
+    setShowForm(true)
+    setSelectedEmployee(employees.find((emp) => emp.employee_id === event.employeeId))
+    setEventRange({ start: event.start, end: event.end })
   }
 
   function removeEvent(eventToRemove) {
-    setEvents(events.filter((event) => event !== eventToRemove))
-    setShowForm(false) // Hide the form after deleting the event
+    const eventId = eventToRemove.event_id // Make sure this matches the event ID key in your data structure
+
+    const deleteEvent = async () => {
+      try {
+        const response = await fetch(`${API_URL}/scheduling/employee-events/${selectedEmployee.employee_id}/`, {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ event_id: eventId }) // Correct payload to match the backend expectation
+        })
+
+        if (response.ok) {
+          console.log('Event removed successfully')
+          await fetchEmployees() // Refresh the data to reflect deletion
+        } else {
+          console.error('Failed to remove the event')
+        }
+      } catch (error) {
+        console.error('Error removing event:', error)
+      }
+    }
+
+    deleteEvent()
   }
 
   return (
@@ -186,9 +215,9 @@ const VacationSchedule = () => {
               {events
                 .filter(
                   (event) =>
-                    moment(event.start).isSame(selectedDate, 'day') ||
-                    moment(event.end).isSame(selectedDate, 'day') ||
-                    (moment(event.start).isBefore(selectedDate, 'day') && moment(event.end).isAfter(selectedDate, 'day'))
+                    moment(event.start).isSame(eventRange.start, 'day') ||
+                    moment(event.end).isSame(eventRange.start, 'day') ||
+                    (moment(event.start).isBefore(eventRange.start, 'day') && moment(event.end).isAfter(eventRange.start, 'day'))
                 )
                 .map((event, index) => (
                   <div key={index}>
