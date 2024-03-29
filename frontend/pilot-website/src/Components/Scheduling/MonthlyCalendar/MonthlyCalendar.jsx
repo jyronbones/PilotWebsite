@@ -32,18 +32,26 @@ const MonthlyCalendar = () => {
       const response = await fetch(`${API_URL}/scheduling/employees/`)
       if (response.ok) {
         const data = await response.json()
-        if (Array.isArray(data)) {
-          setEmployees(data)
-        } else {
-          console.error('Received unexpected data format:', data)
-          setEmployees([])
-        }
+        const formattedData = data.map((emp) => ({
+          ...emp,
+          events: emp.events.map((event) => ({
+            ...event,
+            start: new Date(event.start),
+            end: new Date(event.end),
+            title: event.title || 'No Title' // Add a default title or use one from the event
+          }))
+        }))
+        setEmployees(formattedData)
+        // Transform and set events for all employees to be used by the calendar
+        const allEvents = formattedData.reduce((acc, curr) => [...acc, ...curr.events], [])
+        setEvents(allEvents)
       } else {
         console.error('Failed to fetch employees')
         setEmployees([])
       }
     } catch (error) {
       console.error('Error:', error)
+      setEmployees([])
     }
   }
 
@@ -69,30 +77,38 @@ const MonthlyCalendar = () => {
     setSelectedDate(moment(event.start).toDate())
   }
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault()
-
-    if (!selectedEmployee) {
-      console.error('No employee selected')
+    if (!selectedEmployee || !eventRange.start || !eventRange.end) {
+      console.error('Missing required information')
       return
     }
 
-    const newEvent = {
-      title: selectedEmployee.name,
+    const event = {
       start: eventRange.start,
       end: eventRange.end,
-      employee: selectedEmployee,
-      color: selectedEmployee.color
+      title: 'Event' // or any other title you wish to give the event
+      // include any other event fields your backend expects
     }
 
-    if (selectedEvent) {
-      const updatedEvents = events.map((event) => (event === selectedEvent ? newEvent : event))
-      setEvents(updatedEvents)
-    } else {
-      setEvents([...events, newEvent])
-    }
+    try {
+      const response = await fetch(`${API_URL}/scheduling/update-employee-events/${selectedEmployee.employee_id}/`, {
+        method: 'POST', // or 'PUT' if you're updating an existing event
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ event }) // adjust based on the expected format
+      })
 
-    setShowForm(false)
+      if (response.ok) {
+        fetchEmployees() // Refresh employees and their events after updating
+        setShowForm(false)
+      } else {
+        console.error('Failed to update employee events')
+      }
+    } catch (error) {
+      console.error('Error:', error)
+    }
   }
 
   const handleFormCancel = () => {

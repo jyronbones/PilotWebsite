@@ -3,6 +3,8 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework.response import Response
 from PilotWebsite.settings import DB_ENDPOINT, DB_TABLE
 from decimal import Decimal
+from .models import Employee
+from datetime import datetime
 import boto3
 import json
 import os
@@ -16,8 +18,111 @@ dynamodb = boto3.resource(
     aws_secret_access_key=os.getenv("DB_AWS_SECRET_ACCESS_KEY"),
 )
 
+# table = dynamodb.Table('Employees')
+table_name=os.getenv("DB_EMPLOYEES_TABLE_NAME")
+table = dynamodb.Table("Employees")  # Correct table initialization
 
-table = dynamodb.Table('Employees')
+
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+def employee_events(request, employee_id=None):
+    """
+    The GET method fetches and returns the events for a specific employee.
+    The POST method adds a new event to the employee's events list.
+    The PUT method updates a specific event in the list based on an id provided in event_data.
+    The DELETE method removes a specific event from the list, also based on an id.
+    """
+    if request.method == 'GET':
+        # Fetch and return employee's events
+        response = table.get_item(Key={'employee_id': employee_id})
+        employee = response.get('Item')
+        if employee:
+            return Response(employee.get('events', []), status=200)
+        return Response({'error': 'Employee not found'}, status=404)
+
+    # For POST, PUT, DELETE
+    event_data = request.data.get('event')
+    try:
+        response = table.get_item(Key={'employee_id': employee_id})
+        employee = response.get('Item')
+        if not employee:
+            return Response({'error': 'Employee not found'}, status=404)
+        
+        if 'events' not in employee:
+            employee['events'] = []
+
+        if request.method == 'POST':
+            # Append new event
+            employee['events'].append(event_data)
+        
+        elif request.method == 'PUT':
+            # Find and update the specific event
+            event_id = event_data.get('id')
+            for i, event in enumerate(employee['events']):
+                if event.get('id') == event_id:
+                    employee['events'][i] = event_data
+                    break
+        
+        elif request.method == 'DELETE':
+            # Remove the specified event
+            employee['events'] = [event for event in employee['events'] if event.get('id') != event_data.get('id')]
+
+        # Update DynamoDB record
+        table.update_item(
+            Key={'employee_id': employee_id},
+            UpdateExpression='SET events = :e',
+            ExpressionAttributeValues={':e': employee['events']},
+        )
+        return Response({'message': 'Employee events updated successfully'}, status=200)
+    
+    except Exception as e:
+        return Response({'error': str(e)}, status=500)
+
+
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+def update_employee_events(request, employee_id):
+    # Assuming the request body contains an event object with necessary event details
+    event_data = request.data.get('event')
+    operation = request.data.get('operation')
+    try:
+        # Fetch the employee's current data from DynamoDB
+        response = table.get_item(Key={'employee_id': employee_id})
+        employee = response.get('Item')
+
+        if not employee:
+            return Response({'error': 'Employee not found'}, status=404)
+        
+        # Initialize events list if not present
+        if 'events' not in employee:
+            employee['events'] = []
+
+        if operation == 'add':
+            # Append the new event to the list
+            employee['events'].append(event_data)
+
+        elif operation == 'update':
+            # Assuming each event has a unique identifier within 'event_id' and it's included in event_data
+            for index, event in enumerate(employee['events']):
+                if event.get('event_id') == event_data.get('event_id'):
+                    employee['events'][index] = event_data  # Update the event with new data
+                    break
+
+        elif operation == 'delete':
+            # Remove the event with the given 'event_id'
+            employee['events'] = [event for event in employee['events'] if event.get('event_id') != event_data.get('event_id')]
+
+        # Update the employee record with the new event list
+        table.update_item(
+            Key={'employee_id': employee_id},
+            UpdateExpression='SET events = :val',
+            ExpressionAttributeValues={
+                ':val': employee['events']
+            }
+        )
+
+        return Response({'message': 'Employee events updated successfully'})
+    except Exception as e:
+        return Response({'error': str(e)}, status=500)
+
 
 @api_view(['GET'])
 def get_employee(request, employee_id):
@@ -66,6 +171,7 @@ def add_employee(request):
             data = request.data
             employee_id = data.get('employee_id')
             name = data.get('name')
+            events = data.get('events', [])
 
             # Check if the employee already exists
             existing_employee = table.get_item(Key={'employee_id': employee_id})
@@ -74,12 +180,14 @@ def add_employee(request):
                 return Response({'error': 'Employee with this ID already exists.'}, status=400)
 
             # Proceed to add the employee since it doesn't exist
-            response = table.put_item(
+            employee_data = table.put_item(
                 Item={
                     'employee_id': employee_id,
                     'name': name,
+                    'schedules': events,
                 }
             )
+            response = table.put_item(Item=employee_data)
 
             return Response({'message': 'Employee added successfully', 'response': response})
         except Exception as e:
