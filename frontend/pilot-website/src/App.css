@@ -15,7 +15,6 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -31,6 +30,7 @@
 a {
   text-decoration: none;
 }
+
 .btn {
   padding: 10px 15px;
   border: none;
@@ -41,6 +41,7 @@ a {
     background-color 0.3s ease,
     transform 0.3s ease;
 }
+
 .btn-round {
   width: 3rem;
   height: 3rem;
@@ -54,6 +55,7 @@ a {
     transform 0.3s ease;
   cursor: pointer;
 }
+
 .btn-round:hover,
 .btn:hover {
   transform: translateY(-2px);
@@ -65,5 +67,58 @@ a {
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* Global Styles */
+.content-wrap {
+  flex: 1;
+  padding-bottom: var(--footer-height, 1px);
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 1px;
+  padding: 1px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+/* Media Queries */
+@media (max-width: 976px) {
+  .footer-links p {
+    font-size: 11px;
+  }
+
+  .footer-copyright {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 729px) {
+  .footer-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 0.5rem;
+  }
+
+  .footer-links p {
+    margin: 0.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .footer-links {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0.5rem;
+  }
+
+  .footer-links p {
+    margin: 0.5rem;
   }
 }
