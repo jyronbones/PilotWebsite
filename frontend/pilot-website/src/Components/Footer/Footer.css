@@ -1,9 +1,12 @@
+/* .content-wrap is assumed to wrap all content except the footer */
+.content-wrap {
+  min-height: calc(100vh - 120px);
+}
+
 .footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
   background-color: var(--color-main);
-  padding: 10px;
+  padding: 0;
+  width: 100%;
 }
 
 .footer-container {
@@ -23,7 +26,6 @@
 .footer-links p {
   font-size: 14px;
   line-height: 15px;
-  /* margin-left: 3rem; */
   color: white;
   font-weight: 600;
 }
@@ -31,6 +33,8 @@
 hr {
   color: white !important;
   width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .footer-copyright {
@@ -38,8 +42,11 @@ hr {
   line-height: 15px;
   color: white;
   font-weight: 600;
+  text-align: center;
+  padding: 10px 0;
 }
 
+/* Responsive Adjustments */
 @media (max-width: 976px) {
   .footer-links p {
     font-size: 11px;
@@ -57,11 +64,7 @@ hr {
   }
 
   .footer-links p {
-    margin: 0.5rem 2rem;
-  }
-
-  .footer-copyright {
-    font-size: 10px;
+    margin: 0.5rem;
   }
 }
 
@@ -73,6 +76,6 @@ hr {
   }
 
   .footer-links p {
-    margin: 0.5rem 2rem;
+    margin: 0.5rem;
   }
 }

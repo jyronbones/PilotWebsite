@@ -131,119 +131,121 @@ const AdminPortal = () => {
   }, [editUserData])
 
   return (
-    <div className='user'>
-      <button onClick={() => navigate(-1)} className='btn back'>
-        Go Back
-      </button>
-      <div className='user-container'>
-        <div className='user-header'>
-          <div className='user-title'>
-            <h1>Users</h1>
-          </div>
-        </div>
-
-        <div>
-          <div className='create-btn'>
-            <button className='btn create' onClick={() => setIsModalOpen(true)}>
-              Create User
-            </button>
+    <div className='content-wrap'>
+      <div className='user'>
+        <button onClick={() => navigate(-1)} className='btn back'>
+          Go Back
+        </button>
+        <div className='user-container'>
+          <div className='user-header'>
+            <div className='user-title'>
+              <h1>Users</h1>
+            </div>
           </div>
 
-          <div className='user-table-container'>
-            <section className='scroll-section pt-4 table-main table-responsive' id='hoverableRows'>
-              <table className='user-table'>
-                <thead>
-                  <tr>
-                    <th>User Information</th>
-                    <th>User Type</th>
-                    <th>Created At</th>
-                    <th>Updated At</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {list?.length > 0 ? (
-                    <>
-                      {list?.map((item, index) => (
-                        <tr key={index}>
-                          <td>
-                            {item?.full_name}
-                            <br />
-                            {item?.email}
-                          </td>
-                          <td>{item?.user_type == 1 ? 'Admin' : 'User'}</td>
-                          <td>{moment(item?.created_at).format('MM/DD/YYYY, h:mma')}</td>
-                          <td>{moment(item?.updated_at).format('MM/DD/YYYY, h:mma')}</td>
-                          <td>
-                            <div className='action-container'>
-                              <button
-                                className='btn edit'
-                                title='Edit User'
-                                onClick={() => {
-                                  setEditUserData(item)
-                                  setIsModalOpen(true)
-                                }}
-                              >
-                                Edit
-                              </button>
-                              <button className='btn delete' title='Delete User' onClick={() => changeUserStatus(item.id)}>
-                                Delete
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </>
-                  ) : (
-                    <tr>
-                      <td colSpan={5}>Not found</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </section>
-          </div>
-        </div>
-      </div>
-
-      {isModalOpen && (
-        <div className='modal-overlay'>
-          <div className='modal-content'>
-            <span className='close-button' onClick={handleClose}>
-              &times;
-            </span>
-            <div className='modal-body admin'>
-              <label>
-                Name:
-                <input type='text' value={name} onChange={(e) => setName(e.target.value)} />
-              </label>
-              <label>
-                Email:
-                <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} />
-              </label>
-              {Object.keys(editUserData).length === 0 && (
-                <label>
-                  <span>Password:</span>
-                  <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
-                </label>
-              )}
-              <label>
-                User Type
-                <select value={userType} onChange={(e) => setUserType(e.target.value)}>
-                  <option disabled selected>
-                    Select user type
-                  </option>
-                  <option value='1'>Admin</option>
-                  <option value='2'>User</option>
-                </select>
-              </label>
-              <button className='btn create' onClick={handleSubmit}>
-                {Object.keys(editUserData).length > 0 ? 'Edit' : 'Create'} user
+          <div>
+            <div className='create-btn'>
+              <button className='btn create' onClick={() => setIsModalOpen(true)}>
+                Create User
               </button>
+            </div>
+
+            <div className='user-table-container'>
+              <section className='scroll-section pt-4 table-main table-responsive' id='hoverableRows'>
+                <table className='user-table'>
+                  <thead>
+                    <tr>
+                      <th>User Information</th>
+                      <th>User Type</th>
+                      <th>Created At</th>
+                      <th>Updated At</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {list?.length > 0 ? (
+                      <>
+                        {list?.map((item, index) => (
+                          <tr key={index}>
+                            <td>
+                              {item?.full_name}
+                              <br />
+                              {item?.email}
+                            </td>
+                            <td>{item?.user_type == 1 ? 'Admin' : 'User'}</td>
+                            <td>{moment(item?.created_at).format('MM/DD/YYYY, h:mma')}</td>
+                            <td>{moment(item?.updated_at).format('MM/DD/YYYY, h:mma')}</td>
+                            <td>
+                              <div className='action-container'>
+                                <button
+                                  className='btn edit'
+                                  title='Edit User'
+                                  onClick={() => {
+                                    setEditUserData(item)
+                                    setIsModalOpen(true)
+                                  }}
+                                >
+                                  Edit
+                                </button>
+                                <button className='btn delete' title='Delete User' onClick={() => changeUserStatus(item.id)}>
+                                  Delete
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </>
+                    ) : (
+                      <tr>
+                        <td colSpan={5}>Not found</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </section>
             </div>
           </div>
         </div>
-      )}
+
+        {isModalOpen && (
+          <div className='modal-overlay'>
+            <div className='modal-content'>
+              <span className='close-button' onClick={handleClose}>
+                &times;
+              </span>
+              <div className='modal-body admin'>
+                <label>
+                  Name:
+                  <input type='text' value={name} onChange={(e) => setName(e.target.value)} />
+                </label>
+                <label>
+                  Email:
+                  <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} />
+                </label>
+                {Object.keys(editUserData).length === 0 && (
+                  <label>
+                    <span>Password:</span>
+                    <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                  </label>
+                )}
+                <label>
+                  User Type
+                  <select value={userType} onChange={(e) => setUserType(e.target.value)}>
+                    <option disabled selected>
+                      Select user type
+                    </option>
+                    <option value='1'>Admin</option>
+                    <option value='2'>User</option>
+                  </select>
+                </label>
+                <button className='btn create' onClick={handleSubmit}>
+                  {Object.keys(editUserData).length > 0 ? 'Edit' : 'Create'} user
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
