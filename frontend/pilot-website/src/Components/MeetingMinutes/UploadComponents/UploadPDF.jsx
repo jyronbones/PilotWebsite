@@ -19,7 +19,7 @@ const UploadPDF = ({ onUpload }) => {
   const [filename, setFilename] = useState('')
   const [fileType, setFileType] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [selectedOption, setSelectedOption] = useState('Union Agreement')
+  const [selectedOption, setSelectedOption] = useState('Important')
   const [error, setError] = useState('')
 
   const openModal = () => {
@@ -30,7 +30,7 @@ const UploadPDF = ({ onUpload }) => {
     setFile(null)
     setFilename('')
     setIsModalOpen(false)
-    setSelectedOption('Union Agreement')
+    setSelectedOption(' ')
     setError('')
   }
 
@@ -60,7 +60,7 @@ const UploadPDF = ({ onUpload }) => {
       formData.append('fileType', fileType)
       formData.append('category', selectedOption)
 
-      await axios.post(`${API_URL}/upload-file`, formData, {
+      await axios.post(`${API_URL}/upload-meeting`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -79,7 +79,9 @@ const UploadPDF = ({ onUpload }) => {
 
   return (
     <div>
-      <button onClick={openModal}>Upload File</button>
+      <button className='btn create' onClick={openModal}>
+        Upload File
+      </button>
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
@@ -133,14 +135,14 @@ const UploadPDF = ({ onUpload }) => {
                 </div>
               </label>
               <label>
-                <b>File category:</b>
+                <b>Important:</b>
+                <br />
                 <select className='categoryCB' value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
-                  <option value='Union Agreement'>Union Agreement</option>
-                  <option value='Corporate Bylaw'>Corporate Bylaws</option>
-                  <option value='Working Rules'>Working Rules</option>
-                  <option value='Other'>Other</option>
+                  <option value=' '> </option>
+                  <option value='Important'>Important</option>
                 </select>
               </label>
+              <br />
               <br />
               <button className='upload-button' onClick={handleUpload}>
                 Upload PDF

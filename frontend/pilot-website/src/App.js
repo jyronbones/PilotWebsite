@@ -9,7 +9,7 @@ import Login from './Components/Login/Login'
 import Scheduling from './Components/Scheduling/Scheduling'
 import MonthlyCalendar from './Components/Scheduling/MonthlyCalendar/MonthlyCalendar'
 import VacationSchedule from './Components/Scheduling/VacationSchedule/VacationSchedule'
-import UnionAgreement from './Components/UnionAgreement/UnionAgreement'
+import CollectiveAgreement from './Components/CollectiveAgreement/CollectiveAgreement'
 import MeetingMinutes from './Components/MeetingMinutes/MeetingMinutes'
 import AdminPortal from './Components/AdminPortal/AdminPortal'
 import ErrorComponent from './Components/Error/ErrorComponent'
@@ -37,7 +37,7 @@ function AppContent() {
         <Route path='/scheduling' element={<Scheduling />} />
         <Route path='/monthly-calendar' element={<MonthlyCalendar />} />
         <Route path='/vacation-schedule' element={<VacationSchedule />} />
-        <Route path='/union-agreement' element={<UnionAgreement />} />
+        <Route path='/collective-agreement' element={<CollectiveAgreement />} />
         <Route path='/admin-panel' element={<AdminPortal />} />
         <Route path='/error/:errorCode' element={<ErrorComponent />} />
         <Route path='*' element={<ErrorComponent errorCode={404} errorMessage='Page not found' />} />

@@ -1,98 +1,126 @@
-import React, { useState, useRef } from 'react'
-import Grid from '@mui/material/Grid'
+import React, { useState, useEffect } from 'react'
 import './MeetingMinutes.css'
+import UploadPDF from './UploadComponents/UploadPDF'
+import axios from 'axios'
+
+const API_URL = process.env.REACT_APP_API_URL
 
 const MeetingMinutes = () => {
-  const [minutes, setMinutes] = useState([
-    {
-      id: 1,
-      title: 'Meeting on Project A',
-      content: 'Discussed the progress on Pilot Website...'
-    },
-    {
-      id: 2,
-      title: 'Review Meeting',
-      content: 'Tested meeting minute functionality...'
-    }
-    // ... other initial minutes
-  ])
-  const hiddenFileInput = useRef(null)
+  const [files, setFiles] = useState([])
 
-  const handleClick = () => {
-    hiddenFileInput.current.click()
-  }
+  useEffect(() => {
+    fetchFiles()
+  }, []) //files
 
-  // const addMinute = () => {
-  //   // Placeholder for admin check
-  //   // if (!isAdmin) return;
-  //   const title = window.prompt('Enter the title for the meeting minute:')
-  //   const content = window.prompt('Enter the content for the meeting minute:')
-  //   if (title && content) {
-  //     const newMinute = { id: Date.now(), title, content } // Using timestamp as a makeshift id
-  //     setMinutes([...minutes, newMinute])
-  //   }
-  // }
-
-  const editMinute = (id) => {
-    // Placeholder for admin check
-    // if (!isAdmin) return;
-
-    const minute = minutes.find((m) => m.id === id)
-    const newTitle = window.prompt('Edit the title:', minute.title)
-    const newContent = window.prompt('Edit the content:', minute.content)
-
-    if (newTitle && newContent) {
-      const updatedMinutes = minutes.map((m) => (m.id === id ? { ...m, title: newTitle, content: newContent } : m))
-      setMinutes(updatedMinutes)
+  const handleDelete = async (filename) => {
+    if (window.confirm(`Are you sure you want to delete ${filename}?`)) {
+      try {
+        await axios.delete(`${API_URL}/delete-meeting/${filename}`)
+        setFiles(files.filter((file) => file.filename !== filename))
+      } catch (error) {
+        console.error('Error deleting meeting:', error)
+      }
     }
   }
 
-  const deleteMinute = (id) => {
-    // Placeholder for admin check
-    // if (!isAdmin) return;
+  const handleDownload = async (filename) => {
+    try {
+      const response = await axios.get(`${API_URL}/download-meeting/${filename}`, {
+        responseType: 'blob' // Important: responseType must be 'blob' for file download
+      })
 
-    if (window.confirm('Are you sure you want to delete this minute?')) {
-      const updatedMinutes = minutes.filter((m) => m.id !== id)
-      setMinutes(updatedMinutes)
+      // Create a temporary URL for the file blob
+      const url = window.URL.createObjectURL(new Blob([response.data]))
+
+      // Create a temporary link element and click it to trigger the download
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', filename)
+      document.body.appendChild(link)
+      link.click()
+
+      // Clean up the temporary URL and link element
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(link)
+    } catch (error) {
+      console.error('Error downloading meeting:', error)
+    }
+  }
+
+  const handleUpload = () => {
+    // Call fetchFiles after successful upload
+    fetchFiles()
+  }
+
+  const fetchFiles = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/list-meetings`)
+      setFiles(response.data.files)
+    } catch (error) {
+      console.error('Error listing meetings from S3:', error)
+      setFiles([])
     }
   }
 
   return (
-    <div className='minutes-container'>
-      <h2>Meeting Minutes</h2>
-      <div className='minute-list'>
-        {minutes.map((minute) => (
-          <Grid container spacing={2} key={minute.id} justifyContent='center' alignItems='center' className='minute-row'>
-            <Grid item xs={3}>
-              <h3>{minute.title}</h3>
-            </Grid>
-            <Grid item xs={5}>
-              <p>{minute.content}</p>
-              {/* Example CRUD buttons for each minute */}
-            </Grid>
-            <Grid item xs={1}>
-              <button className='btn edit' onClick={() => editMinute(minute.id)}>
-                Edit
-              </button>
-            </Grid>
-            <Grid item xs={1}>
-              <button className='btn delete' onClick={() => deleteMinute(minute.id)}>
-                Delete
-              </button>
-            </Grid>
-          </Grid>
-        ))}
+    <>
+      <div className='content-wrap'>
+        <div className='meeting-container'>
+          <h2>Meeting Minutes</h2>
+          <div className='p-2 p-md-4'>
+            {sessionStorage.getItem('user_type') == 1 && (
+              <div className='create-btn'>
+                <UploadPDF onUpload={handleUpload} />
+              </div>
+            )}
+
+            <div className='meeting-table-container'>
+              <section className='scroll-section pt-3 table-main table-responsive' id='hoverableRows'>
+                <table className='custom-meeting-table'>
+                  <thead>
+                    <tr>
+                      <th>File Name</th>
+                      <th>Date Uploaded</th>
+                      <th>Category</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {files?.length > 0 ? (
+                      <>
+                        {files.map((file, index) => (
+                          <tr key={index}>
+                            <td>{file.filename.split('.').slice(0, -1).join('.')}</td>
+                            <td>{file.dateAdded}</td>
+                            <td>{file.category}</td>
+                            <td>
+                              <div className='action-container'>
+                                {sessionStorage.getItem('user_type') == 1 && (
+                                  <button className='action-button' onClick={() => handleDelete(file.filename)}>
+                                    Delete
+                                  </button>
+                                )}
+                                <button className='action-button' onClick={() => handleDownload(file.filename)}>
+                                  Download
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </>
+                    ) : (
+                      <tr>
+                        <td colSpan={3}>No Meeting Minutes</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </section>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className='btn-minute'>
-        <button className='btn add-minute' onClick={handleClick}>
-          Add Manually
-        </button>
-        <button className='btn add-minute' onClick={handleClick}>
-          Upload File
-          <input type='file' ref={hiddenFileInput} style={{ display: 'none' }} />
-        </button>
-      </div>
-    </div>
+    </>
   )
 }
 
