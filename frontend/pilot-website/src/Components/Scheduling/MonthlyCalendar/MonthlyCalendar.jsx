@@ -16,7 +16,7 @@ const MonthlyCalendar = () => {
   const [showForm, setShowForm] = useState(false)
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [eventRange, setEventRange] = useState({ start: null, end: null })
-  const [selectedDate, setSelectedDate] = useState(null)
+  // const [selectedDate, setSelectedDate] = useState(null)
   const formContainerRef = useRef(null)
 
   useEffect(() => {
@@ -31,27 +31,29 @@ const MonthlyCalendar = () => {
     try {
       const response = await fetch(`${API_URL}/scheduling/employees/`)
       if (response.ok) {
-        const data = await response.json()
-        const formattedData = data.map((emp) => ({
+        const employeesData = await response.json()
+        const transformedEmployees = employeesData.map((emp) => ({
           ...emp,
-          events: emp.events.map((event) => ({
-            ...event,
-            start: new Date(event.start),
-            end: new Date(event.end),
-            title: event.title || 'No Title' // Add a default title or use one from the event
-          }))
+          // events: emp.events.map((event) => ({
+          //   ...event,
+          //   start: new Date(event.startDate),
+          //   end: new Date(event.endDate),
+          //   event_id: event.id
+          // }))
+          events: emp.events || []
         }))
-        setEmployees(formattedData)
-        // Transform and set events for all employees to be used by the calendar
-        const allEvents = formattedData.reduce((acc, curr) => [...acc, ...curr.events], [])
+        setEmployees(transformedEmployees)
+        const allEvents = transformedEmployees.flatMap((emp) => emp.events)
         setEvents(allEvents)
       } else {
         console.error('Failed to fetch employees')
         setEmployees([])
+        setEvents([])
       }
     } catch (error) {
       console.error('Error:', error)
       setEmployees([])
+      setEvents([])
     }
   }
 
@@ -65,16 +67,16 @@ const MonthlyCalendar = () => {
   const handleSelectSlot = ({ start, end }) => {
     setEventRange({ start: moment(start).toDate(), end: moment(end).toDate() })
     setShowForm(true)
-    setSelectedEvent(null)
-    setSelectedDate(moment(start).toDate())
+    // setSelectedEvent(null)
+    // setSelectedDate(moment(start).toDate())
   }
 
   const handleSelectEvent = (event) => {
     setSelectedEvent(event)
     setShowForm(true)
-    setSelectedEmployee(employees.find((emp) => emp.id === event.employeeId))
+    setSelectedEmployee(employees.find((emp) => emp.employee_id === event.employeeId))
     setEventRange({ start: event.start, end: event.end })
-    setSelectedDate(moment(event.start).toDate())
+    // setSelectedDate(moment(event.start).toDate())
   }
 
   const handleFormSubmit = async (e) => {
@@ -83,28 +85,30 @@ const MonthlyCalendar = () => {
       console.error('Missing required information')
       return
     }
-
-    const event = {
-      start: eventRange.start,
-      end: eventRange.end,
-      title: 'Event' // or any other title you wish to give the event
-      // include any other event fields your backend expects
+    // Assuming the backend expects a start, end, and title within an 'event' object
+    const eventData = {
+      start: moment(eventRange.start).format('YYYY-MM-DD'),
+      end: moment(eventRange.end).format('YYYY-MM-DD'),
+      title: selectedEmployee.name // Assuming your backend uses 'title
     }
 
     try {
-      const response = await fetch(`${API_URL}/scheduling/update-employee-events/${selectedEmployee.employee_id}/`, {
-        method: 'POST', // or 'PUT' if you're updating an existing event
+      // Adjust the API call URL as per your actual endpoint
+      const response = await fetch(`${API_URL}/scheduling/employee-events/${selectedEmployee.employee_id}/`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ event }) // adjust based on the expected format
+        body: JSON.stringify({ event: eventData })
       })
 
       if (response.ok) {
-        fetchEmployees() // Refresh employees and their events after updating
+        console.log('Event added successfully')
+        await fetchEmployees() // Refresh employees and their events after updating
         setShowForm(false)
       } else {
-        console.error('Failed to update employee events')
+        const errorData = await response.json()
+        console.error('Failed to update employee events', errorData)
       }
     } catch (error) {
       console.error('Error:', error)
@@ -117,8 +121,28 @@ const MonthlyCalendar = () => {
   }
 
   function removeEvent(eventToRemove) {
-    setEvents(events.filter((event) => event !== eventToRemove))
-    setShowForm(false) // Hide the form after deleting the event
+    const eventId = eventToRemove.event_id // Make sure this matches the event ID key in your data structure
+
+    const deleteEvent = async () => {
+      try {
+        const response = await fetch(`${API_URL}/scheduling/employee-events/${selectedEmployee.employee_id}/`, {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ event_id: eventId }) // Correct payload to match the backend expectation
+        })
+
+        if (response.ok) {
+          console.log('Event removed successfully')
+          await fetchEmployees() // Refresh the data to reflect deletion
+        } else {
+          console.error('Failed to remove the event')
+        }
+      } catch (error) {
+        console.error('Error removing event:', error)
+      }
+    }
+
+    deleteEvent()
   }
 
   return (
@@ -194,9 +218,9 @@ const MonthlyCalendar = () => {
               {events
                 .filter(
                   (event) =>
-                    moment(event.start).isSame(selectedDate, 'day') ||
-                    moment(event.end).isSame(selectedDate, 'day') ||
-                    (moment(event.start).isBefore(selectedDate, 'day') && moment(event.end).isAfter(selectedDate, 'day'))
+                    moment(event.start).isSame(eventRange.start, 'day') ||
+                    moment(event.end).isSame(eventRange.start, 'day') ||
+                    (moment(event.start).isBefore(eventRange.start, 'day') && moment(event.end).isAfter(eventRange.start, 'day'))
                 )
                 .map((event, index) => (
                   <div key={index}>
