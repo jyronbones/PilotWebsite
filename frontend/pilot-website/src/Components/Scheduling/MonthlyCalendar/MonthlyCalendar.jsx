@@ -33,12 +33,6 @@ const MonthlyCalendar = () => {
         const employeesData = await response.json()
         const transformedEmployees = employeesData.map((emp) => ({
           ...emp,
-          // events: emp.events.map((event) => ({
-          //   ...event,
-          //   start: new Date(event.startDate),
-          //   end: new Date(event.endDate),
-          //   event_id: event.id
-          // }))
           events: emp.events || []
         }))
         setEmployees(transformedEmployees)
@@ -81,15 +75,13 @@ const MonthlyCalendar = () => {
       console.error('Missing required information')
       return
     }
-    // Assuming the backend expects a start, end, and title within an 'event' object
     const eventData = {
       start: moment(eventRange.start).format('YYYY-MM-DD'),
       end: moment(eventRange.end).format('YYYY-MM-DD'),
-      title: selectedEmployee.name // Assuming your backend uses 'title
+      title: selectedEmployee.name
     }
 
     try {
-      // Adjust the API call URL as per your actual endpoint
       const response = await fetch(`${API_URL}/scheduling/employee-events/${selectedEmployee.employee_id}/`, {
         method: 'POST',
         headers: {
@@ -100,7 +92,7 @@ const MonthlyCalendar = () => {
 
       if (response.ok) {
         console.log('Event added successfully')
-        await fetchEmployees() // Refresh employees and their events after updating
+        await fetchEmployees()
         setShowForm(false)
       } else {
         const errorData = await response.json()
@@ -117,19 +109,19 @@ const MonthlyCalendar = () => {
   }
 
   function removeEvent(eventToRemove) {
-    const eventId = eventToRemove.event_id // Make sure this matches the event ID key in your data structure
+    const eventId = eventToRemove.event_id
 
     const deleteEvent = async () => {
       try {
         const response = await fetch(`${API_URL}/scheduling/employee-events/${selectedEmployee.employee_id}/`, {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ event_id: eventId }) // Correct payload to match the backend expectation
+          body: JSON.stringify({ event_id: eventId })
         })
 
         if (response.ok) {
           console.log('Event removed successfully')
-          await fetchEmployees() // Refresh the data to reflect deletion
+          await fetchEmployees()
         } else {
           console.error('Failed to remove the event')
         }
