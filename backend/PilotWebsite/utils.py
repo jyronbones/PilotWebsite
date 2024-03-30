@@ -3,10 +3,6 @@ from botocore.exceptions import ClientError
 import json
 
 def get_secret():
-
-    # secret_name = "dev/pilotwebsite/agreementfiles"
-    # region_name = "ca-central-1"
-
     secret_name = "prod/pilotwebsite/agreementfileskeys"
     region_name = "us-east-1"
 
@@ -22,20 +18,23 @@ def get_secret():
             SecretId=secret_name
         )
     except ClientError as e:
-        # For a list of exceptions thrown, see
-        # https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
+        print(f"Unable to retrieve secret {secret_name}: {e}")
         raise e
 
+    # Assuming the secret is stored in the string format within Secrets Manager
     secret = get_secret_value_response['SecretString']
     secrets_dict = json.loads(secret)
 
-    # AWS_ACCESS_KEY_ID = secrets_dict.get('AWS_ACCESS_KEY_ID', '')
-    # AWS_SECRET_ACCESS_KEY = secrets_dict.get('AWS_SECRET_ACCESS_KEY', '')
-    # AWS_STORAGE_BUCKET_NAME = secrets_dict.get('AWS_STORAGE_BUCKET_NAME', '')
-    # AWS_S3_REGION_NAME = secrets_dict.get('AWS_S3_REGION_NAME', '')
-    AWS_ACCESS_KEY_ID = "anything"
-    AWS_SECRET_ACCESS_KEY = "anything"
-    AWS_STORAGE_BUCKET_NAME = "localAgreementTesting"
-    AWS_S3_REGION_NAME = "us-east-1"
+    AWS_ACCESS_KEY_ID = secrets_dict.get('AWS_ACCESS_KEY_ID', '')
+    AWS_SECRET_ACCESS_KEY = secrets_dict.get('AWS_SECRET_ACCESS_KEY', '')
+    AWS_STORAGE_BUCKET_NAME = secrets_dict.get('AWS_STORAGE_BUCKET_NAME', '')
+    AWS_S3_REGION_NAME = secrets_dict.get('AWS_S3_REGION_NAME', '')
 
     return AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME, AWS_S3_REGION_NAME
+# Example usage
+if __name__ == "__main__":
+    access_key, secret_key, bucket_name, region = get_secret()
+    print(f"Access Key: {access_key}")
+    print(f"Secret Key: {secret_key}")
+    print(f"Bucket Name: {bucket_name}")
+    print(f"Region: {region}")
