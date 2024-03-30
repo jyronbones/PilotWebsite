@@ -11,16 +11,13 @@ import os
 
 dynamodb = boto3.resource(
     "dynamodb",
-    # endpoint_url=os.getenv("DB_ENDPOINT"), # this is used for localhost
     region_name=os.getenv("DB_REGION_NAME"),
     aws_access_key_id=os.getenv("DB_AWS_ACCESS_KEY_ID"),
     aws_secret_access_key=os.getenv("DB_AWS_SECRET_ACCESS_KEY"),
 )
 
-# table = dynamodb.Table('Employees')
 table_name=DB_EMPLOYEES_TABLE_NAME
 table = dynamodb.Table(DB_EMPLOYEES_TABLE_NAME)
-# table = dynamodb.Table("Employees")  # Correct table initialization
 
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
@@ -112,7 +109,7 @@ def events_list(request):
 def employees_list(request):
 
     try:
-        # Scan the table (Note: Consider using query or scan with pagination in production)
+        # Scan the table
         response = table.scan()
         employees = response.get('Items', [])
 
@@ -157,7 +154,6 @@ def add_employee(request):
         except Exception as e:
             return Response({'error': str(e)}, status=500)
     else:
-        # This else block is technically unnecessary because @api_view(['POST']) already restricts to POST requests
         return Response({'error': 'Invalid HTTP method'}, status=405)
     
 
