@@ -14,27 +14,8 @@ from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
 import os
-import boto3
-import json
-from botocore.exceptions import NoCredentialsError, PartialCredentialsError
+from PilotWebsite.utils import get_aws_secret
 
-def get_aws_secret_key(secret_name, secret_key):
-    region_name = "us-east-1"
-
-    # Create a Secrets Manager client
-    session = boto3.session.Session()
-    client = session.client(service_name='secretsmanager', region_name=region_name)
-
-    try:
-        # Fetch the secret from Secrets Manager
-        response = client.get_secret_value(SecretId=secret_name)
-        secret = json.loads(response['SecretString'])
-        return secret[secret_key]
-    except (NoCredentialsError, PartialCredentialsError) as e:
-        raise Exception(f"Credentials error fetching secret: {e}")
-    except Exception as e:
-        raise Exception(f"Error fetching secret: {e}")
-    
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,9 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-# Fetch SECRET_KEY from AWS Secrets Manager
-SECRET_KEY = get_aws_secret_key("prod/pilotwebsite/djangosecretkey", "django_secret_key")
+# Fetch Django SECRET_KEY from AWS Secrets Manager
+SECRET_KEY = get_aws_secret("prod/pilotwebsite/djangosecretkey", "django_secret_key", "us-east-1")
+
+# secret_name to retrieve AWS Secrets for files
+AGREEMENT_BUCKET_NAME = "agreementfilesbucket"
+MEETING_BUCKET_NAME = "meetingminutesbucket"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -79,6 +63,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "apps.user.middleware.CustomErrorMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware",

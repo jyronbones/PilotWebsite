@@ -176,11 +176,7 @@ Zappa - Serverless Python web services
 
 ## Contributors
 
-Byron Jones - @jyronbones
-Amy Fujimoto - @fuji0014
-Ngoc Phuong Khanh - @le000222
+Byron Jones - @jyronbones<br>
+Amy Fujimoto - @fuji0014<br>
+Ngoc Phuong Khanh - @le000222<br>
 Michael Garrison - @Garrison86
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE.md file for details.
