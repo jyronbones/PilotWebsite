@@ -9,7 +9,6 @@ import boto3
 import json
 import os
 
-# # DynamoDB Solution:
 dynamodb = boto3.resource(
     "dynamodb",
     # endpoint_url=os.getenv("DB_ENDPOINT"), # this is used for localhost
