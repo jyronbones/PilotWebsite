@@ -35,7 +35,6 @@ def get_aws_secret_key(secret_name, secret_key):
     except Exception as e:
         raise Exception(f"Error fetching secret: {e}")
     
-
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -44,11 +43,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
-
 # SECURITY WARNING: keep the secret key used in production secret!
 # Fetch SECRET_KEY from AWS Secrets Manager
-# SECRET_KEY = get_aws_secret_key("prod/pilotwebsite/djangosecretkey", "django_secret_key") # comment out for localhost
-SECRET_KEY = "django-insecure-q(*j%t%%+d_mhgg1h%j-uumx5#^yvc9v+i==z5u)gf$cd3jkfo" # DELETE for "This is Local Testing" localhost
+SECRET_KEY = get_aws_secret_key("prod/pilotwebsite/djangosecretkey", "django_secret_key") # comment out for localhost
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

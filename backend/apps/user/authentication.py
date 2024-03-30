@@ -26,7 +26,7 @@ class DynamoDBJWTAuthentication(BaseAuthentication):
             # You may need to add additional checks here, like token expiration
 
             return user_record[0], token_record[0]  # Return the authenticated token and user record
-        except jwt.exceptions.DecodeError as e:
-            raise AuthenticationFailed('Error decoding token: {}'.format(str(e)))
         # except outstandingToken.DoesNotExist:
         #     raise AuthenticationFailed('Invalid token')
+        except jwt.exceptions.DecodeError as e:
+            raise AuthenticationFailed('Error decoding token: {}'.format(str(e)))

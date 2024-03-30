@@ -5,25 +5,16 @@ from rest_framework.response import Response
 import os
 from PilotWebsite.utils import get_secret
 
-# AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME, AWS_S3_REGION_NAME = get_secret()
+AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME, AWS_S3_REGION_NAME = get_secret()
 
-# s3 = boto3.client(
-#   's3',
-#   aws_access_key_id=AWS_ACCESS_KEY_ID,
-#   aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-#   region_name=AWS_S3_REGION_NAME
-# )
-
-s3 = boto3.resource(
-    "dynamodb",
-    endpoint_url=os.getenv("DB_ENDPOINT"), # this is used for localhost
-    region_name=os.getenv("DB_REGION_NAME"),
-    aws_access_key_id=os.getenv("DB_AWS_ACCESS_KEY_ID"),
-    aws_secret_access_key=os.getenv("DB_AWS_SECRET_ACCESS_KEY"),
+s3 = boto3.client(
+  's3',
+  aws_access_key_id=AWS_ACCESS_KEY_ID,
+  aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+  region_name=AWS_S3_REGION_NAME
 )
 
-# bucket_name = AWS_STORAGE_BUCKET_NAME # this commented out for localhost
-bucket_name = os.getenv("DB_BUCKET_NAME") # this is used for localhost
+bucket_name = AWS_STORAGE_BUCKET_NAME # this commented out for localhost
 
 @api_view(['POST'])
 def upload_file(request):
