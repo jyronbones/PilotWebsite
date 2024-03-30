@@ -16,7 +16,7 @@ aws_secret_access_key = os.getenv("DB_AWS_SECRET_ACCESS_KEY")
 class UserTrip(DynaModel):
     class Table:
         resource_kwargs = {
-            # "endpoint_url": endpoint_url,
+            "endpoint_url": endpoint_url,
             "region_name": region_name,
             "aws_access_key_id": aws_access_key_id,
             "aws_secret_access_key": aws_secret_access_key,
@@ -31,35 +31,11 @@ class UserTrip(DynaModel):
         trip_id = fields.UUID(required=True)
         user_id = fields.UUID(required=True)
         vessel = fields.String(required=True)
-        date = fields.Date(required=True)
+        date = fields.Date(format="iso", required=True)
         departure = fields.Integer(required=True)
         destination = fields.Integer(required=True)
         trip_type = fields.Integer(required=True)
         double = fields.Boolean(required=True)
-        notes = fields.String()
+        notes = fields.String(required=False)
+        effective_month = fields.Integer()
         updated_at = fields.DateTime(format="iso")
-
-
-# This is productivity model
-class Productivity(DynaModel):
-    class Table:
-        resource_kwargs = {
-            "endpoint_url": endpoint_url,
-            "region_name": region_name,
-            "aws_access_key_id": aws_access_key_id,
-            "aws_secret_access_key": aws_secret_access_key,
-        }
-        name = "token_blacklist_outstanding"
-        hash_key = "id"
-        sort_key = "user_id"
-        read = 25
-        write = 5
-
-    class Schema:
-        id = fields.UUID(required=True)
-        user_id = fields.UUID(required=True)
-        total_full = fields.String(required=True)
-        total_partial = fields.String(required=True)
-        total_cancel = fields.DateTime(format="iso", required=True)
-        total_double = fields.DateTime(format="iso", required=True)
-        total_assignments = fields.UUID(required=True)

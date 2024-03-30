@@ -1,0 +1,26 @@
+.tab-container {
+  width: auto;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.tab-section {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid transparent;
+}
+.tab-section:hover,
+.tab-section.active {
+  border-bottom: 2px solid var(--color-secondary-dark);
+}
+.tab {
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+.tab.active,
+.tab:hover {
+  font-weight: 500;
+  color: var(--color-secondary-dark);
+  background-color: #dce1e2;
+}

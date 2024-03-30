@@ -1,6 +1,6 @@
 import boto3
 from botocore.exceptions import ClientError
-from PilotWebsite.settings import DB_ENDPOINT, DB_TABLE, DB_EMPLOYEES_TABLE_NAME
+from PilotWebsite.settings import DB_ENDPOINT, DB_TABLE, DB_EMPLOYEES_TABLE_NAME, DB_USERTRIP_TABLE, DB_PROD_TABLE, DB_AVAILABILITY
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -66,10 +66,12 @@ def create_outstandingtoken_table(dynamodb=dynamodb):
 def create_usertrip_table(dynamodb=dynamodb):
     try:
         table = dynamodb.create_table(
-            TableName="usertrip_table",
-            KeySchema=[{"AttributeName": "id", "KeyType": "HASH"}],
+            TableName=DB_USERTRIP_TABLE,
+            KeySchema=[{"AttributeName": "trip_id", "KeyType": "HASH"},
+                       {"AttributeName": "user_id", "KeyType": "RANGE"}],
             AttributeDefinitions=[
-                {"AttributeName": "id", "AttributeType": "S"},
+                {"AttributeName": "trip_id", "AttributeType": "S"},
+                {"AttributeName": "user_id", "AttributeType": "S"},
             ],
             ProvisionedThroughput={"ReadCapacityUnits": 5, "WriteCapacityUnits": 2},
         )
@@ -77,41 +79,60 @@ def create_usertrip_table(dynamodb=dynamodb):
             TableName="token_blacklist_outstanding"
         )
         print(
-            "usertrip_table Table created successfully. Table status:",
+            "usertrips Table created successfully. Table status:",
             table.table_status,
         )
         print("Item count:", table.item_count)
 
     except ClientError as e:
         if e.response["Error"]["Code"] == "ResourceInUseException":
-            print(f"Table usertrip_table already exists.")
+            print(f"Table usertrips already exists.")
         else:
             print("An error occurred:", e)
 
 def create_productivity_table(dynamodb=dynamodb):
     try:
         table = dynamodb.create_table(
-            TableName="productivity_table",
-            KeySchema=[{"AttributeName": "id", "KeyType": "HASH"},
-                       {"AttributeName": "user_id", "KeyType": "RANGE"}],
-            AttributeDefinitions=[
-                {"AttributeName": "id", "AttributeType": "S"},
-                {"AttributeName": "user_id", "AttributeType": "R"},
-            ],
+            TableName=DB_PROD_TABLE,
+            KeySchema=[{"AttributeName": "user_id", "KeyType": "HASH"}],
+            AttributeDefinitions=[{"AttributeName": "user_id", "AttributeType": "S"}],
             ProvisionedThroughput={"ReadCapacityUnits": 5, "WriteCapacityUnits": 2},
         )
         table.meta.client.get_waiter("table_exists").wait(
-            TableName="productivity_table"
+            TableName="token_blacklist_outstanding"
         )
         print(
-            "productivity_table Table created successfully. Table status:",
+            "productivity Table created successfully. Table status:",
             table.table_status,
         )
         print("Item count:", table.item_count)
 
     except ClientError as e:
         if e.response["Error"]["Code"] == "ResourceInUseException":
-            print(f"Table productivity_table already exists.")
+            print(f"Table productivity already exists.")
+        else:
+            print("An error occurred:", e)
+
+def create_availability_table(dynamodb=dynamodb):
+    try:
+        table = dynamodb.create_table(
+            TableName=DB_AVAILABILITY,
+            KeySchema=[{"AttributeName": "user_id", "KeyType": "HASH"}],
+            AttributeDefinitions=[{"AttributeName": "user_id", "AttributeType": "S"}],
+            ProvisionedThroughput={"ReadCapacityUnits": 5, "WriteCapacityUnits": 2},
+        )
+        table.meta.client.get_waiter("table_exists").wait(
+            TableName="token_blacklist_outstanding"
+        )
+        print(
+            "Availability Table created successfully. Table status:",
+            table.table_status,
+        )
+        print("Item count:", table.item_count)
+
+    except ClientError as e:
+        if e.response["Error"]["Code"] == "ResourceInUseException":
+            print(f"Table Availability already exists.")
         else:
             print("An error occurred:", e)
 
@@ -146,3 +167,6 @@ if __name__ == "__main__":
     create_users_table()
     create_outstandingtoken_table()
     create_employees_table()
+    create_usertrip_table()
+    create_productivity_table()
+    # create_availability_table()

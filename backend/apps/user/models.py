@@ -27,7 +27,7 @@ class UserNew(DynaModel):
         write = 5
 
     class Schema:
-        id = fields.UUID(required=True)
+        id = fields.UUID(required=True, editable=False)
         full_name = fields.String()
         first_name = fields.String()
         last_name = fields.String()
@@ -37,6 +37,15 @@ class UserNew(DynaModel):
         date_joined = fields.DateTime(format="iso")
         created_at = fields.DateTime(format="iso")
         updated_at = fields.DateTime(format="iso")
+        apr = fields.Boolean(required=True)
+        may = fields.Boolean(required=True)
+        jun= fields.Boolean(required=True)
+        jul = fields.Boolean(required=True)
+        aug = fields.Boolean(required=True)
+        sep = fields.Boolean(required=True)
+        oct = fields.Boolean(required=True)
+        nov = fields.Boolean(required=True)
+        dec = fields.Boolean(required=True)
         is_superuser = fields.Boolean(required=True)
         is_staff = fields.Boolean(required=True)
         is_active = fields.Boolean(required=True)

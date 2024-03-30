@@ -1,0 +1,20 @@
+.productivity-table-container {
+  margin-top: 2rem;
+  padding: 0;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  text-align: left;
+}
+.prodreport-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.prodreport-table thead {
+  background-color: #ccc;
+}
+.prodreport-table th,
+.prodreport-table td {
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem;
+}

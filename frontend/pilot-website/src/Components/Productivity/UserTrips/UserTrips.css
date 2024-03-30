@@ -1,48 +1,25 @@
-.usertrip {
-  min-height: 80vh;
-  margin-top: 6rem;
-}
 .usertrip-container {
-  margin: 3rem;
+  margin: 2rem;
   background-color: #f5f5f5;
   border-radius: 15px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   padding: 40px;
   font-family: 'Roboto', sans-serif;
-  text-align: center;
   font-weight: 500;
-  font-size: 24px;
   color: #333;
 }
 .usertrip-header {
   display: flex;
+  padding-left: 1rem;
+  gap: 3rem;
   align-items: center;
   border-bottom: 3px solid var(--color-secondary-light);
 }
-.usertrip-title {
-  color: #333;
-  display: flex;
-  gap: 1rem;
-  font-weight: 600;
-}
-.usertrip-title p {
-  font-size: 26px;
-  color: darkgrey;
-  font-weight: 600;
-}
-.create-btn {
-  display: flex;
-  justify-content: flex-end;
-  margin: 1rem 0;
+.usertrip-header h3 {
+  font-size: 24px;
 }
 
 /* External CSS for UserTable component */
-.usertrip-table-container {
-  padding: 0;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  text-align: left;
-}
 .usertrip-table {
   width: 100%;
   border-collapse: collapse;
@@ -124,35 +101,25 @@
   display: block;
   width: 100%;
 }
-input {
+.modal-body.admin input {
   width: 360px !important;
-}
-.btn.create {
-  background-color: #4caf50;
-  color: white;
-}
-.btn.create:hover {
-  background-color: #45a049;
 }
 
 /* Add more styles as needed */
 @media (max-width: 920px) {
-  .user {
-    margin-top: 6rem;
-  }
-  .user-container {
+  .usertrip-container {
     margin: 2rem;
   }
   .btn.back {
     margin-left: 2rem;
   }
-  .user-table-container {
+  .usertrip-table-container {
     overflow-x: scroll;
   }
-  .user-title {
+  .usertrip-title {
     font-size: 1.5rem;
   }
-  .user-title p {
+  .usertrip-title p {
     font-size: 18px;
     color: darkgrey;
     font-weight: 600;
@@ -160,17 +127,20 @@ input {
 }
 
 @media (max-width: 638px) {
-  .user-container {
+  .usertrip-container {
     margin: 1rem;
     padding: 20px;
   }
-  .user-table th,
-  .user-table td {
+  .usertrip-table-container {
+    overflow-x: scroll;
+  }
+  .usertrip-table th,
+  .usertrip-table td {
     font-size: 12px;
     font-weight: 400;
     padding: 0.5rem;
   }
-  .user-title {
+  .usertrip-title {
     font-size: 16px;
   }
   .btn.back {
@@ -182,10 +152,16 @@ input {
 }
 
 @media (max-width: 470px) {
-  .user-container {
+  .usertrip-container {
     padding: 20px;
   }
-  .user-title {
+  .usertrip-table-container {
+    overflow-x: scroll;
+  }
+  .usertrip-header {
+    gap: 1rem;
+  }
+  .usertrip-title {
     font-size: 14px;
   }
 }

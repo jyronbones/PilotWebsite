@@ -2,43 +2,28 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './TabBar.css'
 
-const TabBar = ({ setActiveTab }) => {
+const TabBar = ({ tabNames, activeTab, setActiveTab }) => {
   TabBar.propTypes = {
+    tabNames: PropTypes.array.isRequired,
+    activeTab: PropTypes.string.isRequired,
     setActiveTab: PropTypes.func.isRequired
-  }
-
-  const toggleTab = (tab) => {
-    // Remove 'active' class from all tabs
-    const tabs = document.querySelectorAll('.tab')
-    tabs.forEach((tab) => tab.classList.remove('active'))
-
-    // Add 'active' class to the clicked tab
-    tab.classList.add('active')
   }
 
   return (
     <>
       <div className='tab-container'>
-        <div className='tab-section'>
-          <div
-            className='tab'
-            onClick={() => {
-              setActiveTab('productivity')
-              toggleTab(this)
-            }}
-          >
-            Report
+        {tabNames.map((tabName, key) => (
+          <div key={key} className={`tab-section ${activeTab == tabName ? 'active' : ''}`}>
+            <div
+              className={`tab ${activeTab == tabName ? 'active' : ''}`}
+              onClick={() => {
+                setActiveTab(tabName)
+              }}
+            >
+              {tabName}
+            </div>
           </div>
-          <div
-            className='tab'
-            onClick={() => {
-              setActiveTab('usertrips')
-              toggleTab(this)
-            }}
-          >
-            User Trips
-          </div>
-        </div>
+        ))}
       </div>
     </>
   )

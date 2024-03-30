@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import TabBar from './TabBar/TabBar'
 import Report from './Report/Report'
 import UserTrips from './UserTrips/UserTrips'
+import { PROD_HEADER } from '../Constants/constants'
 import './Productivity.css'
 
 const API_URL = process.env.REACT_APP_API_URL
 
 const Productivity = () => {
-  const [activeTab, setActiveTab] = useState('productivity')
+  const [activeTab, setActiveTab] = useState('Report')
   const [admin, setAdmin] = useState({})
   const [currUser, setCurrUser] = useState({})
   const [users, setUsers] = useState([])
@@ -16,7 +17,7 @@ const Productivity = () => {
     if (sessionStorage.getItem('user_type') == 1) {
       ;(async () => {
         try {
-          const response = await fetch(`${API_URL}/user`, {
+          const response = await fetch(`${API_URL}/users`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -53,12 +54,12 @@ const Productivity = () => {
         console.log(error.message)
       }
     })()
-  })
+  }, [])
 
   return (
     <div className='prod-container'>
-      <TabBar setActiveTab={setActiveTab} />
-      {activeTab == 'productivity' ? <Report /> : <UserTrips setCurrUser={setCurrUser} admin={admin} currUser={currUser} users={users} />}
+      <TabBar setActiveTab={setActiveTab} activeTab={activeTab} tabNames={PROD_HEADER} />
+      {activeTab == 'Report' ? <Report /> : <UserTrips setCurrUser={setCurrUser} admin={admin} currUser={currUser} users={users} />}
     </div>
   )
 }

@@ -142,7 +142,7 @@
   display: block;
   width: 100%;
 }
-input {
+.modal-body.admin input {
   width: 360px !important;
 }
 .btn.create {

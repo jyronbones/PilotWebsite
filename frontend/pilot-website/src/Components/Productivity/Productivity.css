@@ -1,0 +1,10 @@
+.prod-container {
+  margin-top: 4.5rem;
+}
+.table-container {
+  margin-top: 2rem;
+  padding: 0;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  text-align: left;
+}

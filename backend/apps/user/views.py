@@ -146,13 +146,13 @@ def refresh_token(request):
 
 dynamodb = boto3.resource(
     "dynamodb",
+    # endpoint_url=os.getenv("DB_ENDPOINT"),
     region_name=os.getenv("DB_REGION_NAME"),
     aws_access_key_id=os.getenv("DB_AWS_ACCESS_KEY_ID"),
     aws_secret_access_key=os.getenv("DB_AWS_SECRET_ACCESS_KEY"),
 )
 
 table = dynamodb.Table(DB_TABLE)
-
 
 @api_view(["POST"])
 def credential_login(request):
@@ -289,38 +289,47 @@ def create_admin_account(request):
                 }
             )
 
-#         # New user data to be saved on database:
-#         record = UserNew(
-#             id=user_id,
-#             full_name=full_name,
-#             first_name=first_name,
-#             last_name=last_name,
-#             email=email,
-#             user_type=user_type,
-#             password=password,
-#             date_joined=date_joined,
-#             created_at=created_at,
-#             updated_at=updated_at,
-#             is_superuser=is_superuser,
-#             is_staff=is_staff,
-#             is_active=is_active,
-#             is_authenticated=is_authenticated,
-#             last_login=last_login,
-#         )
-#         # Save the data gathered for new user on DynamoDB
-#         record.save()
-#         return Response(
-#             {"Success": True, "message": "User created successfully"},
-#             status.HTTP_201_CREATED,
-#         )
-#     except Exception as e:
-#         return Response(
-#             {"success": False, "message": f"Bad request: {str(e)}"},
-#             status.HTTP_400_BAD_REQUEST,
-#         )
+        # New user data to be saved on database:
+        record = UserNew(
+            id=user_id,
+            full_name=full_name,
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            user_type=user_type,
+            password=password,
+            date_joined=date_joined,
+            created_at=created_at,
+            updated_at=updated_at,
+            apr=False,
+            may=False,
+            jun=False,
+            jul=False,
+            aug=False,
+            sep=False,
+            oct=False,
+            nov=False,
+            dec=False,
+            is_superuser=is_superuser,
+            is_staff=is_staff,
+            is_active=is_active,
+            is_authenticated=is_authenticated,
+            last_login=last_login,
+        )
+        # Save the data gathered for new user on DynamoDB
+        record.save()
+        return Response(
+            {"success": True, "message": "User created successfully"},
+            status.HTTP_201_CREATED,
+        )
+    except Exception as e:
+        return Response(
+            {"success": False, "message": f"Bad request: {str(e)}"},
+            status.HTTP_400_BAD_REQUEST,
+        )
 
 
-@api_view(["POST", "PUT", "GET", "DELETE"])
+@api_view(["POST", "PUT", "DELETE"])
 @authentication_classes([DynamoDBJWTAuthentication])
 @permission_classes([IsAdminUser])
 def admin_user_crud(request, user_id=None):
@@ -369,6 +378,15 @@ def admin_user_crud(request, user_id=None):
                 date_joined=date_joined,
                 created_at=created_at,
                 updated_at=updated_at,
+                apr=False,
+                may=False,
+                jun=False,
+                jul=False,
+                aug=False,
+                sep=False,
+                oct=False,
+                nov=False,
+                dec=False,
                 is_superuser=is_superuser,
                 is_staff=is_staff,
                 is_active=is_active,
@@ -400,17 +418,6 @@ def admin_user_crud(request, user_id=None):
             sync_user_to_employee(user_id)
             return Response({"success": True, "message": "User updated successfully"})
 
-        elif request.method == "GET":
-            # Fetch all users:
-            users = get_all_users()
-            return Response(
-                {
-                    "success": True,
-                    "data": users["all"],
-                    "total_count": users["count"],
-                }
-            )
-
         elif request.method == "DELETE":
             user_id = request.GET.get("user_id")
             # Delete the user from the DB
@@ -428,7 +435,9 @@ def admin_user_crud(request, user_id=None):
 
 
 # Fetch or get all users from DynamoDB
-def get_all_users():
+@api_view(["GET"])
+@authentication_classes([DynamoDBJWTAuthentication])
+def get_all_users(request):
     # Fetch all users:
     result = table.scan()
     users_count = result["Count"]
@@ -438,20 +447,72 @@ def get_all_users():
         for key, value in item.items():
             if isinstance(value, Decimal):
                 item[key] = int(value)
-    return {"all": result, "count": users_count}
+    return Response({"success": True, "data": result, "total_count": users_count})
+
 
 @api_view(["GET"])
 @authentication_classes([DynamoDBJWTAuthentication])
 def get_one_user(request):
     user_id = request.user.id
+    if user_id is None:
+        return Response({"sucess": False, "error": "User not authenticated"})
+    
     result = table.scan()
     result = result["Items"]
     filtered_user = {}
     for item in result:
-        for key, value in item.items():
-            if item['id'] == user_id:
-                filtered_user = item
-    return {"data": filtered_user}
+        if str(item.get("id")) == str(user_id):
+            filtered_user = item
+            break
+
+    return Response({
+                    "success": True,
+                    "data": filtered_user,
+                    "total_count": 1,
+                })
+
+
+@api_view(["PUT"])
+@authentication_classes([DynamoDBJWTAuthentication])
+def update_availability(request):
+    try:
+        data = request.data["availability"]
+        for id in data.keys():
+            user_id = id
+            availability = data[user_id]
+            apr = availability[0]
+            may = availability[1]
+            jun = availability[2]
+            jul = availability[3]
+            aug = availability[4]
+            sep = availability[5]
+            oct = availability[6]
+            nov = availability[7]
+            dec = availability[8]
+
+            user=UserNew.get(id=user_id)
+            if user:
+                user.update(
+                    apr=apr,
+                    may=may,
+                    jun=jun,
+                    jul=jul,
+                    aug=aug,
+                    sep=sep,
+                    oct=oct,
+                    nov=nov,
+                    dec=dec,
+                )
+            
+        return Response(
+            {"success": True, "message": "All User Availability exists and updated successfully"}
+        )
+    
+    except Exception as e:
+        return Response(
+            {"success": False, "message": f"Bad request: {str(e)}"},
+            status.HTTP_400_BAD_REQUEST,
+        )
 
 # Check the user email in DynamoDB if it's exist or not
 def check_user(email):
