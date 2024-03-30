@@ -63,7 +63,6 @@ def create_admin_account(full_name, email):
         email = email
         user_type = 1
         password = "test"
-        # pbkdf2_sha256$720000$2dpEUwXw4rs5vwmsqbAYQc$TtktZeClcrb3rr/cCzMiNElbHq9xsdgBmTqYdOt0CbY=
         date_joined = timestamp
         created_at = timestamp
         updated_at = timestamp
