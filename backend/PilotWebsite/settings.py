@@ -19,7 +19,7 @@ import json
 from botocore.exceptions import NoCredentialsError, PartialCredentialsError
 
 def get_aws_secret_key(secret_name, secret_key):
-    region_name = "us-east-1"
+    region_name = os.getenv('AWS_S3_REGION_NAME')
 
     # Create a Secrets Manager client
     session = boto3.session.Session()

@@ -1,10 +1,11 @@
 import boto3
 from botocore.exceptions import ClientError
 import json
+import os
 
 def get_secret():
     secret_name = "prod/pilotwebsite/agreementfileskeys"
-    region_name = "us-east-1"
+    region_name =os.getenv('AWS_S3_REGION_NAME')
 
     # Create a Secrets Manager client
     session = boto3.session.Session()

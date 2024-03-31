@@ -1,6 +1,6 @@
 {
   "dev": {
-    "aws_region": "us-east-2",
+    "aws_region": "us-east-1",
     "django_settings": "PilotWebsite.settings",
     "profile_name": "default",
     "project_name": "pilotwebsite-backend",
