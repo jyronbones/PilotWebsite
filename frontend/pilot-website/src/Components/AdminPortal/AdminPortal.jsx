@@ -143,7 +143,7 @@ const AdminPortal = () => {
           </div>
 
           <div>
-            <div className='create-btn'>
+            <div className='btn actions'>
               <button className='btn create' onClick={() => setIsModalOpen(true)}>
                 Create User
               </button>

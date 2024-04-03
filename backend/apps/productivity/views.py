@@ -12,7 +12,7 @@ from datetime import datetime
 from decimal import Decimal
 from .models import Productivity
 import boto3
-from PilotWebsite.settings import DB_TABLE, DB_USERTRIP_TABLE, DB_PROD_TABLE, DB_PROD_SUPP
+from PilotWebsite.settings import DB_TABLE, DB_USERTRIP_TABLE, DB_PROD_TABLE
 import os
 from dotenv import load_dotenv
 
@@ -32,7 +32,6 @@ dynamodb = boto3.resource(
 user_table = dynamodb.Table(DB_TABLE)
 trip_table = dynamodb.Table(DB_USERTRIP_TABLE)
 prod_table = dynamodb.Table(DB_PROD_TABLE)
-prod_supp_table = dynamodb.Table(DB_PROD_SUPP)
 
 @api_view(["POST", "PUT"])
 @authentication_classes([DynamoDBJWTAuthentication])

@@ -110,7 +110,7 @@ const UnionAgreement = () => {
           <h2>Collective Agreements</h2>
           <div className='p-2 p-md-4'>
             {sessionStorage.getItem('user_type') == 1 && (
-              <div className='create-btn'>
+              <div className='btn actions'>
                 <UploadPDF onUpload={handleUpload} />
               </div>
             )}
