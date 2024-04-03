@@ -162,9 +162,9 @@ const AdminPortal = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {list?.length > 0 ? (
+                    {users?.length > 0 ? (
                       <>
-                        {list?.map((item, index) => (
+                        {users?.map((item, index) => (
                           <tr key={index}>
                             <td>
                               {item?.full_name}
