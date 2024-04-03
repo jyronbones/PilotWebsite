@@ -7,12 +7,13 @@ import './UserTrips.css'
 
 const API_URL = process.env.REACT_APP_API_URL
 
-const UserTrip = ({ setCurrUser, currUser, admin, users }) => {
+const UserTrip = ({ setCurrUser, currUser, admin, users, year }) => {
   UserTrip.propTypes = {
     setCurrUser: PropTypes.func.isRequired,
     currUser: PropTypes.object.isRequired,
     admin: PropTypes.object.isRequired,
-    users: PropTypes.array.isRequired
+    users: PropTypes.array.isRequired,
+    year: PropTypes.number.isRequired
   }
 
   const [trips, setTrips] = useState([])
@@ -65,7 +66,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users }) => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
         },
-        body: JSON.stringify({ user_id: currUser.id })
+        body: JSON.stringify({ user_id: currUser.id, year })
       })
 
       if (response.ok) {
@@ -77,11 +78,11 @@ const UserTrip = ({ setCurrUser, currUser, admin, users }) => {
     }
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (Object.keys(editUserTrip).length > 0) {
       updateUserTrip({ vessel, date, departure, destination, tripType, double, notes })
     } else {
-      createUserTrip({
+      await createUserTrip({
         user_id: currUser.id,
         vessel,
         date,
@@ -91,7 +92,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users }) => {
         double,
         notes
       })
-      createProd({ user_id: currUser.id })
+      await updateProd({ user_id: currUser.id })
     }
     handleClose()
   }
@@ -140,7 +141,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users }) => {
     }
   }
 
-  const createProd = async ({ user_id }) => {
+  const updateProd = async ({ user_id }) => {
     try {
       const response = await fetch(`${API_URL}/productivity`, {
         method: 'POST',
@@ -148,7 +149,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users }) => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
         },
-        body: JSON.stringify({ user_id })
+        body: JSON.stringify({ user_id, year })
       })
 
       if (!response.ok) {
@@ -170,6 +171,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users }) => {
       })
 
       if (response.ok) {
+        updateProd({ user_id: currUser.id })
         fetchUserTrips()
       } else {
         const errorMessage = await response.text()
@@ -203,6 +205,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users }) => {
         <h3>User</h3>
         <div>
           <Autocomplete
+            className='usertrip dropdown'
             sx={{ width: 200 }}
             size='small'
             value={currUser}
@@ -217,7 +220,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users }) => {
 
       <div>
         {currUser && admin.id === currUser.id && (
-          <div className='create-btn'>
+          <div className='btn actions'>
             <button className='btn create' onClick={() => setIsModalOpen(true)}>
               Add Trip
             </button>

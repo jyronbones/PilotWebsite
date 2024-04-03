@@ -8,3 +8,9 @@
   border-radius: 12px;
   text-align: left;
 }
+
+@media (max-width: 600px) {
+  .table-container {
+    margin-top: 1rem;
+  }
+}

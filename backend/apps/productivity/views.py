@@ -2,16 +2,17 @@ from rest_framework import status
 from rest_framework.decorators import (
     api_view,
     authentication_classes,
+    permission_classes,
 )
+from rest_framework.permissions import IsAdminUser
 from ..user.authentication import DynamoDBJWTAuthentication
 from rest_framework.response import Response
 import pandas as pd
 from datetime import datetime
-import uuid
 from decimal import Decimal
 from .models import Productivity
 import boto3
-from PilotWebsite.settings import DB_USERTRIP_TABLE, DB_PROD_TABLE
+from PilotWebsite.settings import DB_TABLE, DB_USERTRIP_TABLE, DB_PROD_TABLE, DB_PROD_SUPP
 import os
 from dotenv import load_dotenv
 
@@ -28,25 +29,29 @@ dynamodb = boto3.resource(
     aws_secret_access_key=os.getenv("DB_AWS_SECRET_ACCESS_KEY"),
 )
 
+user_table = dynamodb.Table(DB_TABLE)
 trip_table = dynamodb.Table(DB_USERTRIP_TABLE)
 prod_table = dynamodb.Table(DB_PROD_TABLE)
+prod_supp_table = dynamodb.Table(DB_PROD_SUPP)
 
-@api_view(["POST", "GET"])
+@api_view(["POST", "PUT"])
 @authentication_classes([DynamoDBJWTAuthentication])
 def crud_prod(request):
     try:
         if request.method == "POST":
             user_id = request.data["user_id"]
-            result = trip_table.scan()
-            result = result["Items"]
+            year = request.data["year"]
+            usertrips = trip_table.scan()
+            usertrips = usertrips["Items"]
             filtered_usertrip = []
             total_full = 0
             total_partial = 0
             total_cancel = 0
             total_double = 0
+            total_assignments = 0
             # Convert decimal values in users list into integers
-            for item in result:
-                if str(item['user_id']) == user_id:
+            for item in usertrips:
+                if str(item["user_id"]) == user_id and item["year"] == str(year):
                     for key, value in item.items():
                         if isinstance(value, Decimal):
                             item[key] = int(value)
@@ -56,63 +61,36 @@ def crud_prod(request):
                 # Perform processing on each row (e.g., calculate total distance)
                 if (row['trip_type'] == 0):
                     total_full += 1
+                    print(total_full)
                 elif (row['trip_type'] == 1):
                     total_partial += 1
+                    print(total_partial)
                 elif (row['trip_type'] == 2):
                     total_cancel += 1
                 total_double += 1 if row['double'] else 0
 
             total_assignments=total_full + total_cancel + total_partial
-            # print(total_full)
-            # print(total_partial)
-            # print(total_cancel)
-            # print(total_double)
-            # print(total_assignments)
 
-            try:
-                productivity=Productivity.get(user_id=user_id)
-                print("prod: ", productivity)
-
-                if productivity:
-                    productivity.update(
-                        total_assignments=total_assignments,
-                        total_full=total_full,
-                        total_parital=total_partial,
-                        total_cancel=total_cancel,
-                        total_double=total_double
-                    )
-                    return Response(
-                        {"success": True, "message": "User Productivity exists and updated successfully"}
-                    )
-                else:
-                    raise Exception("Productivity record not found for user")
-            
-            except Exception as e:
-                record = Productivity(
-                    id=id,
-                    user_id=user_id,
-                    total_assignments=total_assignments,
-                    total_full=total_full,
-                    total_partial=total_partial,
-                    total_cancel=total_cancel,
-                    total_double=total_double
-                )
-                # Save the data gathered for new user productivity on DynamoDB
-                record.save()
-                return Response(
-                    {"success": True, "message": "User Productivity created successfully"},
-                    status.HTTP_201_CREATED,
-                )
-            
-        elif request.method == "GET":
-            users = get_all_assignments()
-            return Response(
-                {
-                    "success": True,
-                    "data": users["all"],
-                    "total_count": users["count"],
-                }
+            productivity=Productivity.get(user_id=user_id)
+            productivity.update(
+                total_assignments=total_assignments,
+                total_full=total_full,
+                total_partial=total_partial,
+                total_cancel=total_cancel,
+                total_double=total_double,
+                total=total_assignments+productivity.auth_corp
             )
+            print(productivity.total_full)
+            print(productivity.total_partial)
+
+            return Response(
+                {"success": True, "message": "User Productivity exists and updated successfully"}
+            )
+        
+        elif request.method == "PUT":
+            daily_rate = request.data["daily_rate"]
+            monthly_rate = request.data["monthly_rate"]
+
     except Exception as e:
         return Response(
             {"success": False, "message": f"Bad request: {str(e)}"},
@@ -120,33 +98,79 @@ def crud_prod(request):
         )
 
 
-# Fetch or get all users from DynamoDB
-def get_all_assignments():
-    # Fetch all users:
+# Fetch or get all assignments from DynamoDB
+@api_view(["POST"])
+@authentication_classes([DynamoDBJWTAuthentication])
+def get_all_assignments(request):
+    # Fetch all assignments:
+    year = request.data["year"]
     result = prod_table.scan()
-    users_count = result["Count"]
     result = result["Items"]
-    # Convert decimal values in users list into integers
+    filtered_productivity = []
+    # Filter assignments based on selected year
     for item in result:
-        for key, value in item.items():
-            if isinstance(value, Decimal):
-                item[key] = int(value)
-    return {"all": result, "count": users_count}
+        if item["year"] == str(year):
+            filtered_productivity.append(item)
+
+    return Response(
+                {
+                    "success": True,
+                    "data": filtered_productivity,
+                    "total_count": len(filtered_productivity),
+                }
+            )
 
 
-@api_view(["GET"])
+@api_view(["PUT"])
+@authentication_classes([DynamoDBJWTAuthentication])
+@permission_classes([IsAdminUser])
+def update_auth_corp(request):
+    data = request.data["auth_corp"]
+    for id in data.keys():
+        user_id = id
+        auth_corp = data[user_id]
+        productivity = Productivity.get(user_id=user_id)
+        productivity.update(
+            auth_corp=auth_corp,
+            total=Decimal(productivity.total_assignments)+Decimal(auth_corp)
+        )
+        
+    return Response({"success": True, "message": "User Auth Corp updated successfully"})
+
+
+@api_view(["POST"])
 @authentication_classes([DynamoDBJWTAuthentication])
 def get_summary(request):
+    year = request.data["year"]
     result = prod_table.scan()
     count = result["Count"]
     result = result["Items"]
+
     total_full = 0
     half_full = 0
     total_partial = 0
     total_cancel = 0
     total_double = 0
     total_assignments = 0
-    df = pd.DataFrame(result)
+    filtered_prod = []
+
+    for item in result:
+        if item["year"] == str(year):
+            filtered_prod.append(item)
+
+    if len(filtered_prod) == 0:
+        return Response({
+                "data": {
+                    "total_full": 0,
+                    "half_full": 0,
+                    "total_partial": 0,
+                    "total_cancel": 0,
+                    "total_double": 0,
+                    "total_assignments": 0
+                    } 
+                })
+
+    df = pd.DataFrame(filtered_prod)
 
     if count != 0:
         total_full = float(df["total_full"].sum())

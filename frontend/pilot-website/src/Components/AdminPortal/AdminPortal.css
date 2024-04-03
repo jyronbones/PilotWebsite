@@ -42,7 +42,7 @@
   color: darkgrey;
   font-weight: 600;
 }
-.create-btn {
+.btn.actions {
   display: flex;
   justify-content: flex-end;
   margin: 1rem 0;

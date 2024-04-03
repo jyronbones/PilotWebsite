@@ -21,18 +21,22 @@ class Availability(DynaModel):
             "aws_secret_access_key": aws_secret_access_key,
         }
         name = settings.DB_AVAILABILITY
-        hash_key = "user_id"
+        hash_key = "id"
+        range_key = "user_id"
         read = 25
         write = 5
 
     class Schema:
+        id = fields.UUID(required=True)
         user_id = fields.UUID(required=True)
-        apr = fields.Integer(required=True)
-        may = fields.Integer(required=True)
-        jun= fields.Integer(required=True)
-        july = fields.Integer(required=True)
-        aug = fields.Integer(required=True)
-        sep = fields.Integer(required=True)
-        oct = fields.Integer(required=True)
-        nov = fields.Integer(required=True)
-        dec = fields.Integer(required=True)
+        year = fields.String()
+        apr = fields.Boolean(required=True)
+        may = fields.Boolean(required=True)
+        jun= fields.Boolean(required=True)
+        jul = fields.Boolean(required=True)
+        aug = fields.Boolean(required=True)
+        sep = fields.Boolean(required=True)
+        oct = fields.Boolean(required=True)
+        nov = fields.Boolean(required=True)
+        dec = fields.Boolean(required=True)
+        total_effective = fields.Integer()

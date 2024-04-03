@@ -8,10 +8,14 @@ import './Productivity.css'
 const API_URL = process.env.REACT_APP_API_URL
 
 const Productivity = () => {
+  const currentYear = new Date().getFullYear()
+
   const [activeTab, setActiveTab] = useState('Report')
   const [admin, setAdmin] = useState({})
   const [currUser, setCurrUser] = useState({})
   const [users, setUsers] = useState([])
+  const [year, setYear] = useState(currentYear)
+  const array = [currentYear, currentYear + 1, currentYear + 2, currentYear + 3]
 
   useEffect(() => {
     if (sessionStorage.getItem('user_type') == 1) {
@@ -59,7 +63,11 @@ const Productivity = () => {
   return (
     <div className='prod-container'>
       <TabBar setActiveTab={setActiveTab} activeTab={activeTab} tabNames={PROD_HEADER} />
-      {activeTab == 'Report' ? <Report /> : <UserTrips setCurrUser={setCurrUser} admin={admin} currUser={currUser} users={users} />}
+      {activeTab == 'Report' ? (
+        <Report year={year} setYear={setYear} array={array} />
+      ) : (
+        <UserTrips setCurrUser={setCurrUser} admin={admin} currUser={currUser} users={users} year={year} />
+      )}
     </div>
   )
 }

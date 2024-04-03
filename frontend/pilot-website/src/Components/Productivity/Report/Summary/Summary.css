@@ -1,11 +1,41 @@
 .summary-table {
   display: table;
   width: 100%;
-  border-collapse: collapse;
+  padding: 1rem 0 1rem 0;
 }
 .summary-table th,
 .summary-table td {
   font-size: 1rem;
   font-weight: 500;
   padding: 0.5rem;
+}
+
+@media (max-width: 700px) {
+  .summary-table th,
+  .summary-table td {
+    font-size: 14px;
+  }
+  .daily-rate .MuiInputBase-root {
+    width: 70px;
+    height: 30px;
+  }
+  .monthly-rate .MuiInputBase-root {
+    width: 100px;
+    height: 30px;
+  }
+}
+
+@media (max-width: 500px) {
+  .summary-table th,
+  .summary-table td {
+    font-size: 12px;
+  }
+  .daily-rate .MuiInputBase-root {
+    width: 70px;
+    height: 30px;
+  }
+  .monthly-rate .MuiInputBase-root {
+    width: 100px;
+    height: 30px;
+  }
 }

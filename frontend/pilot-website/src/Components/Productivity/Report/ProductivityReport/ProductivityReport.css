@@ -18,3 +18,11 @@
   font-weight: 500;
   padding: 0.5rem;
 }
+
+/* Add more styles as needed */
+@media (max-width: 480px) {
+  .prodreport-table th,
+  .prodreport-table td {
+    font-size: 14px;
+  }
+}

@@ -7,17 +7,16 @@ from ..user.authentication import DynamoDBJWTAuthentication
 from rest_framework.response import Response
 import pandas as pd
 from datetime import datetime
-import uuid
 from decimal import Decimal
+import pandas as pd
+import uuid
 from .models import Availability
 import boto3
-from PilotWebsite.settings import DB_USERTRIP_TABLE, DB_AVAILABILITY
+from PilotWebsite.settings import DB_AVAILABILITY
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
-
-timestamp = datetime.now().isoformat()
 
 # DynamoDB Solution:
 dynamodb = boto3.resource(
@@ -30,101 +29,183 @@ dynamodb = boto3.resource(
 
 availability_table = dynamodb.Table(DB_AVAILABILITY)
 
-@api_view(["POST", "GET"])
+@api_view(["PUT", "POST", "GET"])
 @authentication_classes([DynamoDBJWTAuthentication])
 def crud_availability(request):
-    if request.method == "POST":
-        effective = request.data["effective"]
-        for row in effective:
-            user_id = row["user_id"]
-            apr = row["months"][0]
-            may = row["months"][0]
-            jun = row["months"][0]
-            july = row["months"][0]
-            aug = row["months"][0]
-            sep = row["months"][0]
-            oct = row["months"][0]
-            nov = row["months"][0]
-            dec = row["months"][0]
-            print(apr)
-            try:
-                availability=Availability.get(user_id=user_id)
-                if availability:
-                    availability.update(
+    try:
+        if request.method == "PUT":
+            data = request.data["availability"]
+            year = str(datetime.now().year)
+            for id in data.keys():
+                user_id = id
+                availability = data[user_id]
+                apr = availability[0]
+                may = availability[1]
+                jun = availability[2]
+                jul = availability[3]
+                aug = availability[4]
+                sep = availability[5]
+                oct = availability[6]
+                nov = availability[7]
+                dec = availability[8]
+                id = availability[9]
+
+                availability_instance = Availability.get(id=id, user_id=user_id)
+                if (availability_instance and availability_instance.year == year):
+                    availability_instance.update(
                         apr=apr,
                         may=may,
                         jun=jun,
-                        july=july,
+                        jul=jul,
                         aug=aug,
                         sep=sep,
                         oct=oct,
                         nov=nov,
                         dec=dec,
                     )
-                    return Response(
-                        {"success": True, "message": "User Availability exists and updated successfully"}
+                elif (availability_instance.year != year):
+                    new_availability = Availability(
+                        id=str(uuid.uuid4()),
+                        user_id=user_id,
+                        year=year,
+                        apr=apr,
+                        may=may,
+                        jun=jun,
+                        jul=jul,
+                        aug=aug,
+                        sep=sep,
+                        oct=oct,
+                        nov=nov,
+                        dec=dec,
                     )
-                else:
-                    raise Exception("Availability record not found for user")
-        
-            except Exception as e:
-                return Response(
-                    {"success": False, "message": f"Bad request: {str(e)}"},
-                    status.HTTP_400_BAD_REQUEST,
-                )
+                    new_availability.save()
                 
-        
-    elif request.method == "GET":
-        availability = get_all_availability()
-        return Response(
-            {
-                "success": True,
-                "data": availability["all"],
-                "total_count": availability["count"],
-            }
-        )
+            result = availability_table.scan()
+            result = result["Items"]
+            each_m_effective = 0
+            for item in result:
+                each_m_effective = sum(1 for key, value in item.items() if isinstance(value, bool) and value)
+                availability_instance = Availability.get(id=item["id"], user_id=item["user_id"])
+                availability_instance.update(total_effective=each_m_effective)
 
-
-# Fetch or get all availability from DynamoDB
-def get_all_availability():
-    # Fetch all availability:
-    result = availability_table.scan()
-    count = result["Count"]
-    result = result["Items"]
-    # Convert decimal values in availability list into integers
-    for item in result:
-        for key, value in item.items():
-            if isinstance(value, Decimal):
-                item[key] = int(value)
-    return {"all": result, "count": count}
-
-
-@api_view(["POST"])
-@authentication_classes([DynamoDBJWTAuthentication])
-def initial_availability(request):
-    user_id = request.data["user_id"]
-    try:
-        record = Availability(
-                user_id=user_id,
-                apr=0,
-                may=0,
-                jun=0,
-                july=0,
-                aug=0,
-                sep=0,
-                oct=0,
-                nov=0,
-                dec=0,
+            return Response(
+                {"success": True, "message": "All User Availability exists and updated successfully"}
             )
-        # Save the data gathered for new user productivity on DynamoDB
-        record.save()
-        return Response(
-            {"success": True, "message": "User Productivity created successfully"},
-            status.HTTP_201_CREATED,
-        )
 
+        elif request.method == "POST":
+            year = request.data["year"]
+            if (int(year) > int(datetime.now().year)):
+                print('need list of users to create for future years')
+
+            result = availability_table.scan()
+            result = result["Items"]
+            filtered_availability = []
+            # Filter availability based on selected year
+            for item in result:
+                if item["year"] == str(year):
+                    filtered_availability.append(item)
+            
+            return Response({"success": True, "data": filtered_availability, "total_count": len(filtered_availability)})
+        
     except Exception as e:
         return Response(
             {"success": False, "message": f"Bad request: {str(e)}"},
             status.HTTP_400_BAD_REQUEST,
         )
+
+    
+@api_view(["POST"])
+@authentication_classes([DynamoDBJWTAuthentication])
+def get_availability(request):
+    year = request.data["year"]
+    result = availability_table.scan()
+    result = result["Items"]
+    filtered_availability = []
+
+    for item in result:
+        if item["year"] == str(year):
+            filtered_availability.append(item)
+
+    if len(filtered_availability) == 0:
+        return Response({
+                            "success": True, 
+                            "data": {
+                                "total_effective": 0, 
+                                "threshold": 0
+                            }
+                        })
+    
+    df = pd.DataFrame(filtered_availability)
+    total = float(df["total_effective"].sum() / 9)
+    total_effective = round(total, 2)
+    threshold = round(total_effective * 54, 2)
+
+    return Response({"success": True, 
+                        "data": {
+                        "total_effective": total_effective, 
+                        "threshold": threshold
+                    }})
+#     if request.method == "POST":
+#         effective = request.data["effective"]
+#         for row in effective:
+#             user_id = row["user_id"]
+#             apr = row["months"][0]
+#             may = row["months"][0]
+#             jun = row["months"][0]
+#             july = row["months"][0]
+#             aug = row["months"][0]
+#             sep = row["months"][0]
+#             oct = row["months"][0]
+#             nov = row["months"][0]
+#             dec = row["months"][0]
+#             print(apr)
+#             try:
+#                 availability=Availability.get(user_id=user_id)
+#                 if availability:
+#                     availability.update(
+#                         apr=apr,
+#                         may=may,
+#                         jun=jun,
+#                         july=july,
+#                         aug=aug,
+#                         sep=sep,
+#                         oct=oct,
+#                         nov=nov,
+#                         dec=dec,
+#                     )
+#                     return Response(
+#                         {"success": True, "message": "User Availability exists and updated successfully"}
+#                     )
+#                 else:
+#                     raise Exception("Availability record not found for user")
+        
+#             except Exception as e:
+#                 return Response(
+#                     {"success": False, "message": f"Bad request: {str(e)}"},
+#                     status.HTTP_400_BAD_REQUEST,
+#                 )
+                
+        
+#     elif request.method == "GET":
+#         availability = get_all_availability()
+#         return Response(
+#             {
+#                 "success": True,
+#                 "data": availability["all"],
+#                 "total_count": availability["count"],
+#             }
+#         )
+
+
+# # Fetch or get all availability from DynamoDB
+# def get_all_availability():
+#     # Fetch all availability:
+#     result = availability_table.scan()
+#     count = result["Count"]
+#     result = result["Items"]
+#     # Convert decimal values in availability list into integers
+#     for item in result:
+#         for key, value in item.items():
+#             if isinstance(value, Decimal):
+#                 item[key] = int(value)
+#     return {"all": result, "count": count}

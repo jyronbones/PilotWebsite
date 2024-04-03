@@ -113,9 +113,6 @@
   .btn.back {
     margin-left: 2rem;
   }
-  .usertrip-table-container {
-    overflow-x: scroll;
-  }
   .usertrip-title {
     font-size: 1.5rem;
   }
@@ -125,18 +122,22 @@
     font-weight: 600;
   }
 }
-
-@media (max-width: 638px) {
+@media (max-width: 735px) {
+  .usertrip-table {
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: inline-block;
+  }
   .usertrip-container {
     margin: 1rem;
     padding: 20px;
   }
-  .usertrip-table-container {
-    overflow-x: scroll;
+  .usertrip-header h3 {
+    font-size: 22px;
   }
   .usertrip-table th,
   .usertrip-table td {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 400;
     padding: 0.5rem;
   }
@@ -155,6 +156,9 @@
   .usertrip-container {
     padding: 20px;
   }
+  .usertrip-header h3 {
+    font-size: 20px;
+  }
   .usertrip-table-container {
     overflow-x: scroll;
   }
@@ -162,6 +166,14 @@
     gap: 1rem;
   }
   .usertrip-title {
+    font-size: 14px;
+  }
+  .usertrip-table th,
+  .usertrip-table td {
+    font-size: 12px;
+  }
+  .usertrip .dropdown .MuiAutocomplete-inputRoot {
+    width: 100px;
     font-size: 14px;
   }
 }

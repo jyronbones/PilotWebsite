@@ -4,7 +4,7 @@ export const SHIP_CODE = ['IRO', 'CVC', 'SNL', 'KGN', 'CARP', 'GAN', 'MOR', 'PRS
 
 export const PROD_HEADER = ['Report', 'User Trips']
 
-export const REPORT_HEADER = ['Productivity', 'Detail Assignments', 'Summary', 'Availability']
+export const REPORT_HEADER = ['Productivity', 'Assignments', 'Summary', 'Availability']
 
 export const MONTHS = ['Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 

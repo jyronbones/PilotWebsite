@@ -39,3 +39,4 @@ class UserTrip(DynaModel):
         notes = fields.String(required=False)
         effective_month = fields.Integer()
         updated_at = fields.DateTime(format="iso")
+        year = fields.String()

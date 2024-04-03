@@ -2,6 +2,7 @@
   width: auto;
   background-color: var(--color-secondary-light);
   display: flex;
+  gap: 1.5rem;
   justify-content: space-evenly;
 }
 .tab-section {
@@ -23,4 +24,29 @@
   font-weight: 500;
   color: var(--color-secondary-dark);
   background-color: #dce1e2;
+}
+
+@media (max-width: 829px) {
+  .tab-container {
+    gap: 0.5rem;
+  }
+  .tab {
+    font-size: 14px;
+  }
+}
+@media (max-width: 710px) {
+  .tab-container {
+    gap: 0.5rem;
+  }
+  .tab {
+    font-size: 12px;
+  }
+}
+@media (max-width: 500px) {
+  .tab-container {
+    gap: 3px;
+  }
+  .tab {
+    font-size: 10px;
+  }
 }

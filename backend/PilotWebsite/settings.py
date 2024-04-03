@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     "apps.scheduling",
     "apps.usertrip",
     "apps.productivity",
-    # "apps.availability",
+    "apps.availability",
     "corsheaders",
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",
@@ -111,6 +111,7 @@ DB_EMPLOYEES_TABLE_NAME= os.getenv("DB_EMPLOYEES_TABLE_NAME")
 DB_USERTRIP_TABLE = os.getenv("DB_USERTRIP_TABLE")
 DB_PROD_TABLE = os.getenv("DB_PROD_TABLE")
 DB_AVAILABILITY = os.getenv("DB_AVAILABILITY")
+DB_PROD_SUPP = os.getenv("DB_PROD_SUPP")
 
 PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.PBKDF2PasswordHasher",

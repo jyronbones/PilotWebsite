@@ -1,34 +1,62 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import './ProductivityReport.css'
+
+const API_URL = process.env.REACT_APP_API_URL
 
 const ProductivityReport = ({ year }) => {
   ProductivityReport.propTypes = {
     year: PropTypes.number.isRequired
   }
 
-  //   useEffect(() => {
-  //     fetchUsers()
-  //   }, [])
+  const [availability, setAvailability] = useState(0)
+  const [productivity, setProductivity] = useState(0)
 
-  //   const fetchUsers = async () => {
-  //     try {
-  //       const response = await fetch(`${API_URL}/user`, {
-  //         method: 'GET',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
-  //         }
-  //       })
+  useEffect(() => {
+    fetchAvailability()
+    fetchProductivity()
+  }, [])
 
-  //       if (response.ok) {
-  //         const data = await response.json()
-  //         console.log(data.data)
-  //       }
-  //     } catch (error) {
-  //       console.log(error.message)
-  //     }
-  //   }
+  const fetchAvailability = async () => {
+    try {
+      const response = await fetch(`${API_URL}/get-availability`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
+        },
+        body: JSON.stringify({ year })
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        setAvailability(data.data)
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
+  const fetchProductivity = async () => {
+    try {
+      const response = await fetch(`${API_URL}/summary`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
+        },
+        body: JSON.stringify({ year })
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        setProductivity(data.data)
+        console.log(data.data)
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
 
   return (
     <div className='table-container'>
@@ -36,19 +64,21 @@ const ProductivityReport = ({ year }) => {
         <table className='prodreport-table'>
           <tr>
             <th>Average number of effective pilots</th>
-            <td>11</td>
+            <td>{availability.total_effective}</td>
           </tr>
           <tr>
             <th>Prouctivity Threshold</th>
-            <td>11</td>
+            <td>{availability.threshold}</td>
           </tr>
           <tr>
             <th>Total Number of Assignments</th>
-            <td>11</td>
+            <td>{productivity.total_assignments}</td>
           </tr>
           <tr>
             <th>Productive Assignments</th>
-            <td>11</td>
+            <td>
+              {productivity.total_assignments - availability.threshold < 0 ? 0 : productivity.total_assignments - availability.threshold}
+            </td>
           </tr>
           <tr>
             <th>{`${year} Rate (Daily Rate x 2)`}</th>

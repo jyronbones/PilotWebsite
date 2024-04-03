@@ -1,0 +1,37 @@
+.assignment-table {
+  width: 100%;
+  border-collapse: collapse;
+  display: table;
+}
+.assignment-table thead {
+  background-color: #ccc;
+}
+.assignment-table th,
+.assignment-table td {
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem;
+}
+.assignment-table th {
+  font-weight: 600;
+}
+
+@media (max-width: 849px) {
+  .assignment-table th,
+  .assignment-table td {
+    font-size: 14px;
+  }
+}
+
+/* Add more styles as needed */
+@media (max-width: 770px) {
+  .assignment-table {
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: inline-block;
+  }
+  .assignment-table th,
+  .assignment-table td {
+    font-size: 12px;
+  }
+}

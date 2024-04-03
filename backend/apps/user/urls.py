@@ -8,7 +8,6 @@ from .views import (
     get_one_user,
     create_admin_account,
     test_aws,
-    update_availability,
 )
 
 urlpatterns = [
@@ -20,5 +19,4 @@ urlpatterns = [
     re_path(r"^one_user", get_one_user),
     re_path(r"^create_admin", create_admin_account),
     re_path(r"^test_aws", test_aws),
-    re_path(r"^availability", update_availability),
 ]

@@ -68,6 +68,7 @@ def crud_usertrip(request, user_id=None):
                 trip_type=trip_type,
                 double=double,
                 notes=notes,
+                year=str(datetime.now().year),
                 updated_at=datetime.now().isoformat(),
             )
             # Save the data gathered for new user on DynamoDB
@@ -87,7 +88,6 @@ def crud_usertrip(request, user_id=None):
             double = int(request.data["double"])
             notes = request.data["notes"]
             usertrip = UserTrip.get(trip_id=trip_id)
-            print(usertrip)
             usertrip.update(
                 vessel=vessel,
                 departure=departure,
@@ -142,13 +142,14 @@ def get_all_users():
 @api_view(["POST"])
 @authentication_classes([DynamoDBJWTAuthentication])
 def get_usertrips(request):
+    year = request.data.get("year")
     user_id = request.data.get("user_id")
     result = trip_table.scan()
     result = result["Items"]
     filtered_usertrip = []
     # Convert decimal values in users list into integers
     for item in result:
-        if str(item['user_id']) == str(user_id):
+        if str(item['user_id']) == str(user_id) and item["year"] == str(year):
             for key, value in item.items():
                 if isinstance(value, Decimal):
                     item[key] = int(value)

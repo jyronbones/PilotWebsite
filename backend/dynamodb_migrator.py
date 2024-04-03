@@ -117,22 +117,26 @@ def create_availability_table(dynamodb=dynamodb):
     try:
         table = dynamodb.create_table(
             TableName=DB_AVAILABILITY,
-            KeySchema=[{"AttributeName": "user_id", "KeyType": "HASH"}],
-            AttributeDefinitions=[{"AttributeName": "user_id", "AttributeType": "S"}],
+            KeySchema=[{"AttributeName": "id", "KeyType": "HASH"},
+                       {"AttributeName": "user_id", "KeyType": "RANGE"}],
+            AttributeDefinitions=[
+                {"AttributeName": "id", "AttributeType": "S"},
+                {"AttributeName": "user_id", "AttributeType": "S"},
+            ],
             ProvisionedThroughput={"ReadCapacityUnits": 5, "WriteCapacityUnits": 2},
         )
         table.meta.client.get_waiter("table_exists").wait(
             TableName="token_blacklist_outstanding"
         )
         print(
-            "Availability Table created successfully. Table status:",
+            "availability Table created successfully. Table status:",
             table.table_status,
         )
         print("Item count:", table.item_count)
 
     except ClientError as e:
         if e.response["Error"]["Code"] == "ResourceInUseException":
-            print(f"Table Availability already exists.")
+            print(f"Table availability already exists.")
         else:
             print("An error occurred:", e)
 
@@ -169,4 +173,4 @@ if __name__ == "__main__":
     create_employees_table()
     create_usertrip_table()
     create_productivity_table()
-    # create_availability_table()
+    create_availability_table()

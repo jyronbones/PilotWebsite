@@ -13,7 +13,6 @@ const AdminPortal = () => {
   const [userType, setUserType] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  // const [userId, setUserId] = useState('')
 
   const navigate = useNavigate()
 
@@ -76,8 +75,6 @@ const AdminPortal = () => {
       })
 
       if (response.ok) {
-        // const data = await response.json()
-        // setUserId(data.data)
         setEditUserData({})
         fetchUsers()
       } else {
