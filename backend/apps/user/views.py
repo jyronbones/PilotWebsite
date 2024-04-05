@@ -144,8 +144,6 @@ def refresh_token(request):
 
 
 # DynamoDB Solution:
-
-
 dynamodb = boto3.resource(
     "dynamodb",
     # endpoint_url=os.getenv("DB_ENDPOINT"),
@@ -170,7 +168,7 @@ def credential_login(request):
         email = request.data.get("email", None)
         if email_validator(email) is not True:
             return Response(
-                {"success": True, "message": "Email is not valid"},
+                {"success": False, "message": "Email is not valid"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         if not request.data.get("password") or not request.data.get("email"):
@@ -213,7 +211,6 @@ def credential_login(request):
 def new_login_auth(user_email, password):
     # Fetch user from the DB
     result = UserNew.scan(email=user_email)
-
     # Iterate through the items in the result
     user = list(result)  # Convert the iterator to a list
     org_password = ""
@@ -352,6 +349,7 @@ def create_admin_account(request):
         record.save()
         availability.save()
         productivity.save()
+        sync_user_to_employee(user_id)
         
         return Response(
             {"success": True, "message": "User created successfully"},
@@ -454,8 +452,8 @@ def admin_user_crud(request, user_id=None):
             record.save()
             availability.save()
             productivity.save()
-            
             sync_user_to_employee(user_id)
+
             return Response(
                 {"success": True, "message": "User created successfully"},
                 status.HTTP_201_CREATED,
@@ -482,9 +480,8 @@ def admin_user_crud(request, user_id=None):
             user_id = request.GET.get("user_id")
             # Delete the user from the DB
             table.delete_item(Key={"id": user_id})
-            delete_employee_from_dynamodb(
-                user_id
-            )  # Delete the user from employee table on DynamoDB
+            # Delete the user from employee table on DynamoDB
+            delete_employee_from_dynamodb(user_id)  
             # Delete usertrip associated with deleted user
             usertrips = usertrip_table.scan()
             usertrips = usertrips["Items"]
