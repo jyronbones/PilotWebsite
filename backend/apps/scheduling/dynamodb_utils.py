@@ -1,6 +1,7 @@
 import boto3
 import os
 from botocore.exceptions import ClientError
+from .models import Employee
 
 # Load environment variables
 endpoint_url = os.getenv("DB_ENDPOINT")
@@ -24,10 +25,20 @@ def get_dynamodb_resource():
 def get_employee_events(user_id):
     dynamodb = get_dynamodb_resource()
     employees_table = dynamodb.Table(db_employees_table_name)
-    employees_response = employees_table.get_item(Key={"employee_id": user_id})
-    employee_item = employees_response.get("Item")
-    events = employee_item.get('events', [])
-    return events
+    try:
+        employees_response = Employee.scan(employee_id=user_id)
+        if employees_response:
+            employees_response = employees_table.get_item(Key={"employee_id": user_id})
+            employee_item = employees_response.get("Item")
+            events = employee_item.get("events", [])
+            return events
+        else:
+            print("Here")
+            return []
+    except Exception as e:
+        print("Here is the error: ", e)
+        return []
+
 
 def sync_user_to_employee(user_id):
     dynamodb = get_dynamodb_resource()
@@ -52,7 +63,7 @@ def sync_user_to_employee(user_id):
         employee_data = {
             "employee_id": user_id,
             "name": full_name,
-            "events": updated_events
+            "events": updated_events,
             # Add other fields as necessary
         }
 
@@ -66,9 +77,7 @@ def sync_user_to_employee(user_id):
             print(f"Failed to synchronize user {full_name} to DynamoDB.")
 
     except Exception as e:
-        print(
-            f"Failed to sync user {user_id} to DynamoDB: {e}"
-        )
+        print(f"Failed to sync user {user_id} to DynamoDB: {e}")
 
 
 def get_user_instance_from_dynamodb(user_id):
