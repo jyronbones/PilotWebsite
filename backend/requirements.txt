@@ -10,3 +10,4 @@ git+https://github.com/YaserFazil/dynamorm.git
 marshmallow==3.15.0
 django-storages==1.14.2
 zappa==0.58.0
+pandas==2.2.1
