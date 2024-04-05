@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "apps.user",
+    "apps.scheduling",
     "corsheaders",
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",
@@ -103,6 +104,7 @@ WSGI_APPLICATION = "PilotWebsite.wsgi.application"
 # DynamoDB:
 DB_ENDPOINT = os.getenv("DB_ENDPOINT")
 DB_TABLE = os.getenv("DB_TABLE")
+DB_EMPLOYEES_TABLE_NAME= os.getenv("DB_EMPLOYEES_TABLE_NAME")
 
 PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.PBKDF2PasswordHasher",

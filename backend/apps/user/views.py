@@ -21,6 +21,10 @@ import boto3
 from PilotWebsite.settings import DB_ENDPOINT, DB_TABLE
 import os
 from dotenv import load_dotenv
+from apps.scheduling.dynamodb_utils import (
+    sync_user_to_employee,
+    delete_employee_from_dynamodb,
+)
 
 load_dotenv()
 
@@ -142,7 +146,6 @@ def refresh_token(request):
 
 dynamodb = boto3.resource(
     "dynamodb",
-    # endpoint_url=os.getenv("DB_ENDPOINT"),
     region_name=os.getenv("DB_REGION_NAME"),
     aws_access_key_id=os.getenv("DB_AWS_ACCESS_KEY_ID"),
     aws_secret_access_key=os.getenv("DB_AWS_SECRET_ACCESS_KEY"),
@@ -307,7 +310,7 @@ def auth_me(request):
 #         # Save the data gathered for new user on DynamoDB
 #         record.save()
 #         return Response(
-#             {"success": True, "message": "User created successfully"},
+#             {"Success": True, "message": "User created successfully"},
 #             status.HTTP_201_CREATED,
 #         )
 #     except Exception as e:
@@ -374,6 +377,7 @@ def admin_user_crud(request, user_id=None):
             )
             # Save the data gathered for new user on DynamoDB
             record.save()
+            sync_user_to_employee(user_id)
             return Response(
                 {"success": True, "message": "User created successfully"},
                 status.HTTP_201_CREATED,
@@ -393,6 +397,7 @@ def admin_user_crud(request, user_id=None):
                 updated_at=datetime.now(),
                 user_type=user_type,
             )
+            sync_user_to_employee(user_id)
             return Response({"success": True, "message": "User updated successfully"})
 
         elif request.method == "GET":
@@ -410,6 +415,9 @@ def admin_user_crud(request, user_id=None):
             user_id = request.GET.get("user_id")
             # Delete the user from the DB
             table.delete_item(Key={"id": user_id})
+            delete_employee_from_dynamodb(
+                user_id
+            )  # Delete the user from employee table on DynamoDB
             return Response({"success": True, "message": "User deleted successfully"})
 
     except Exception as e:
