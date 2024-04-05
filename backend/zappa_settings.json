@@ -5,6 +5,7 @@
     "profile_name": "default",
     "project_name": "backend",
     "runtime": "python3.12",
-    "s3_bucket": "zappa-c1dvks3gm"
+    "s3_bucket": "zappa-c1dvks3gm",
+    "apigateway_enabled": false
   }
 }

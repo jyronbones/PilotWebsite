@@ -17,7 +17,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.conf import settings
 from .models import UserNew, outstandingToken
 from ..availability.models import Availability
-from ..productivity.models import Productivity, ProductivitySupport
+from ..productivity.models import Productivity
 from jwt import encode
 import boto3
 from PilotWebsite.settings import DB_ENDPOINT, DB_TABLE, DB_USERTRIP_TABLE, DB_PROD_TABLE, DB_AVAILABILITY
