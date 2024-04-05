@@ -21,7 +21,10 @@ import boto3
 from PilotWebsite.settings import DB_ENDPOINT, DB_TABLE
 import os
 from dotenv import load_dotenv
-from apps.scheduling.dynamodb_utils import sync_user_to_employee, delete_employee_from_dynamodb
+from apps.scheduling.dynamodb_utils import (
+    sync_user_to_employee,
+    delete_employee_from_dynamodb,
+)
 
 load_dotenv()
 
@@ -394,6 +397,7 @@ def admin_user_crud(request, user_id=None):
                 updated_at=datetime.now(),
                 user_type=user_type,
             )
+            sync_user_to_employee(user_id)
             return Response({"success": True, "message": "User updated successfully"})
 
         elif request.method == "GET":
@@ -411,7 +415,9 @@ def admin_user_crud(request, user_id=None):
             user_id = request.GET.get("user_id")
             # Delete the user from the DB
             table.delete_item(Key={"id": user_id})
-            delete_employee_from_dynamodb(user_id) # Delete the user from employee table on DynamoDB
+            delete_employee_from_dynamodb(
+                user_id
+            )  # Delete the user from employee table on DynamoDB
             return Response({"success": True, "message": "User deleted successfully"})
 
     except Exception as e:
