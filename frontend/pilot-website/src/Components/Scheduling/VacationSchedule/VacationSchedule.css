@@ -18,6 +18,17 @@
   gap: 10px;
 }
 
+
+.close-button {
+  position: absolute;
+  top: 25px; /* Adjust top position as needed */
+  right: 10px; /* Adjust right position as needed */
+  font-size: 25px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
 .back-btn {
   align-self: flex-start;
   background-color: var(--color-main);

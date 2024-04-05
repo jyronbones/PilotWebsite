@@ -149,6 +149,15 @@
   margin-bottom: 5px; /* Space between label and input */
 }
 
+.close-button {
+  position: absolute;
+  top: 20px; /* Adjust top position as needed */
+  right: 10px; /* Adjust right position as needed */
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
 .event-form {
   display: flex;
   flex-direction: column;
@@ -247,4 +256,8 @@
 
 .selected-info div {
   margin-top: 10px;
+}
+
+.bg-gray {
+  background-color: rgba(242, 242, 242, 0.3);
 }
