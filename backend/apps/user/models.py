@@ -27,7 +27,7 @@ class UserNew(DynaModel):
         write = 5
 
     class Schema:
-        id = fields.UUID(required=True, editable=False)
+        id = fields.UUID(required=True)
         full_name = fields.String()
         first_name = fields.String()
         last_name = fields.String()

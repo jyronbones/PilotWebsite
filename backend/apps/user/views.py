@@ -16,8 +16,8 @@ from decimal import Decimal
 from django.contrib.auth.hashers import make_password, check_password
 from django.conf import settings
 from .models import UserNew, outstandingToken
-from ..availability.models import Availability
-from ..productivity.models import Productivity
+# from ..availability.models import Availability
+# from ..productivity.models import Productivity, ProductivitySupport
 from jwt import encode
 import boto3
 from PilotWebsite.settings import DB_ENDPOINT, DB_TABLE, DB_USERTRIP_TABLE, DB_PROD_TABLE, DB_AVAILABILITY
@@ -168,7 +168,7 @@ def credential_login(request):
         email = request.data.get("email", None)
         if email_validator(email) is not True:
             return Response(
-                {"success": False, "message": "Email is not valid"},
+                {"success": True, "message": "Email is not valid"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         if not request.data.get("password") or not request.data.get("email"):
@@ -211,6 +211,7 @@ def credential_login(request):
 def new_login_auth(user_email, password):
     # Fetch user from the DB
     result = UserNew.scan(email=user_email)
+
     # Iterate through the items in the result
     user = list(result)  # Convert the iterator to a list
     org_password = ""
@@ -412,46 +413,45 @@ def admin_user_crud(request, user_id=None):
                 date_joined=date_joined,
                 created_at=created_at,
                 updated_at=updated_at,
-                auth_corp=0,
                 is_superuser=is_superuser,
                 is_staff=is_staff,
                 is_active=is_active,
                 is_authenticated=is_authenticated,
                 last_login=last_login,
             )
-            availability = Availability(
-                id=str(uuid.uuid4()),
-                user_id=user_id,
-                year=str(datetime.now().year),
-                apr=False,
-                may=False,
-                jun=False,
-                jul=False,
-                aug=False,
-                sep=False,
-                oct=False,
-                nov=False,
-                dec=False,
-                total_effective=0
-            )
-            productivity = Productivity(
-                user_id=user_id,
-                auth_corp=0,
-                total_full = 0,
-                total_partial = 0,
-                total_cancel = 0,
-                total_double = 0,
-                total_assignments = 0,
-                total=0,
-                year=str(datetime.now().year),
-                daily_rate = 0,
-                monthly_rate = 0,
-            )
+            # availability = Availability(
+            #     id=str(uuid.uuid4()),
+            #     user_id=user_id,
+            #     year=str(datetime.now().year),
+            #     apr=False,
+            #     may=False,
+            #     jun=False,
+            #     jul=False,
+            #     aug=False,
+            #     sep=False,
+            #     oct=False,
+            #     nov=False,
+            #     dec=False,
+            #     total_effective=0
+            # )
+            # productivity = Productivity(
+            #     user_id=user_id,
+            #     auth_corp=0,
+            #     total_full = 0,
+            #     total_partial = 0,
+            #     total_cancel = 0,
+            #     total_double = 0,
+            #     total_assignments = 0,
+            #     total=0,
+            #     year=str(datetime.now().year),
+            #     daily_rate = 0,
+            #     monthly_rate = 0,
+            # )
 
         # Save the data gathered for new user on DynamoDB
             record.save()
-            availability.save()
-            productivity.save()
+            # availability.save()
+            # productivity.save()
             sync_user_to_employee(user_id)
 
             return Response(

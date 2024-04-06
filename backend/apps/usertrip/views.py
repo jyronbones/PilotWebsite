@@ -20,18 +20,9 @@ load_dotenv()
 
 timestamp = datetime.now().isoformat()
 
-@api_view(["GET"])
-def test_aws(request):
-    return Response(
-        {"status": "success", "msg": "Congrats! Your backend is working on AWS!"},
-        status=status.HTTP_200_OK,
-    )
-
-
 # DynamoDB Solution:
 dynamodb = boto3.resource(
     "dynamodb",
-    # endpoint_url=os.getenv("DB_ENDPOINT"),
     region_name=os.getenv("DB_REGION_NAME"),
     aws_access_key_id=os.getenv("DB_AWS_ACCESS_KEY_ID"),
     aws_secret_access_key=os.getenv("DB_AWS_SECRET_ACCESS_KEY"),
