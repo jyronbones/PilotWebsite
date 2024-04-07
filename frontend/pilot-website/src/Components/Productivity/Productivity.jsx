@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import { PROD_HEADER } from '../Constants/constants'
 import TabBar from './TabBar/TabBar'
 import Report from './Report/Report'
 import UserTrips from './UserTrips/UserTrips'
-import { PROD_HEADER } from '../Constants/constants'
 import './Productivity.css'
 
 const API_URL = process.env.REACT_APP_API_URL
