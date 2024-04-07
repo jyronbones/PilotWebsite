@@ -15,7 +15,7 @@ db_employees_table_name = os.getenv("DB_EMPLOYEES_TABLE_NAME")
 def get_dynamodb_resource():
     return boto3.resource(
         "dynamodb",
-        endpoint_url=endpoint_url, # Uncomment this line to use a local DynamoDB instance
+        # endpoint_url=endpoint_url, # Uncomment this line to use a local DynamoDB instance
         region_name=region_name,
         aws_access_key_id=aws_access_key_id,
         aws_secret_access_key=aws_secret_access_key,

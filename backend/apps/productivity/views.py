@@ -55,17 +55,15 @@ def crud_prod(request):
                             item[key] = int(value)
                     filtered_usertrip.append(item)
 
-            for row in filtered_usertrip:
+            for item in filtered_usertrip:
                 # Perform processing on each row (e.g., calculate total distance)
-                if (row['trip_type'] == 0):
+                if item["trip_type"] == 0:
                     total_full += 1
-                    print(total_full)
-                elif (row['trip_type'] == 1):
+                elif item["trip_type"] == 1:
                     total_partial += 1
-                    print(total_partial)
-                elif (row['trip_type'] == 2):
+                elif item["trip_type"] == 2:
                     total_cancel += 1
-                total_double += 1 if row['double'] else 0
+                total_double += 1 if item["double"] else 0
 
             total_assignments=total_full + total_cancel + total_partial
 
@@ -78,8 +76,6 @@ def crud_prod(request):
                 total_double=total_double,
                 total=total_assignments+productivity.auth_corp
             )
-            print(productivity.total_full)
-            print(productivity.total_partial)
 
             return Response(
                 {"success": True, "message": "User Productivity exists and updated successfully"}
@@ -141,7 +137,6 @@ def update_auth_corp(request):
 def get_summary(request):
     year = request.data["year"]
     result = prod_table.scan()
-    count = result["Count"]
     result = result["Items"]
 
     total_full = 0
@@ -168,20 +163,14 @@ def get_summary(request):
                     } 
                 })
 
-    # df = pd.DataFrame(filtered_prod)
+    for item in filtered_prod:
+        total_full += max(0, item["total_full"])
+        total_partial += max(0, item["total_partial"])
+        total_cancel += max(0, item["total_cancel"])
+        total_double += max(0, item["total_double"])
 
-    if count != 0:
-        for item in filtered_prod:
-            total_full += item["total_full"]
-            total_partial += item["total_partial"]
-            total_cancel += item["total_cancel"]
-            total_double += item["total_double"]
-        # total_full = float(df["total_full"].sum())
-        half_full = float(total_full / 2)
-        # total_partial = float(df["total_partial"].sum())
-        # total_cancel = float(df["total_cancel"].sum())
-        # total_double = float(df["total_double"].sum())
-        total_assignments = float(half_full + total_partial + total_cancel + total_double)
+    half_full = Decimal(total_full / 2)
+    total_assignments = Decimal(half_full + total_partial + total_cancel + total_double)
 
     return Response({
                 "data": {
