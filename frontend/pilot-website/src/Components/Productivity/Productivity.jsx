@@ -61,13 +61,15 @@ const Productivity = () => {
   }, [])
 
   return (
-    <div className='prod-container'>
-      <TabBar setActiveTab={setActiveTab} activeTab={activeTab} tabNames={PROD_HEADER} />
-      {activeTab == 'Report' ? (
-        <Report year={year} setYear={setYear} array={array} />
-      ) : (
-        <UserTrips setCurrUser={setCurrUser} admin={admin} currUser={currUser} users={users} year={year} />
-      )}
+    <div className='content-wrap'>
+      <div className='prod-container'>
+        <TabBar setActiveTab={setActiveTab} activeTab={activeTab} tabNames={PROD_HEADER} />
+        {activeTab == 'Report' ? (
+          <Report year={year} setYear={setYear} array={array} />
+        ) : (
+          <UserTrips setCurrUser={setCurrUser} admin={admin} currUser={currUser} users={users} year={year} />
+        )}
+      </div>
     </div>
   )
 }
