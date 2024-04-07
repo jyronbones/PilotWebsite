@@ -25,7 +25,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # Fetch Django SECRET_KEY from AWS Secrets Manager
-SECRET_KEY = get_aws_secret("prod/pilotwebsite/djangosecretkey", "django_secret_key", "us-east-1")
+# SECRET_KEY = get_aws_secret("prod/pilotwebsite/djangosecretkey", "django_secret_key", "us-east-1")
+SECRET_KEY = "django-insecure-q(*j%t%%+d_mhgg1h%j-uumx5#^yvc9v+i==z5u)gf$cd3jkfo"
 
 # secret_name to retrieve AWS Secrets for files
 AGREEMENT_BUCKET_NAME = "agreementfilesbucket"
@@ -51,8 +52,8 @@ INSTALLED_APPS = [
     "apps.user",
     "apps.scheduling",
     "apps.usertrip",
-    # "apps.productivity",
-    # "apps.availability",
+    "apps.productivity",
+    "apps.availability",
     "corsheaders",
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",

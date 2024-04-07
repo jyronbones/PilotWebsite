@@ -5,7 +5,8 @@ from rest_framework.decorators import (
 )
 from ..user.authentication import DynamoDBJWTAuthentication
 from rest_framework.response import Response
-import pandas as pd
+# from pandas import DataFrame
+# from numpy import float64
 from datetime import datetime
 import uuid
 from .models import Availability
@@ -118,6 +119,7 @@ def get_availability(request):
     result = availability_table.scan()
     result = result["Items"]
     filtered_availability = []
+    total = 0
 
     for item in result:
         if item["year"] == str(year):
@@ -132,8 +134,11 @@ def get_availability(request):
                             }
                         })
     
-    df = pd.DataFrame(filtered_availability)
-    total = float(df["total_effective"].sum() / 9)
+    # df = DataFrame(filtered_availability)
+    # total = float(df["total_effective"].sum() / 9)
+    for item in filtered_availability:
+        total += item["total_effective"]
+    total /= 9
     total_effective = round(total, 2)
     threshold = round(total_effective * 54, 2)
 

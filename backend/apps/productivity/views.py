@@ -7,7 +7,7 @@ from rest_framework.decorators import (
 from rest_framework.permissions import IsAdminUser
 from ..user.authentication import DynamoDBJWTAuthentication
 from rest_framework.response import Response
-import pandas as pd
+# import pandas as pd
 from datetime import datetime
 from decimal import Decimal
 from .models import Productivity
@@ -168,14 +168,19 @@ def get_summary(request):
                     } 
                 })
 
-    df = pd.DataFrame(filtered_prod)
+    # df = pd.DataFrame(filtered_prod)
 
     if count != 0:
-        total_full = float(df["total_full"].sum())
+        for item in filtered_prod:
+            total_full += item["total_full"]
+            total_partial += item["total_partial"]
+            total_cancel += item["total_cancel"]
+            total_double += item["total_double"]
+        # total_full = float(df["total_full"].sum())
         half_full = float(total_full / 2)
-        total_partial = float(df["total_partial"].sum())
-        total_cancel = float(df["total_cancel"].sum())
-        total_double = float(df["total_double"].sum())
+        # total_partial = float(df["total_partial"].sum())
+        # total_cancel = float(df["total_cancel"].sum())
+        # total_double = float(df["total_double"].sum())
         total_assignments = float(half_full + total_partial + total_cancel + total_double)
 
     return Response({

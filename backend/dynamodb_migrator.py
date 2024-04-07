@@ -157,7 +157,9 @@ def create_employees_table(dynamodb=dynamodb):
             }
         )
         table.meta.client.get_waiter('table_exists').wait(TableName=DB_EMPLOYEES_TABLE_NAME)
-        print(f"Table {DB_EMPLOYEES_TABLE_NAME} created successfully.")
+        print(f"Table {DB_EMPLOYEES_TABLE_NAME} created successfully. Table status:",
+            table.table_status,
+        )
         print("Item count:", table.item_count)
 
     except ClientError as e:
