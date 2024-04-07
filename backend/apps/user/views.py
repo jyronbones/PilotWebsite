@@ -20,7 +20,7 @@ from ..availability.models import Availability
 from ..productivity.models import Productivity
 from jwt import encode
 import boto3
-from PilotWebsite.settings import DB_ENDPOINT, DB_TABLE, DB_USERTRIP_TABLE, DB_PROD_TABLE, DB_AVAILABILITY
+from PilotWebsite.settings import DB_ENDPOINT, DB_TABLE, DB_USERTRIP_TABLE, DB_PRODUCTIVITY, DB_AVAILABILITY
 import os
 from dotenv import load_dotenv
 from apps.scheduling.dynamodb_utils import (
@@ -153,7 +153,7 @@ dynamodb = boto3.resource(
 
 table = dynamodb.Table(DB_TABLE)
 usertrip_table = dynamodb.Table(DB_USERTRIP_TABLE)
-productivity_table = dynamodb.Table(DB_PROD_TABLE)
+productivity_table = dynamodb.Table(DB_PRODUCTIVITY)
 availability_table = dynamodb.Table(DB_AVAILABILITY)
 
 @api_view(["POST"])

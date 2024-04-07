@@ -20,7 +20,7 @@ class Productivity(DynaModel):
             "aws_access_key_id": aws_access_key_id,
             "aws_secret_access_key": aws_secret_access_key,
         }
-        name = settings.DB_PROD_TABLE
+        name = settings.DB_PRODUCTIVITY
         hash_key = "user_id"
         read = 25
         write = 5
@@ -47,7 +47,7 @@ class ProductivitySupport(DynaModel):
             "aws_access_key_id": aws_access_key_id,
             "aws_secret_access_key": aws_secret_access_key,
         }
-        name = settings.DB_PROD_TABLE
+        name = settings.DB_PRODUCTIVITY_SUPP
         hash_key = "id"
         read = 25
         write = 5

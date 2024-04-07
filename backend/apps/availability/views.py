@@ -5,8 +5,6 @@ from rest_framework.decorators import (
 )
 from ..user.authentication import DynamoDBJWTAuthentication
 from rest_framework.response import Response
-# from pandas import DataFrame
-# from numpy import float64
 from datetime import datetime
 import uuid
 from .models import Availability
@@ -134,8 +132,6 @@ def get_availability(request):
                             }
                         })
     
-    # df = DataFrame(filtered_availability)
-    # total = float(df["total_effective"].sum() / 9)
     for item in filtered_availability:
         total += item["total_effective"]
     total /= 9

@@ -7,12 +7,11 @@ from rest_framework.decorators import (
 from rest_framework.permissions import IsAdminUser
 from ..user.authentication import DynamoDBJWTAuthentication
 from rest_framework.response import Response
-# import pandas as pd
 from datetime import datetime
 from decimal import Decimal
 from .models import Productivity
 import boto3
-from PilotWebsite.settings import DB_TABLE, DB_USERTRIP_TABLE, DB_PROD_TABLE
+from PilotWebsite.settings import DB_TABLE, DB_USERTRIP_TABLE, DB_PRODUCTIVITY
 import os
 from dotenv import load_dotenv
 
@@ -30,7 +29,7 @@ dynamodb = boto3.resource(
 
 user_table = dynamodb.Table(DB_TABLE)
 trip_table = dynamodb.Table(DB_USERTRIP_TABLE)
-prod_table = dynamodb.Table(DB_PROD_TABLE)
+prod_table = dynamodb.Table(DB_PRODUCTIVITY)
 
 @api_view(["POST", "PUT"])
 @authentication_classes([DynamoDBJWTAuthentication])

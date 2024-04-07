@@ -1,6 +1,6 @@
 import boto3
 from botocore.exceptions import ClientError
-from PilotWebsite.settings import DB_ENDPOINT, DB_TABLE, DB_EMPLOYEES_TABLE_NAME, DB_USERTRIP_TABLE, DB_PROD_TABLE, DB_AVAILABILITY
+from PilotWebsite.settings import DB_ENDPOINT, DB_TABLE, DB_EMPLOYEES_TABLE_NAME, DB_USERTRIP_TABLE, DB_PRODUCTIVITY, DB_AVAILABILITY
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -93,7 +93,7 @@ def create_usertrip_table(dynamodb=dynamodb):
 def create_productivity_table(dynamodb=dynamodb):
     try:
         table = dynamodb.create_table(
-            TableName=DB_PROD_TABLE,
+            TableName=DB_PRODUCTIVITY,
             KeySchema=[{"AttributeName": "user_id", "KeyType": "HASH"}],
             AttributeDefinitions=[{"AttributeName": "user_id", "AttributeType": "S"}],
             ProvisionedThroughput={"ReadCapacityUnits": 5, "WriteCapacityUnits": 2},
