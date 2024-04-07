@@ -3,12 +3,16 @@ from .views import (
     crud_prod,
     get_all_assignments,
     update_auth_corp,
-    get_summary
+    update_rate,
+    get_assignment_summary,
+    get_productivity_supp
 )
 
 urlpatterns = [
     re_path(r"^productivity", crud_prod),
-    re_path(r"^assignments", get_all_assignments),
+    re_path(r"^get-allassignments", get_all_assignments),
     re_path(r"^auth-corp", update_auth_corp),
-    re_path(r"^summary", get_summary),
+    re_path(r"^rate", update_rate),
+    re_path(r"^assignment-summary", get_assignment_summary),
+    re_path(r"^get-prodsupport", get_productivity_supp),
 ]

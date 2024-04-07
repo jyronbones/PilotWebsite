@@ -11,29 +11,31 @@ const DetailAssignments = ({ year }) => {
     year: PropTypes.number.isRequired
   }
   const [edit, setEdit] = useState(false)
-  const [assignments, setAssignments] = useState([])
+  const [allAssignments, setAllAssignments] = useState([])
+  const [assignmentSummary, setAssignmentSummary] = useState([])
   const [users, setUsers] = useState([])
   const [authCorp, setAuthCorp] = useState({})
 
   useEffect(() => {
     fetchPilotAssignments()
     fetchUsers()
+    fetchSummary()
   }, [])
 
   useEffect(() => {
-    if (assignments.length > 0) {
+    if (allAssignments.length > 0) {
       const newAuthCorp = {}
-      assignments.forEach((assignment) => {
+      allAssignments.forEach((assignment) => {
         newAuthCorp[assignment.user_id] = assignment.auth_corp
       })
       setAuthCorp(newAuthCorp)
       // setAuthCorpUpdated(true)
     }
-  }, [assignments])
+  }, [allAssignments])
 
   const fetchPilotAssignments = async () => {
     try {
-      const response = await fetch(`${API_URL}/assignments`, {
+      const response = await fetch(`${API_URL}/get-allassignments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -44,7 +46,27 @@ const DetailAssignments = ({ year }) => {
 
       if (response.ok) {
         const data = await response.json()
-        setAssignments(data.data)
+        setAllAssignments(data.data)
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
+  const fetchSummary = async () => {
+    try {
+      const response = await fetch(`${API_URL}/assignment-summary`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
+        },
+        body: JSON.stringify({ year })
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        setAssignmentSummary(data.data)
       }
     } catch (error) {
       console.log(error.message)
@@ -139,10 +161,11 @@ const DetailAssignments = ({ year }) => {
               </tr>
             </thead>
             <tbody>
-              {assignments?.length > 0 ? (
+              {allAssignments?.length > 0 ? (
                 <>
-                  {assignments?.map((assignment, index) => (
+                  {allAssignments?.map((assignment, index) => (
                     <tr key={index}>
+                      <td></td>
                       <td>{findUser(assignment.user_id)}</td>
                       <td>{assignment?.total_full}</td>
                       <td>{assignment?.total_partial}</td>
@@ -165,10 +188,23 @@ const DetailAssignments = ({ year }) => {
                         <td>{authCorp[assignment.user_id]}.0</td>
                       )}
                       <td>{assignment?.total}</td>
-                      <td>12000</td>
+                      <td>{assignment?.amount_shared}</td>
                       <td>{assignment?.total_double}</td>
                     </tr>
                   ))}
+                  <tr>
+                    <td>Total</td>
+                    <td></td>
+                    <td>{assignmentSummary.total_full}</td>
+                    <td>{assignmentSummary.total_partial}</td>
+                    <td>{assignmentSummary.total_partial}</td>
+                    <td>{assignmentSummary.total_cancel}</td>
+                    <td>{assignmentSummary.total_assignments}</td>
+                    <td>{assignmentSummary.auth_corp}</td>
+                    <td>{assignmentSummary.total}</td>
+                    <td>{assignmentSummary.amount_shared}</td>
+                    <td>{assignmentSummary.total_double}</td>
+                  </tr>
                 </>
               ) : (
                 <tr>

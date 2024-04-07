@@ -15,27 +15,11 @@
   .summary-table td {
     font-size: 14px;
   }
-  .daily-rate .MuiInputBase-root {
-    width: 70px;
-    height: 30px;
-  }
-  .monthly-rate .MuiInputBase-root {
-    width: 100px;
-    height: 30px;
-  }
 }
 
 @media (max-width: 500px) {
   .summary-table th,
   .summary-table td {
     font-size: 12px;
-  }
-  .daily-rate .MuiInputBase-root {
-    width: 70px;
-    height: 30px;
-  }
-  .monthly-rate .MuiInputBase-root {
-    width: 100px;
-    height: 30px;
   }
 }

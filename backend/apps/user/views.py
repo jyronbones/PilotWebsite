@@ -17,7 +17,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.conf import settings
 from .models import UserNew, outstandingToken
 from ..availability.models import Availability
-from ..productivity.models import Productivity
+from ..productivity.models import Productivity, ProductivitySupport
 from jwt import encode
 import boto3
 from PilotWebsite.settings import DB_ENDPOINT, DB_TABLE, DB_USERTRIP_TABLE, DB_PRODUCTIVITY, DB_AVAILABILITY
@@ -442,15 +442,34 @@ def admin_user_crud(request, user_id=None):
                 total_double = 0,
                 total_assignments = 0,
                 total=0,
+                amount_shared=0,
                 year=str(datetime.now().year),
                 daily_rate = 0,
                 monthly_rate = 0,
+            )
+            prodsupp = ProductivitySupport(
+                id=str(uuid.uuid4()),
+                year=str(datetime.now().year),
+                sum_accummulate = 0,
+                shared_value = 0,
+                daily_rate = 10,
+                monthly_rate = 10000,
+            )
+            prodsupp1 = ProductivitySupport(
+                id=str(uuid.uuid4()),
+                year=str(2025),
+                sum_accummulate = 0,
+                shared_value = 0,
+                daily_rate = 10,
+                monthly_rate = 10000,
             )
 
         # Save the data gathered for new user on DynamoDB
             record.save()
             availability.save()
             productivity.save()
+            prodsupp.save()
+            prodsupp1.save()
             sync_user_to_employee(user_id)
 
             return Response(

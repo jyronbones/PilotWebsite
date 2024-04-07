@@ -34,6 +34,7 @@ class Productivity(DynaModel):
         total_double = fields.Integer(required=True)
         total_assignments = fields.Integer(required=True)
         total = fields.Decimal()
+        amount_shared = fields.Decimal()
         year = fields.String()
         daily_rate = fields.Integer()
         monthly_rate = fields.Integer()
@@ -54,7 +55,8 @@ class ProductivitySupport(DynaModel):
 
     class Schema:
         id = fields.UUID(required=True)
-        year = fields.Integer()
+        year = fields.String()
+        sum_accummulated = fields.Decimal()
         shared_value = fields.Decimal()
         daily_rate = fields.Integer()
         monthly_rate = fields.Integer()
