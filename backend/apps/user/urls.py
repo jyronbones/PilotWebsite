@@ -6,7 +6,7 @@ from .views import (
     admin_user_crud,
     get_all_users,
     get_one_user,
-    create_admin_account,
+    # create_admin_account,
     test_aws,
 )
 
@@ -17,6 +17,6 @@ urlpatterns = [
     re_path(r"^users", get_all_users),
     re_path(r"^user", admin_user_crud),
     re_path(r"^one_user", get_one_user),
-    re_path(r"^create_admin", create_admin_account),
+    # re_path(r"^create_admin", create_admin_account),
     re_path(r"^test_aws", test_aws),
 ]

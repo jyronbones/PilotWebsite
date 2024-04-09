@@ -25,5 +25,5 @@ urlpatterns = [
     path('api/v1/', include('apps.meetingminutes.urls')),
     path('api/v1/', include('apps.productivity.urls')),
     path('api/v1/', include('apps.availability.urls')),
-    path('api/scheduling/', include('apps.scheduling.urls')),
+    path('api/v1/scheduling/', include('apps.scheduling.urls')),
 ]

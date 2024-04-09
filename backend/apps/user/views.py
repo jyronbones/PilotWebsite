@@ -146,7 +146,7 @@ def refresh_token(request):
 # DynamoDB Solution:
 dynamodb = boto3.resource(
     "dynamodb",
-    endpoint_url=os.getenv("DB_ENDPOINT"), # Uncomment this line to use a local DynamoDB instance
+    # endpoint_url=os.getenv("DB_ENDPOINT"), # Uncomment this line to use a local DynamoDB instance
     region_name=os.getenv("DB_REGION_NAME"),
     aws_access_key_id=os.getenv("DB_AWS_ACCESS_KEY_ID"),
     aws_secret_access_key=os.getenv("DB_AWS_SECRET_ACCESS_KEY"),
@@ -258,122 +258,122 @@ def auth_me(request):
 
 # # This view is just for testing purpose,
 # # if you want to create an admin quickly without any restrictions you can use this
-@api_view(["POST"])
-def create_admin_account(request):
-    try:
-        user_id = str(uuid.uuid4())
-        full_name = request.data["full_name"]
-        first_name = ""
-        last_name = ""
-        email = request.data["email"]
-        user_type = int(request.data["user_type"])
-        password = make_password(request.data["password"])
-        date_joined = timestamp
-        created_at = timestamp
-        updated_at = timestamp
-        is_superuser = False
-        is_staff = False
-        is_active = True
-        is_authenticated = True
-        last_login = None
+# @api_view(["POST"])
+# def create_admin_account(request):
+#     try:
+#         user_id = str(uuid.uuid4())
+#         full_name = request.data["full_name"]
+#         first_name = ""
+#         last_name = ""
+#         email = request.data["email"]
+#         user_type = int(request.data["user_type"])
+#         password = make_password(request.data["password"])
+#         date_joined = timestamp
+#         created_at = timestamp
+#         updated_at = timestamp
+#         is_superuser = False
+#         is_staff = False
+#         is_active = True
+#         is_authenticated = True
+#         last_login = None
 
-        # If the new user is admin then do this:
-        if user_type == 1:
-            is_superuser = True
-            is_staff = True
+#         # If the new user is admin then do this:
+#         if user_type == 1:
+#             is_superuser = True
+#             is_staff = True
 
-        # Retrun a fail msg if the user is already exist in the DB
-        user_exist = check_user(email)
-        if user_exist:
-            return Response(
-                {
-                    "success": False,
-                    "message": f"User with the {email} email is already exist!",
-                }
-            )
+#         # Retrun a fail msg if the user is already exist in the DB
+#         user_exist = check_user(email)
+#         if user_exist:
+#             return Response(
+#                 {
+#                     "success": False,
+#                     "message": f"User with the {email} email is already exist!",
+#                 }
+#             )
 
-        # New user data to be saved on database:
-        record = UserNew(
-            id=user_id,
-            full_name=full_name,
-            first_name=first_name,
-            last_name=last_name,
-            email=email,
-            user_type=user_type,
-            password=password,
-            date_joined=date_joined,
-            created_at=created_at,
-            updated_at=updated_at,
-            is_superuser=is_superuser,
-            is_staff=is_staff,
-            is_active=is_active,
-            is_authenticated=is_authenticated,
-            last_login=last_login,
-        )
-        availability = Availability(
-            id=str(uuid.uuid4()),
-            user_id=user_id,
-            year=str(datetime.now().year),
-            apr=False,
-            may=False,
-            jun=False,
-            jul=False,
-            aug=False,
-            sep=False,
-            oct=False,
-            nov=False,
-            dec=False,
-            total_effective=0
-        )
-        productivity = Productivity(
-            user_id=user_id,
-            auth_corp=0,
-            total_full = 0,
-            total_partial = 0,
-            total_cancel = 0,
-            total_double = 0,
-            total_assignments = 0,
-            total=0,
-            amount_shared=0,
-            year=str(datetime.now().year),
-            daily_rate = 0,
-            monthly_rate = 0,
-        )
-        prodsupp = ProductivitySupport(
-            id=str(uuid.uuid4()),
-            year=str(datetime.now().year),
-            sum_accummulate = 0,
-            shared_value = 0,
-            daily_rate = 10,
-            monthly_rate = 10000,
-        )
-        prodsupp1 = ProductivitySupport(
-            id=str(uuid.uuid4()),
-            year=str(2025),
-            sum_accummulate = 0,
-            shared_value = 0,
-            daily_rate = 10,
-            monthly_rate = 10000,
-        )
+#         # New user data to be saved on database:
+#         record = UserNew(
+#             id=user_id,
+#             full_name=full_name,
+#             first_name=first_name,
+#             last_name=last_name,
+#             email=email,
+#             user_type=user_type,
+#             password=password,
+#             date_joined=date_joined,
+#             created_at=created_at,
+#             updated_at=updated_at,
+#             is_superuser=is_superuser,
+#             is_staff=is_staff,
+#             is_active=is_active,
+#             is_authenticated=is_authenticated,
+#             last_login=last_login,
+#         )
+#         availability = Availability(
+#             id=str(uuid.uuid4()),
+#             user_id=user_id,
+#             year=str(datetime.now().year),
+#             apr=False,
+#             may=False,
+#             jun=False,
+#             jul=False,
+#             aug=False,
+#             sep=False,
+#             oct=False,
+#             nov=False,
+#             dec=False,
+#             total_effective=0
+#         )
+#         productivity = Productivity(
+#             user_id=user_id,
+#             auth_corp=0,
+#             total_full = 0,
+#             total_partial = 0,
+#             total_cancel = 0,
+#             total_double = 0,
+#             total_assignments = 0,
+#             total=0,
+#             amount_shared=0,
+#             year=str(datetime.now().year),
+#             daily_rate = 0,
+#             monthly_rate = 0,
+#         )
+#         prodsupp = ProductivitySupport(
+#             id=str(uuid.uuid4()),
+#             year=str(datetime.now().year),
+#             sum_accummulate = 0,
+#             shared_value = 0,
+#             daily_rate = 10,
+#             monthly_rate = 10000,
+#         )
+#         prodsupp1 = ProductivitySupport(
+#             id=str(uuid.uuid4()),
+#             year=str(2025),
+#             sum_accummulate = 0,
+#             shared_value = 0,
+#             daily_rate = 10,
+#             monthly_rate = 10000,
+#         )
 
-        # Save the data gathered for new user on DynamoDB
-        record.save()
-        availability.save()
-        productivity.save()
-        prodsupp.save()
-        prodsupp1.save()
-        sync_user_to_employee(user_id)
+#         # Save the data gathered for new user on DynamoDB
+#         record.save()
+#         availability.save()
+#         productivity.save()
+#         prodsupp.save()
+#         prodsupp1.save()
+#         sync_user_to_employee(user_id)
         
-        return Response(
-            {"success": True, "message": "User created successfully"},
-            status.HTTP_201_CREATED,
-        )
+#         return Response(
+#             {"success": True, "message": "User created successfully"},
+#             status.HTTP_201_CREATED,
+#         )
     
-    except Exception as e:
-        return Response(
-            {"success": False, "message": f"Bad request: {str(e)}"},
-            status.HTTP_400_BAD_REQUEST,
-        )
+#     except Exception as e:
+#         return Response(
+#             {"success": False, "message": f"Bad request: {str(e)}"},
+#             status.HTTP_400_BAD_REQUEST,
+#         )
 
 
 @api_view(["POST", "PUT", "DELETE"])
@@ -509,6 +509,8 @@ def admin_user_crud(request, user_id=None):
             for item in availability:
                 if (item["user_id"] == user_id):
                     availability_table.delete_item(Key={"id": item["id"], "user_id": user_id})
+            # Delete employee from scheduling table
+            delete_employee_from_dynamodb(user_id)
             return Response({"success": True, "message": "User deleted successfully"})
 
     except Exception as e:

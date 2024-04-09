@@ -1,6 +1,4 @@
 .Home {
-  height: 500px auto;
-  width: 700px auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 2rem;

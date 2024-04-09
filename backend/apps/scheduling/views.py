@@ -1,17 +1,14 @@
-from django.utils.dateparse import parse_date
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from ..user.authentication import DynamoDBJWTAuthentication
 from rest_framework.response import Response
-from PilotWebsite.settings import DB_ENDPOINT, DB_EMPLOYEES_TABLE_NAME
+from PilotWebsite.settings import DB_EMPLOYEES_TABLE_NAME
 from decimal import Decimal
-from .models import Employee
-from datetime import datetime
 import boto3
-import json
 import os
 
 dynamodb = boto3.resource(
     "dynamodb",
-    endpoint_url=os.getenv("DB_ENDPOINT"), # Uncomment this line to use a local DynamoDB instance
+    # endpoint_url=os.getenv("DB_ENDPOINT"), # Uncomment this line to use a local DynamoDB instance
     region_name=os.getenv("DB_REGION_NAME"),
     aws_access_key_id=os.getenv("DB_AWS_ACCESS_KEY_ID"),
     aws_secret_access_key=os.getenv("DB_AWS_SECRET_ACCESS_KEY"),
@@ -87,6 +84,7 @@ def employee_events(request, employee_id=None):
 
 
 @api_view(['GET'])
+@authentication_classes([DynamoDBJWTAuthentication])
 def get_employee(request, employee_id):
     try:
         response = table.get_item(Key={'employee_id': employee_id})
@@ -107,8 +105,8 @@ def events_list(request):
 
 
 @api_view(['GET'])
+@authentication_classes([DynamoDBJWTAuthentication])
 def employees_list(request):
-
     try:
         # Scan the table
         response = table.scan()
@@ -127,6 +125,7 @@ def employees_list(request):
 
 # Adding Employees to the Calendar
 @api_view(['POST'])
+@authentication_classes([DynamoDBJWTAuthentication])
 def add_employee(request):
     if request.method == "POST":
         try: 
@@ -158,20 +157,8 @@ def add_employee(request):
         return Response({'error': 'Invalid HTTP method'}, status=405)
     
 
-    # Fetch or get all Employees from DynamoDB
-def get_all_Employees():
-    # Fetch all Employees:
-    result = table.scan()
-    employee_count = result["Count"]
-    result = result["Items"]
-    # Convert decimal values in employee list into integers
-    for item in result:
-        for key, value in item.items():
-            if isinstance(value, Decimal):
-                item[key] = int(value)
-    return {"all": result, "count": employee_count}
-
 @api_view(['DELETE'])
+@authentication_classes([DynamoDBJWTAuthentication])
 def delete_employee(request, employee_id):
     try:
         # Attempt to delete the employee with the provided ID
