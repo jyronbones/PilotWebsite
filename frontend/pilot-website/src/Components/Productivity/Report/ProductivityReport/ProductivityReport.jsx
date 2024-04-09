@@ -124,7 +124,7 @@ const ProductivityReport = ({ year }) => {
           <button
             className='btn create'
             onClick={() => {
-              if (edit) handleUpdateRate(dailyRate, monthlyRate, prodAssign, assignmentSummary.total)
+              if (edit) handleUpdateRate(dailyRate, monthlyRate, isNaN(prodAssign) ? 0 : prodAssign, assignmentSummary.total)
               setEdit(!edit)
             }}
           >
@@ -151,7 +151,7 @@ const ProductivityReport = ({ year }) => {
               </tr>
               <tr>
                 <th>Productive Assignments</th>
-                <td>{prodAssign}</td>
+                <td>{isNaN(prodAssign) || prodAssign === null ? 0 : prodAssign}</td>
               </tr>
               <tr>
                 <th>{`${year} Rate (Daily Rate x 2)`}</th>
@@ -163,7 +163,7 @@ const ProductivityReport = ({ year }) => {
               </tr>
               <tr>
                 <th>Share Value</th>
-                {productivitySupp && <td>{productivitySupp.shared_value}</td>}
+                {productivitySupp && <td>{productivitySupp.shared_value ? productivitySupp.shared_value : 0}</td>}
               </tr>
               <tr>
                 <th>Daily Rate</th>

@@ -16,7 +16,7 @@ aws_secret_access_key = os.getenv("DB_AWS_SECRET_ACCESS_KEY")
 class UserNew(DynaModel):
     class Table:
         resource_kwargs = {
-            # "endpoint_url": endpoint_url, # this is used for localhost
+            "endpoint_url": endpoint_url, # this is used for localhost
             "region_name": region_name,
             "aws_access_key_id": aws_access_key_id,
             "aws_secret_access_key": aws_secret_access_key,
@@ -48,7 +48,7 @@ class UserNew(DynaModel):
 class outstandingToken(DynaModel):
     class Table:
         resource_kwargs = {
-            # "endpoint_url": endpoint_url, # this is used for localhost
+            "endpoint_url": endpoint_url, # this is used for localhost
             "region_name": region_name,
             "aws_access_key_id": aws_access_key_id,
             "aws_secret_access_key": aws_secret_access_key,

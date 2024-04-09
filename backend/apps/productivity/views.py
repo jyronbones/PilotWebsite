@@ -23,7 +23,7 @@ timestamp = datetime.now().isoformat()
 # DynamoDB Solution:
 dynamodb = boto3.resource(
     "dynamodb",
-    # endpoint_url=os.getenv("DB_ENDPOINT"), # Uncomment this line to use a local DynamoDB instance
+    endpoint_url=os.getenv("DB_ENDPOINT"), # Uncomment this line to use a local DynamoDB instance
     region_name=os.getenv("DB_REGION_NAME"),
     aws_access_key_id=os.getenv("DB_AWS_ACCESS_KEY_ID"),
     aws_secret_access_key=os.getenv("DB_AWS_SECRET_ACCESS_KEY"),
@@ -235,8 +235,8 @@ def update_rate(request):
 @authentication_classes([DynamoDBJWTAuthentication])
 def get_productivity_supp(request):
     year = request.data["year"]
-    productive_assignments = Decimal(request.data["productive_assignments"])
-    total = request.data["total"]
+    productive_assignments = request.data["productive_assignments"]
+    total = Decimal(request.data["total"])
     if productive_assignments is None:
         productive_assignments = 0
     if total is None or total == 0:
@@ -248,7 +248,7 @@ def get_productivity_supp(request):
         for item in prodsupp:
             if item["year"] == str(year):
                 record = ProductivitySupport.get(id=item["id"])
-                sum_accummulated = productive_assignments * item["daily_rate"] * 2
+                sum_accummulated = Decimal(productive_assignments * item["daily_rate"] * 2)
                 shared_value=round(sum_accummulated / total)
                 record.update(
                     sum_accummulated=sum_accummulated,
