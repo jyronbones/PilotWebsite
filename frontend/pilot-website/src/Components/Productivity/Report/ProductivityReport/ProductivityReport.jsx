@@ -9,23 +9,38 @@ const ProductivityReport = ({ year }) => {
   ProductivityReport.propTypes = {
     year: PropTypes.number.isRequired
   }
-
-  const [availability, setAvailability] = useState(0)
+  const [effectivePilots, setEffectivePilots] = useState(0)
   const [assignmentSummary, setAssignmentSummary] = useState(0)
   const [productivitySupp, setProductivitySupp] = useState({})
   const [edit, setEdit] = useState(false)
   const [dailyRate, setDailyRate] = useState(0)
   const [monthlyRate, setMonthlyRate] = useState(0)
+  const [prodAssign, setProdAssign] = useState(0)
 
   useEffect(() => {
     fetchAvailability()
     fetchAssignmentSummary()
-    fetchProdSupport()
   }, [])
+
+  useEffect(() => {
+    if (assignmentSummary) {
+      let productive_assignments =
+        assignmentSummary.productivity - effectivePilots.threshold < 0 ? 0 : assignmentSummary.productivity - effectivePilots.threshold
+      setProdAssign(productive_assignments)
+      fetchProdSupport(productive_assignments, assignmentSummary.total)
+    }
+  }, [assignmentSummary])
+
+  useEffect(() => {
+    if (productivitySupp) {
+      setDailyRate(productivitySupp.daily_rate)
+      setMonthlyRate(productivitySupp.monthly_rate)
+    }
+  }, [productivitySupp])
 
   const fetchAvailability = async () => {
     try {
-      const response = await fetch(`${API_URL}/get-availability`, {
+      const response = await fetch(`${API_URL}/effective`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,7 +51,7 @@ const ProductivityReport = ({ year }) => {
 
       if (response.ok) {
         const data = await response.json()
-        setAvailability(data.data)
+        setEffectivePilots(data.data)
       }
     } catch (error) {
       console.log(error.message)
@@ -63,15 +78,15 @@ const ProductivityReport = ({ year }) => {
     }
   }
 
-  const fetchProdSupport = async () => {
+  const fetchProdSupport = async (productive_assignments, total) => {
     try {
-      const response = await fetch(`${API_URL}/get-prodsupport`, {
+      const response = await fetch(`${API_URL}/prodsupport`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
         },
-        body: JSON.stringify({ year })
+        body: JSON.stringify({ year, productive_assignments, total })
       })
 
       if (response.ok) {
@@ -83,19 +98,19 @@ const ProductivityReport = ({ year }) => {
     }
   }
 
-  const handleUpdateRate = async (daily_rate, monthly_rate, productive_assignments, total) => {
+  const handleUpdateRate = async (daily_rate, monthly_rate, prodAssign, total) => {
     try {
       const response = await fetch(`${API_URL}/rate`, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
         },
-        body: JSON.stringify({ year, daily_rate, monthly_rate, productive_assignments, total })
+        body: JSON.stringify({ year, daily_rate, monthly_rate })
       })
 
       if (response.ok) {
-        fetchProdSupport()
+        fetchProdSupport(prodAssign, total)
       }
     } catch (error) {
       console.log(error.message)
@@ -109,13 +124,7 @@ const ProductivityReport = ({ year }) => {
           <button
             className='btn create'
             onClick={() => {
-              if (!edit)
-                handleUpdateRate(
-                  dailyRate,
-                  monthlyRate,
-                  assignmentSummary.total_assignments - availability.threshold,
-                  assignmentSummary.total
-                )
+              if (edit) handleUpdateRate(dailyRate, monthlyRate, prodAssign, assignmentSummary.total)
               setEdit(!edit)
             }}
           >
@@ -127,74 +136,74 @@ const ProductivityReport = ({ year }) => {
       <div className='table-container'>
         <section className='scroll-section pt-4 table-main table-responsive' id='hoverableRows'>
           <table className='prodreport-table'>
-            <tr>
-              <th>Average number of effective pilots</th>
-              <td>{availability.total_effective}</td>
-            </tr>
-            <tr>
-              <th>Prouctivity Threshold</th>
-              <td>{availability.threshold}</td>
-            </tr>
-            <tr>
-              <th>Total Number of Assignments</th>
-              <td>{assignmentSummary.total_assignments}</td>
-            </tr>
-            <tr>
-              <th>Productive Assignments</th>
-              <td>
-                {assignmentSummary.total_assignments - availability.threshold < 0
-                  ? 0
-                  : assignmentSummary.total_assignments - availability.threshold}
-              </td>
-            </tr>
-            <tr>
-              <th>{`${year} Rate (Daily Rate x 2)`}</th>
-              <td>{productivitySupp.daily_rate}</td>
-            </tr>
-            <tr>
-              <th>Total Sum Accummulated</th>
-              <td>{productivitySupp.sum_accummlated}</td>
-            </tr>
-            <tr>
-              <th>Share Value</th>
-              <td>{productivitySupp.shared_value}</td>
-            </tr>
-            <tr>
-              <th>Daily Rate</th>
-              {edit ? (
-                <TextField
-                  className='daily-rate'
-                  id='outlined-basic'
-                  type='number'
-                  label='Daily Rate'
-                  variant='outlined'
-                  size='small'
-                  onChange={(e) => setDailyRate(e.target.value)}
-                />
-              ) : (
-                <td>${dailyRate}</td>
-              )}
-            </tr>
-            <tr>
-              <th>Days</th>
-              <td>1</td>
-            </tr>
-            <tr>
-              <th>Monthly Rate</th>
-              {edit ? (
-                <TextField
-                  className='monthly-rate'
-                  id='outlined-basic'
-                  type='number'
-                  label='Monthly Rate'
-                  variant='outlined'
-                  size='small'
-                  onChange={(e) => setMonthlyRate(e.target.value)}
-                />
-              ) : (
-                <td>${monthlyRate}</td>
-              )}
-            </tr>
+            <tbody>
+              <tr>
+                <th>Average number of effective pilots</th>
+                <td>{effectivePilots.total_effective}</td>
+              </tr>
+              <tr>
+                <th>Prouctivity Threshold</th>
+                <td>{effectivePilots.threshold}</td>
+              </tr>
+              <tr>
+                <th>Total Number of Assignments</th>
+                <td>{assignmentSummary.productivity}</td>
+              </tr>
+              <tr>
+                <th>Productive Assignments</th>
+                <td>{prodAssign}</td>
+              </tr>
+              <tr>
+                <th>{`${year} Rate (Daily Rate x 2)`}</th>
+                {productivitySupp && <td>{productivitySupp.daily_rate ? productivitySupp.daily_rate * 2 : 0}</td>}
+              </tr>
+              <tr>
+                <th>Total Sum Accummulated</th>
+                {productivitySupp && <td>{productivitySupp.sum_accummulated ? productivitySupp.sum_accummulated : 0}</td>}
+              </tr>
+              <tr>
+                <th>Share Value</th>
+                {productivitySupp && <td>{productivitySupp.shared_value}</td>}
+              </tr>
+              <tr>
+                <th>Daily Rate</th>
+                {edit ? (
+                  <TextField
+                    className='daily-rate'
+                    id='outlined-basic'
+                    type='number'
+                    label='Daily Rate'
+                    variant='outlined'
+                    size='small'
+                    value={dailyRate}
+                    onChange={(e) => setDailyRate(e.target.value)}
+                  />
+                ) : (
+                  <td>${dailyRate}</td>
+                )}
+              </tr>
+              <tr>
+                <th>Days</th>
+                <td>1</td>
+              </tr>
+              <tr>
+                <th>Monthly Rate</th>
+                {edit ? (
+                  <TextField
+                    className='monthly-rate'
+                    id='outlined-basic'
+                    type='number'
+                    label='Monthly Rate'
+                    variant='outlined'
+                    size='small'
+                    value={monthlyRate}
+                    onChange={(e) => setMonthlyRate(e.target.value)}
+                  />
+                ) : (
+                  <td>${monthlyRate}</td>
+                )}
+              </tr>
+            </tbody>
           </table>
         </section>
       </div>

@@ -40,30 +40,32 @@ const Summary = ({ year }) => {
       <div className='table-container'>
         <section className='scroll-section pt-4 table-main table-responsive' id='hoverableRows'>
           <table className='summary-table'>
-            <tr>
-              <th>Full Trips</th>
-              <td>{assignmentSummary.total_full}</td>
-            </tr>
-            <tr>
-              <th>Divide by 2</th>
-              <td>{assignmentSummary.half_full}</td>
-            </tr>
-            <tr>
-              <th>Partial Trips</th>
-              <td>{assignmentSummary.total_partial}</td>
-            </tr>
-            <tr>
-              <th>Cancellations</th>
-              <td>{assignmentSummary.total_cancel}</td>
-            </tr>
-            <tr>
-              <th>Dbl Assignments</th>
-              <td>{assignmentSummary.total_double}</td>
-            </tr>
-            <tr>
-              <th>Productivity</th>
-              <td>{assignmentSummary.total_assignments}</td>
-            </tr>
+            <tbody>
+              <tr>
+                <th>Full Trips</th>
+                <td>{assignmentSummary.total_full}</td>
+              </tr>
+              <tr>
+                <th>Divide by 2</th>
+                <td>{assignmentSummary.half_full}</td>
+              </tr>
+              <tr>
+                <th>Partial Trips</th>
+                <td>{assignmentSummary.total_partial}</td>
+              </tr>
+              <tr>
+                <th>Cancellations</th>
+                <td>{assignmentSummary.total_cancel}</td>
+              </tr>
+              <tr>
+                <th>Dbl Assignments</th>
+                <td>{assignmentSummary.total_double}</td>
+              </tr>
+              <tr>
+                <th>Productivity</th>
+                <td>{assignmentSummary.productivity}</td>
+              </tr>
+            </tbody>
           </table>
         </section>
       </div>

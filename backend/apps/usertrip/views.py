@@ -4,15 +4,13 @@ from rest_framework.decorators import (
     authentication_classes,
 )
 from ..user.authentication import DynamoDBJWTAuthentication
-from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.response import Response
 from datetime import datetime
 import uuid
 from decimal import Decimal
-from django.conf import settings
 from .models import UserTrip
 import boto3
-from PilotWebsite.settings import DB_ENDPOINT, DB_USERTRIP_TABLE
+from PilotWebsite.settings import DB_USERTRIP_TABLE
 import os
 from dotenv import load_dotenv
 
@@ -23,6 +21,7 @@ timestamp = datetime.now().isoformat()
 # DynamoDB Solution:
 dynamodb = boto3.resource(
     "dynamodb",
+    # endpoint_url=os.getenv("DB_ENDPOINT"), # Uncomment this line to use a local DynamoDB instance
     region_name=os.getenv("DB_REGION_NAME"),
     aws_access_key_id=os.getenv("DB_AWS_ACCESS_KEY_ID"),
     aws_secret_access_key=os.getenv("DB_AWS_SECRET_ACCESS_KEY"),
@@ -30,7 +29,7 @@ dynamodb = boto3.resource(
 
 trip_table = dynamodb.Table(DB_USERTRIP_TABLE)
 
-@api_view(["POST", "PUT", "GET", "DELETE"])
+@api_view(["POST", "PUT", "DELETE"])
 @authentication_classes([DynamoDBJWTAuthentication])
 def crud_usertrip(request, user_id=None):
     try:
@@ -91,17 +90,6 @@ def crud_usertrip(request, user_id=None):
             )
             return Response({"success": True, "message": "User Trip updated successfully"})
 
-        elif request.method == "GET":
-            # Fetch all users:
-            users = get_all_users()
-            return Response(
-                {
-                    "success": True,
-                    "data": users["all"],
-                    "total_count": users["count"],
-                }
-            )
-
         elif request.method == "DELETE":
             trip_id = request.GET.get("trip_id")
             user_id = request.GET.get("user_id")
@@ -114,20 +102,6 @@ def crud_usertrip(request, user_id=None):
             {"success": False, "message": f"Bad request: {str(e)}"},
             status.HTTP_400_BAD_REQUEST,
         )
-
-
-# Fetch or get all users from DynamoDB
-def get_all_users():
-    # Fetch all users:
-    result = trip_table.scan()
-    users_count = result["Count"]
-    result = result["Items"]
-    # Convert decimal values in users list into integers
-    for item in result:
-        for key, value in item.items():
-            if isinstance(value, Decimal):
-                item[key] = int(value)
-    return {"all": result, "count": users_count}
 
 
 @api_view(["POST"])
@@ -146,4 +120,5 @@ def get_usertrips(request):
                     item[key] = int(value)
             filtered_usertrip.append(item)
 
+    filtered_usertrip = sorted(filtered_usertrip, key=lambda x: x["vessel"])
     return Response({"data": filtered_usertrip, "count": len(filtered_usertrip)})

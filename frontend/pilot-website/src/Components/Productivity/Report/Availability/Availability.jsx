@@ -28,7 +28,6 @@ const Availability = ({ year }) => {
 
   useEffect(() => {
     if (allAvailability.length > 0) {
-      console.log(allAvailability)
       const newAvailability = {}
       allAvailability.forEach((availability) => {
         newAvailability[availability.user_id] = [

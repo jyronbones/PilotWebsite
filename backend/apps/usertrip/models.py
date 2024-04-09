@@ -12,7 +12,7 @@ aws_access_key_id = os.getenv("DB_AWS_ACCESS_KEY_ID")
 aws_secret_access_key = os.getenv("DB_AWS_SECRET_ACCESS_KEY")
 
 
-# This is User model for users
+# This is UserTrip model for usertrips
 class UserTrip(DynaModel):
     class Table:
         resource_kwargs = {

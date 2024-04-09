@@ -1,6 +1,6 @@
 import boto3
 from botocore.exceptions import ClientError
-from PilotWebsite.settings import DB_ENDPOINT, DB_TABLE, DB_EMPLOYEES_TABLE_NAME, DB_USERTRIP_TABLE, DB_PRODUCTIVITY, DB_AVAILABILITY
+from PilotWebsite.settings import DB_TABLE, DB_EMPLOYEES_TABLE_NAME, DB_USERTRIP_TABLE, DB_PRODUCTIVITY, DB_AVAILABILITY, DB_PRODUCTIVITY_SUPP
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -113,6 +113,29 @@ def create_productivity_table(dynamodb=dynamodb):
         else:
             print("An error occurred:", e)
 
+def create_prod_supp_table(dynamodb=dynamodb):
+    try:
+        table = dynamodb.create_table(
+            TableName=DB_PRODUCTIVITY_SUPP,
+            KeySchema=[{"AttributeName": "id", "KeyType": "HASH"}],
+            AttributeDefinitions=[{"AttributeName": "id", "AttributeType": "S"}],
+            ProvisionedThroughput={"ReadCapacityUnits": 5, "WriteCapacityUnits": 2},
+        )
+        table.meta.client.get_waiter("table_exists").wait(
+            TableName="productivitysupp"
+        )
+        print(
+            "productivitysupp Table created successfully. Table status:",
+            table.table_status,
+        )
+        print("Item count:", table.item_count)
+
+    except ClientError as e:
+        if e.response["Error"]["Code"] == "ResourceInUseException":
+            print(f"Table productivitysupp already exists.")
+        else:
+            print("An error occurred:", e)
+
 def create_availability_table(dynamodb=dynamodb):
     try:
         table = dynamodb.create_table(
@@ -175,4 +198,5 @@ if __name__ == "__main__":
     create_employees_table()
     create_usertrip_table()
     create_productivity_table()
+    create_prod_supp_table()
     create_availability_table()

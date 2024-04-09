@@ -18,6 +18,7 @@ load_dotenv()
 # DynamoDB Solution:
 dynamodb = boto3.resource(
     "dynamodb",
+    # endpoint_url=os.getenv("DB_ENDPOINT"), # Uncomment this line to use a local DynamoDB instance
     region_name=os.getenv("DB_REGION_NAME"),
     aws_access_key_id=os.getenv("DB_AWS_ACCESS_KEY_ID"),
     aws_secret_access_key=os.getenv("DB_AWS_SECRET_ACCESS_KEY"),
@@ -25,6 +26,7 @@ dynamodb = boto3.resource(
 
 availability_table = dynamodb.Table(DB_AVAILABILITY)
 
+# Update availability of each pilot depending on specific year
 @api_view(["PUT", "POST", "GET"])
 @authentication_classes([DynamoDBJWTAuthentication])
 def crud_availability(request):
@@ -109,10 +111,10 @@ def crud_availability(request):
             status.HTTP_400_BAD_REQUEST,
         )
 
-    
+# Fetch effective pilot and threshold for Productivity Page
 @api_view(["POST"])
 @authentication_classes([DynamoDBJWTAuthentication])
-def get_availability(request):
+def get_effective(request):
     year = request.data["year"]
     result = availability_table.scan()
     result = result["Items"]
@@ -136,10 +138,16 @@ def get_availability(request):
         total += item["total_effective"]
     total /= 9
     total_effective = round(total, 2)
+    ######## TESTING ###########
+    #threshold = round(total_effective * 2, 2)
+    ######## TESTING ###########
     threshold = round(total_effective * 54, 2)
 
-    return Response({"success": True, 
-                        "data": {
-                        "total_effective": total_effective, 
-                        "threshold": threshold
-                    }})
+    return Response(
+        {
+            "success": True, 
+            "data": {
+                "total_effective": total_effective, 
+                "threshold": threshold
+            }
+        })

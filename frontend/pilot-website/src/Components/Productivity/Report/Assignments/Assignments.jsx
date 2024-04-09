@@ -19,7 +19,7 @@ const DetailAssignments = ({ year }) => {
   useEffect(() => {
     fetchPilotAssignments()
     fetchUsers()
-    fetchSummary()
+    fetchAssignmentSummary()
   }, [])
 
   useEffect(() => {
@@ -29,7 +29,6 @@ const DetailAssignments = ({ year }) => {
         newAuthCorp[assignment.user_id] = assignment.auth_corp
       })
       setAuthCorp(newAuthCorp)
-      // setAuthCorpUpdated(true)
     }
   }, [allAssignments])
 
@@ -53,7 +52,7 @@ const DetailAssignments = ({ year }) => {
     }
   }
 
-  const fetchSummary = async () => {
+  const fetchAssignmentSummary = async () => {
     try {
       const response = await fetch(`${API_URL}/assignment-summary`, {
         method: 'POST',
@@ -91,7 +90,6 @@ const DetailAssignments = ({ year }) => {
       console.log(error.message)
     }
   }
-  if (authCorp) console.log(authCorp)
 
   const handleAuthCorp = async (user_id, authCorp) => {
     setAuthCorp((preAuthCorp) => {
@@ -115,6 +113,7 @@ const DetailAssignments = ({ year }) => {
       })
       if (response.ok) {
         fetchPilotAssignments()
+        fetchAssignmentSummary()
       } else {
         console.error('Failed to update availability:', response.statusText)
       }
@@ -124,7 +123,6 @@ const DetailAssignments = ({ year }) => {
   }
 
   const findUser = (id) => {
-    console.log(id)
     const user = users.find((user) => user.id == id)
     if (user) {
       return user.full_name
@@ -154,6 +152,7 @@ const DetailAssignments = ({ year }) => {
           <table className='assignment-table'>
             <thead>
               <tr>
+                <th></th>
                 <th>Pilots</th>
                 {DETAIL_ASSIGNMENT.map((month, key) => (
                   <th key={key}>{month}</th>
@@ -185,18 +184,17 @@ const DetailAssignments = ({ year }) => {
                           onChange={(e) => handleAuthCorp(assignment.user_id, e.target.value)}
                         />
                       ) : (
-                        <td>{authCorp[assignment.user_id]}.0</td>
+                        <td>{authCorp[assignment.user_id]}</td>
                       )}
                       <td>{assignment?.total}</td>
                       <td>{assignment?.amount_shared}</td>
                       <td>{assignment?.total_double}</td>
                     </tr>
                   ))}
-                  <tr>
+                  <tr className='total-row'>
                     <td>Total</td>
                     <td></td>
                     <td>{assignmentSummary.total_full}</td>
-                    <td>{assignmentSummary.total_partial}</td>
                     <td>{assignmentSummary.total_partial}</td>
                     <td>{assignmentSummary.total_cancel}</td>
                     <td>{assignmentSummary.total_assignments}</td>
