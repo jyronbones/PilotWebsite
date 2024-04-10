@@ -178,5 +178,5 @@ Zappa - Serverless Python web services
 
 Byron Jones - @jyronbones<br>
 Amy Fujimoto - @fuji0014<br>
-Ngoc Phuong Khanh - @le000222<br>
+Ngoc Phuong Khanh Le - @le000222<br>
 Michael Garrison - @Garrison86
