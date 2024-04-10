@@ -25,11 +25,15 @@ const ProductivityReport = ({ year }) => {
   useEffect(() => {
     if (assignmentSummary) {
       let productive_assignments =
-        assignmentSummary.productivity - effectivePilots.threshold < 0 ? 0 : assignmentSummary.productivity - effectivePilots.threshold
+        Math.round(
+          assignmentSummary.productivity - effectivePilots.threshold < 0
+            ? 0
+            : assignmentSummary.productivity - effectivePilots.threshold * 100
+        ) / 100
       setProdAssign(productive_assignments)
       fetchProdSupport(productive_assignments, assignmentSummary.total)
     }
-  }, [assignmentSummary])
+  })
 
   useEffect(() => {
     if (productivitySupp) {
@@ -179,7 +183,7 @@ const ProductivityReport = ({ year }) => {
                     onChange={(e) => setDailyRate(e.target.value)}
                   />
                 ) : (
-                  <td>${dailyRate}</td>
+                  <td>${dailyRate || productivitySupp.daily_rate}</td>
                 )}
               </tr>
               <tr>
@@ -200,7 +204,7 @@ const ProductivityReport = ({ year }) => {
                     onChange={(e) => setMonthlyRate(e.target.value)}
                   />
                 ) : (
-                  <td>${monthlyRate}</td>
+                  <td>${monthlyRate || productivitySupp.monthly_rate}</td>
                 )}
               </tr>
             </tbody>

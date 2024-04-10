@@ -236,7 +236,7 @@ def update_rate(request):
 def get_productivity_supp(request):
     year = request.data["year"]
     productive_assignments = request.data["productive_assignments"]
-    total = Decimal(request.data["total"])
+    total = request.data["total"]
     if productive_assignments is None:
         productive_assignments = 0
     if total is None or total == 0:
@@ -248,8 +248,9 @@ def get_productivity_supp(request):
         for item in prodsupp:
             if item["year"] == str(year):
                 record = ProductivitySupport.get(id=item["id"])
-                sum_accummulated = Decimal(productive_assignments * item["daily_rate"] * 2)
-                shared_value=round(sum_accummulated / total)
+                sum_accummulated = Decimal(productive_assignments) * item["daily_rate"] * 2
+                sum_accummulated = round(sum_accummulated, 2)
+                shared_value=round(sum_accummulated / total, 2)
                 record.update(
                     sum_accummulated=sum_accummulated,
                     shared_value=shared_value,

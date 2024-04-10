@@ -112,9 +112,6 @@ const Availability = ({ year }) => {
         body: JSON.stringify({ availability: availability })
       })
       if (response.ok) {
-        const data = await response.json()
-        const each_m_effective = data.data
-        console.log(each_m_effective)
         fetchAvailability()
       } else {
         console.error('Failed to update availability:', response.statusText)

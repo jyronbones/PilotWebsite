@@ -139,9 +139,9 @@ def get_effective(request):
     total /= 9
     total_effective = round(total, 2)
     ######## TESTING ###########
-    #threshold = round(total_effective * 2, 2)
+    threshold = round(total_effective * 2, 2)
     ######## TESTING ###########
-    threshold = round(total_effective * 54, 2)
+    # threshold = round(total_effective * 54, 2)
 
     return Response(
         {
