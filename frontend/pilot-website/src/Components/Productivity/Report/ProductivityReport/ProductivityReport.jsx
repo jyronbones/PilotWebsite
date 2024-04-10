@@ -22,18 +22,18 @@ const ProductivityReport = ({ year }) => {
     fetchAssignmentSummary()
   }, [])
 
-  useEffect(() => {
-    if (assignmentSummary) {
-      let productive_assignments =
-        Math.round(
-          assignmentSummary.productivity - effectivePilots.threshold < 0
-            ? 0
-            : assignmentSummary.productivity - effectivePilots.threshold * 100
-        ) / 100
-      setProdAssign(productive_assignments)
-      fetchProdSupport(productive_assignments, assignmentSummary.total)
-    }
-  })
+  // useEffect(() => {
+  //   if (assignmentSummary) {
+  //     let productive_assignments =
+  //       Math.round(
+  //         assignmentSummary.productivity - effectivePilots.threshold < 0
+  //           ? 0
+  //           : assignmentSummary.productivity - effectivePilots.threshold * 100
+  //       ) / 100
+  //     setProdAssign(productive_assignments)
+  //     fetchProdSupport(productive_assignments, assignmentSummary.total)
+  //   }
+  // }, [assignmentSummary])
 
   useEffect(() => {
     if (productivitySupp) {
@@ -76,6 +76,10 @@ const ProductivityReport = ({ year }) => {
       if (response.ok) {
         const data = await response.json()
         setAssignmentSummary(data.data)
+        let productive_assignments =
+          Math.round(data.data.productivity - data.data.threshold < 0 ? 0 : data.data.productivity - effectivePilots.threshold * 100) / 100
+        setProdAssign(productive_assignments)
+        fetchProdSupport(productive_assignments, assignmentSummary.total)
       }
     } catch (error) {
       console.log(error.message)
