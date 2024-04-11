@@ -160,19 +160,19 @@ const DetailAssignments = ({ year }) => {
               </tr>
             </thead>
             <tbody>
-              {allAssignments?.array.length > 0 ? (
+              {allAssignments?.length > 0 ? (
                 <>
-                  {allAssignments?.array.map((assignment, index) => (
+                  {allAssignments?.map((assignment, index) => (
                     <tr key={index}>
                       <td></td>
                       <td>{findUser(assignment.user_id)}</td>
-                      <td>{assignment?.total_full}</td>
-                      <td>{assignment?.total_partial}</td>
-                      <td>{assignment?.total_cancel}</td>
-                      <td>{assignment?.total_assignments}</td>
+                      <td>{assignment.total_full}</td>
+                      <td>{assignment.total_partial}</td>
+                      <td>{assignment.total_cancel}</td>
+                      <td>{assignment.total_assignments}</td>
                       {edit ? (
                         <TextField
-                          defaultValue={assignment?.auth_corp}
+                          defaultValue={assignment.auth_corp}
                           id='outlined-basic'
                           type='number'
                           label='Auth Corp'
@@ -181,14 +181,14 @@ const DetailAssignments = ({ year }) => {
                           sx={{
                             width: 100
                           }}
-                          onChange={(e) => handleAuthCorp(assignment?.user_id, e.target.value)}
+                          onChange={(e) => handleAuthCorp(assignment.user_id, e.target.value)}
                         />
                       ) : (
-                        <td>{authCorp[assignment?.user_id]}</td>
+                        <td>{authCorp[assignment.user_id]}</td>
                       )}
-                      <td>{assignment?.total}</td>
-                      <td>{assignment?.amount_shared}</td>
-                      <td>{assignment?.total_double}</td>
+                      <td>{assignment.total}</td>
+                      <td>{assignment.amount_shared}</td>
+                      <td>{assignment.total_double}</td>
                     </tr>
                   ))}
                   <tr className='total-row'>
@@ -198,7 +198,7 @@ const DetailAssignments = ({ year }) => {
                     <td>{assignmentSummary.total_partial}</td>
                     <td>{assignmentSummary.total_cancel}</td>
                     <td>{assignmentSummary.total_assignments}</td>
-                    <td>{allAssignments.amount_shared || assignmentSummary.auth_corp}</td>
+                    <td>{assignmentSummary.auth_corp}</td>
                     <td>{assignmentSummary.total}</td>
                     <td>{assignmentSummary.amount_shared}</td>
                     <td>{assignmentSummary.total_double}</td>

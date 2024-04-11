@@ -103,7 +103,6 @@ def get_all_assignments(request):
     prod_supp = prod_supp["Items"]
 
     filtered_productivity = []
-    total_amount = 0
     # Filter assignments based on selected year
     for item in prod_supp:
         if item["year"] == str(year):
@@ -115,7 +114,6 @@ def get_all_assignments(request):
             productivity.update(
                 amount_shared=amount_shared
             )
-            total_amount += amount_shared
 
     prod = prod_table.scan()
     prod = prod["Items"]
@@ -126,10 +124,7 @@ def get_all_assignments(request):
     return Response(
                 {
                     "success": True,
-                    "data": {
-                        "array": filtered_productivity,
-                        "amount_shared": total_amount,
-                    },
+                    "data": filtered_productivity,
                     "total_count": len(filtered_productivity),
                 }
             )
