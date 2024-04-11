@@ -26,8 +26,11 @@ const ProductivityReport = ({ year }) => {
     if (assignmentSummary) {
       console.log('assignmentSummary: ', assignmentSummary)
       let productive_assignment =
-        Math.round(fetchData.productivity - effectivePilots.threshold < 0 ? 0 : fetchData.productivity - effectivePilots.threshold * 100) /
-        100
+        Math.round(
+          assignmentSummary.productivity - effectivePilots.threshold < 0
+            ? 0
+            : assignmentSummary.productivity - effectivePilots.threshold * 100
+        ) / 100
       let productive_assignments = isNaN(productive_assignment) || productive_assignment === null ? 0 : productive_assignment
       console.log('assignments: ', productive_assignments)
       setProdAssign(productive_assignments)
