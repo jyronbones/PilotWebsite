@@ -22,18 +22,17 @@ const ProductivityReport = ({ year }) => {
     fetchAssignmentSummary()
   }, [])
 
-  // useEffect(() => {
-  //   if (assignmentSummary) {
-  //     let productive_assignments =
-  //       Math.round(
-  //         assignmentSummary.productivity - effectivePilots.threshold < 0
-  //           ? 0
-  //           : assignmentSummary.productivity - effectivePilots.threshold * 100
-  //       ) / 100
-  //     setProdAssign(productive_assignments)
-  //     fetchProdSupport(productive_assignments, assignmentSummary.total)
-  //   }
-  // }, [assignmentSummary])
+  useEffect(() => {
+    if (assignmentSummary) {
+      let productive_assignment =
+        Math.round(fetchData.productivity - effectivePilots.threshold < 0 ? 0 : fetchData.productivity - effectivePilots.threshold * 100) /
+        100
+      let productive_assignments = isNaN(productive_assignment) || productive_assignment === null ? 0 : productive_assignment
+      console.log('assignments: ', productive_assignments)
+      setProdAssign(productive_assignments)
+      fetchProdSupport(productive_assignments, assignmentSummary.total)
+    }
+  }, [assignmentSummary])
 
   useEffect(() => {
     if (productivitySupp) {
@@ -78,10 +77,11 @@ const ProductivityReport = ({ year }) => {
         const fetchData = data.data
         console.log('data: ', fetchData)
         setAssignmentSummary(data.data)
-        let productive_assignments =
+        let productive_assignment =
           Math.round(
             fetchData.productivity - effectivePilots.threshold < 0 ? 0 : fetchData.productivity - effectivePilots.threshold * 100
           ) / 100
+        let productive_assignments = isNaN(productive_assignment) || productive_assignment === null ? 0 : productive_assignment
         console.log(productive_assignments)
         setProdAssign(productive_assignments)
         fetchProdSupport(productive_assignments, assignmentSummary.total)
