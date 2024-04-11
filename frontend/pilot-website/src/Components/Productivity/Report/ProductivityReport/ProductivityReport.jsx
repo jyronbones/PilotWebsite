@@ -82,7 +82,6 @@ const ProductivityReport = ({ year }) => {
           Math.round(
             fetchData.productivity - effectivePilots.threshold < 0 ? 0 : fetchData.productivity - effectivePilots.threshold * 100
           ) / 100
-        console.log('productive_assignments: ', productive_assignments)
         setProdAssign(productive_assignments)
         fetchProdSupport(productive_assignments, assignmentSummary.total)
       }
