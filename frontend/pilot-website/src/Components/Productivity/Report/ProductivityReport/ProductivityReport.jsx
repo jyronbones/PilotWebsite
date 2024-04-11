@@ -20,10 +20,21 @@ const ProductivityReport = ({ year }) => {
   useEffect(() => {
     fetchAvailability()
     fetchAssignmentSummary()
+    if (assignmentSummary && effectivePilots) {
+      let productive_assignment =
+        Math.round(
+          assignmentSummary.productivity - effectivePilots.threshold < 0
+            ? 0
+            : (assignmentSummary.productivity - effectivePilots.threshold) * 100
+        ) / 100
+      let productive_assignments = isNaN(productive_assignment) || productive_assignment === null ? 0 : productive_assignment
+      setProdAssign(productive_assignments)
+      fetchProdSupport(productive_assignments, assignmentSummary.total)
+    }
   }, [])
 
   useEffect(() => {
-    if (assignmentSummary) {
+    if (assignmentSummary && effectivePilots) {
       let productive_assignment =
         Math.round(
           assignmentSummary.productivity - effectivePilots.threshold < 0
