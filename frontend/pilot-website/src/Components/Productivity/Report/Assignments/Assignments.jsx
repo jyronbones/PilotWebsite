@@ -166,13 +166,13 @@ const DetailAssignments = ({ year }) => {
                     <tr key={index}>
                       <td></td>
                       <td>{findUser(assignment.user_id)}</td>
-                      <td>{assignment?.total_full}</td>
-                      <td>{assignment?.total_partial}</td>
-                      <td>{assignment?.total_cancel}</td>
-                      <td>{assignment?.total_assignments}</td>
+                      <td>{assignment?.array.total_full}</td>
+                      <td>{assignment?.array.total_partial}</td>
+                      <td>{assignment?.array.total_cancel}</td>
+                      <td>{assignment?.array.total_assignments}</td>
                       {edit ? (
                         <TextField
-                          defaultValue={assignment.auth_corp}
+                          defaultValue={assignment?.array.auth_corp}
                           id='outlined-basic'
                           type='number'
                           label='Auth Corp'
@@ -181,27 +181,27 @@ const DetailAssignments = ({ year }) => {
                           sx={{
                             width: 100
                           }}
-                          onChange={(e) => handleAuthCorp(assignment.user_id, e.target.value)}
+                          onChange={(e) => handleAuthCorp(assignment?.array.user_id, e.target.value)}
                         />
                       ) : (
-                        <td>{authCorp[assignment.user_id]}</td>
+                        <td>{authCorp[assignment?.array.user_id]}</td>
                       )}
-                      <td>{assignment?.total}</td>
-                      <td>{assignment?.amount_shared}</td>
-                      <td>{assignment?.total_double}</td>
+                      <td>{assignment?.array.total}</td>
+                      <td>{assignment?.array.amount_shared}</td>
+                      <td>{assignment?.array.total_double}</td>
                     </tr>
                   ))}
                   <tr className='total-row'>
                     <td>Total</td>
                     <td></td>
-                    <td>{assignmentSummary.array.total_full}</td>
-                    <td>{assignmentSummary.array.total_partial}</td>
-                    <td>{assignmentSummary.array.total_cancel}</td>
-                    <td>{assignmentSummary.array.total_assignments}</td>
-                    <td>{assignmentSummary.array.auth_corp}</td>
-                    <td>{assignmentSummary.array.total}</td>
-                    <td>{assignmentSummary.array.amount_shared || assignmentSummary.amount_shared}</td>
-                    <td>{assignmentSummary.array.total_double}</td>
+                    <td>{assignmentSummary.total_full}</td>
+                    <td>{assignmentSummary.total_partial}</td>
+                    <td>{assignmentSummary.total_cancel}</td>
+                    <td>{assignmentSummary.total_assignments}</td>
+                    <td>{allAssignments.amount_shared || assignmentSummary.auth_corp}</td>
+                    <td>{assignmentSummary.total}</td>
+                    <td>{assignmentSummary.amount_shared}</td>
+                    <td>{assignmentSummary.total_double}</td>
                   </tr>
                 </>
               ) : (
