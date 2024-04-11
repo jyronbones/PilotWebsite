@@ -194,14 +194,14 @@ const DetailAssignments = ({ year }) => {
                   <tr className='total-row'>
                     <td>Total</td>
                     <td></td>
-                    <td>{assignmentSummary.total_full}</td>
-                    <td>{assignmentSummary.total_partial}</td>
-                    <td>{assignmentSummary.total_cancel}</td>
-                    <td>{assignmentSummary.total_assignments}</td>
-                    <td>{assignmentSummary.auth_corp}</td>
-                    <td>{assignmentSummary.total}</td>
-                    <td>{assignmentSummary.amount_shared}</td>
-                    <td>{assignmentSummary.total_double}</td>
+                    <td>{assignmentSummary.array.total_full}</td>
+                    <td>{assignmentSummary.array.total_partial}</td>
+                    <td>{assignmentSummary.array.total_cancel}</td>
+                    <td>{assignmentSummary.array.total_assignments}</td>
+                    <td>{assignmentSummary.array.auth_corp}</td>
+                    <td>{assignmentSummary.array.total}</td>
+                    <td>{assignmentSummary.array.amount_shared || assignmentSummary.amount_shared}</td>
+                    <td>{assignmentSummary.array.total_double}</td>
                   </tr>
                 </>
               ) : (
