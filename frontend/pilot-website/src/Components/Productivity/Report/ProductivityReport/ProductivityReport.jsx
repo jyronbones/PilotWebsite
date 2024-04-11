@@ -24,15 +24,13 @@ const ProductivityReport = ({ year }) => {
 
   useEffect(() => {
     if (assignmentSummary) {
-      console.log('assignmentSummary: ', assignmentSummary)
       let productive_assignment =
         Math.round(
           assignmentSummary.productivity - effectivePilots.threshold < 0
             ? 0
-            : assignmentSummary.productivity - effectivePilots.threshold * 100
+            : (assignmentSummary.productivity - effectivePilots.threshold) * 100
         ) / 100
       let productive_assignments = isNaN(productive_assignment) || productive_assignment === null ? 0 : productive_assignment
-      console.log('assignments: ', productive_assignments)
       setProdAssign(productive_assignments)
       fetchProdSupport(productive_assignments, assignmentSummary.total)
     }
