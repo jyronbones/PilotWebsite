@@ -268,6 +268,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users, year }) => {
                         <td>{trip?.notes == '' ? 'None' : trip?.notes}</td>
                         <td>
                           <div className='action-container'>
+                            {/**************** NOT WORKING *****************
                             <button
                               className='btn edit'
                               title='Edit User'
@@ -278,6 +279,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users, year }) => {
                             >
                               Edit
                             </button>
+                            ***************************/}
                             <button className='btn delete' title='Delete User Trip' onClick={() => handleDelete(trip.trip_id, currUser.id)}>
                               Delete
                             </button>

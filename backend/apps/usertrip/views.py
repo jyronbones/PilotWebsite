@@ -68,6 +68,7 @@ def crud_usertrip(request, user_id=None):
                 status.HTTP_201_CREATED,
             )
 
+        # not working properly
         elif request.method == "PUT":
             trip_id = request.data["trip_id"]
             user_id = request.data["user_id"]
