@@ -70,11 +70,12 @@ def crud_usertrip(request, user_id=None):
 
         elif request.method == "PUT":
             trip_id = request.data["trip_id"]
+            user_id = request.data["user_id"]
             vessel = request.data["vessel"]
             departure = int(request.data["departure"])
             destination = int(request.data["destination"])
-            date_created = datetime.strptime(request.data["date_created"], "%Y-%m-%d").date()
-            trip_type = int(request.data["trip_type"])
+            date_created = datetime.strptime(request.data["date"], "%Y-%m-%d").date()
+            trip_type = int(request.data["tripType"])
             double = int(request.data["double"])
             notes = request.data["notes"]
             usertrip = UserTrip.get(trip_id=trip_id, user_id=user_id)

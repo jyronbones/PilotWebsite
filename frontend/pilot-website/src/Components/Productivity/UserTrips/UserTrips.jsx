@@ -20,9 +20,9 @@ const UserTrip = ({ setCurrUser, currUser, admin, users, year }) => {
   const [editUserTrip, setEditUserTrip] = useState({})
   const [vessel, setVessel] = useState(false)
   const [date, setDate] = useState('')
-  const [departure, setDeparture] = useState('')
-  const [destination, setDestination] = useState('')
-  const [tripType, setTripType] = useState('')
+  const [departure, setDeparture] = useState(0)
+  const [destination, setDestination] = useState(0)
+  const [tripType, setTripType] = useState(0)
   const [double, setDouble] = useState(false)
   const [notes, setNotes] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -80,6 +80,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users, year }) => {
 
   const handleSubmit = async () => {
     if (Object.keys(editUserTrip).length > 0) {
+      console.log(tripType)
       updateUserTrip({ vessel, date, departure, destination, tripType, double, notes })
     } else {
       await createUserTrip({
