@@ -50,6 +50,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "apps.user",
     "apps.scheduling",
+    "apps.usertrip",
+    "apps.productivity",
+    "apps.availability",
     "corsheaders",
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",
@@ -105,6 +108,10 @@ WSGI_APPLICATION = "PilotWebsite.wsgi.application"
 DB_ENDPOINT = os.getenv("DB_ENDPOINT")
 DB_TABLE = os.getenv("DB_TABLE")
 DB_EMPLOYEES_TABLE_NAME= os.getenv("DB_EMPLOYEES_TABLE_NAME")
+DB_USERTRIP_TABLE = os.getenv("DB_USERTRIP_TABLE")
+DB_AVAILABILITY = os.getenv("DB_AVAILABILITY")
+DB_PRODUCTIVITY = os.getenv("DB_PRODUCTIVITY")
+DB_PRODUCTIVITY_SUPP = os.getenv("DB_PRODUCTIVITY_SUPP")
 
 PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.PBKDF2PasswordHasher",

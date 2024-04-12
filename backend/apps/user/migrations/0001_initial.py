@@ -91,6 +91,15 @@ class Migration(migrations.Migration):
                     "user_type",
                     models.IntegerField(choices=[(1, "admin"), (2, "user")], default=1),
                 ),
+                ("apr", models.IntegerField()),
+                ("may", models.IntegerField()),
+                ("jun", models.IntegerField()),
+                ("july", models.IntegerField()),
+                ("aug", models.IntegerField()),
+                ("sep", models.IntegerField()),
+                ("oct", models.IntegerField()),
+                ("nov", models.IntegerField()),
+                ("dec", models.IntegerField()),
                 (
                     "groups",
                     models.ManyToManyField(

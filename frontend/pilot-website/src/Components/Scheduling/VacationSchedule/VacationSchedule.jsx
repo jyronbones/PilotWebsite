@@ -191,7 +191,7 @@ const VacationSchedule = () => {
   }
 
   const renderCell = (date) => {
-    const list = getEvents(date).filter((item) => item.type === 'vacation' || item.type === 'sick')
+    const list = getEvents(date).filter((item) => item.type === 'vacation' || item.type === 'sick' || item.type === 'floater')
     const displayList = list.slice(0, 2)
 
     if (list.length) {
@@ -250,6 +250,19 @@ const VacationSchedule = () => {
                     }}
                   ></div>
                 )}
+                {item.type === 'floater' && (
+                  <div
+                    style={{
+                      marginLeft: '10px',
+                      marginTop: '8px',
+                      marginBottom: '10px',
+                      backgroundColor: 'green',
+                      height: '10px',
+                      borderRadius: '5px',
+                      width: '100%' // Adjust this width as per your requirement
+                    }}
+                  ></div>
+                )}
               </div>
             </li>
           ))}
@@ -262,143 +275,146 @@ const VacationSchedule = () => {
   }
 
   return (
-    <div className='rbc-container'>
-      <div className='button-container'>
-        <Link to='/scheduling' className='back-btn'>
-          Back to Schedules
-        </Link>
-        <Link to='/monthly-calendar' className='vac-btn'>
-          Monthly Scheduling
-        </Link>
-      </div>
-      <h2 className='calendar-title'>Vacation Calendar</h2>
-      <div className='calendar-container'>
-        <Calendar
-          bordered
-          style={{ height: '750px', backgroundColor: 'white' }}
-          cellClassName={(date) => (date.getDay() % 2 ? 'bg-gray' : undefined)}
-          renderCell={renderCell}
-          onSelect={(date) => handleSelectSlot(date)} // Pass the event object along with the selected date
-        />
-      </div>
-      {showForm && (
-        <div className='form-container' ref={formContainerRef}>
-          <div>
-            <button
-              type='button'
-              style={{ top: '25px', backgroundColor: 'transparent', fontSize: '25px' }}
-              className='close-button'
-              onClick={handleFormCancel}
-            >
-              <SlClose />
-            </button>
-          </div>
-          {sessionStorage.getItem('user_type') == 1 && (
-            <form onSubmit={handleFormSubmit} className='event-form'>
-              <h3>{selectedEvent ? 'Edit Event' : 'Add Event'}</h3>
-
-              <div className='input-group'>
-                <label>From Date:</label>
-                <input
-                  type='date'
-                  value={moment(eventRange.start).format('YYYY-MM-DD')}
-                  onChange={(e) => setEventRange({ ...eventRange, start: new Date(e.target.value) })}
-                />
-              </div>
-
-              <div className='input-group'>
-                <label>To Date:</label>
-                <input
-                  type='date'
-                  value={moment(eventRange.end).format('YYYY-MM-DD')}
-                  onChange={(e) => setEventRange({ ...eventRange, end: new Date(e.target.value) })}
-                />
-              </div>
-
-              <div className='input-group'>
-                <label>Employee:</label>
-                <select
-                  value={selectedEmployee ? selectedEmployee.employee_id : ''}
-                  onChange={(e) => setSelectedEmployee(employees.find((emp) => emp.employee_id === e.target.value))}
-                >
-                  <option value=''>Select Employee</option>
-                  {employees?.map((emp) => (
-                    <option key={emp.employee_id} value={emp.employee_id}>
-                      {emp.name}
-                    </option>
-                  )) || []}
-                </select>
-              </div>
-
-              <div className='input-group'>
-                <label>Type:</label>
-                <select value={selectedType} onChange={(e) => setSelectedType(e.target.value)}>
-                  <option value=''>Select Type</option>
-                  <option value='vacation'>Vacation</option>
-                  <option value='sick'>Sick</option>
-                </select>
-              </div>
-
-              <div className='form-buttons'>
-                <button type='submit'>Submit</button>
-                <button type='button' onClick={handleFormCancel}>
-                  Cancel
-                </button>
-              </div>
-            </form>
-          )}
-
-          <div className='sel-info-box'>
-            <h3 style={{ marginBottom: '15px' }}>Schedule Information</h3>
-            {events
-              .filter(
-                (event) =>
-                  (event.type === 'vacation' || event.type === 'sick') &&
-                  (moment(event.start).isSame(eventRange.start, 'day') ||
-                    moment(event.end).isSame(eventRange.start, 'day') ||
-                    (moment(event.start).isBefore(eventRange.start, 'day') && moment(event.end).isAfter(eventRange.start, 'day')))
-              )
-              .reduce((result, event, index, array) => {
-                if (index % 2 === 0) {
-                  result.push(array.slice(index, index + 2))
-                }
-                return result
-              }, [])
-              .map((eventPair, index) => (
-                <div key={index} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-                  {eventPair.map((event, idx) => (
-                    <div key={idx}>
-                      <p>
-                        <b>{event.title}</b>
-                      </p>
-                      <p>
-                        <b>Starts:</b> {moment(event.start).format('LL')}
-                      </p>
-                      <p>
-                        <b>Ends:</b> {moment(event.end).format('LL')}
-                      </p>
-                      <p>
-                        <b>Type:</b> {event.type.charAt(0).toUpperCase() + event.type.slice(1)}
-                      </p>
-                      {sessionStorage.getItem('user_type') == 1 && (
-                        <div>
-                          <button
-                            type='button'
-                            style={{ marginTop: '5px', marginBottom: '25px', color: 'white', backgroundColor: 'black' }}
-                            onClick={() => removeEvent(event)}
-                          >
-                            Remove Event
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              ))}
-          </div>
+    <div className='content-wrap'>
+      <div className='rbc-container'>
+        <div className='button-container'>
+          <Link to='/scheduling' className='back-btn'>
+            Back to Schedules
+          </Link>
+          <Link to='/monthly-calendar' className='vac-btn'>
+            Monthly Scheduling
+          </Link>
         </div>
-      )}
-      <NotificationContainer />
+        <h2 className='calendar-title'>Vacation Calendar</h2>
+        <div className='calendar-container'>
+          <Calendar
+            bordered
+            style={{ height: '750px', backgroundColor: 'white' }}
+            cellClassName={(date) => (date.getDay() % 2 ? 'bg-gray' : undefined)}
+            renderCell={renderCell}
+            onSelect={(date) => handleSelectSlot(date)} // Pass the event object along with the selected date
+          />
+        </div>
+        {showForm && (
+          <div className='form-container' ref={formContainerRef}>
+            <div>
+              <button
+                type='button'
+                style={{ top: '25px', backgroundColor: 'transparent', fontSize: '25px' }}
+                className='close-button'
+                onClick={handleFormCancel}
+              >
+                <SlClose />
+              </button>
+            </div>
+            {sessionStorage.getItem('user_type') == 1 && (
+              <form onSubmit={handleFormSubmit} className='event-form'>
+                <h3>{selectedEvent ? 'Edit Event' : 'Add Event'}</h3>
+
+                <div className='input-group'>
+                  <label>From Date:</label>
+                  <input
+                    type='date'
+                    value={moment(eventRange.start).format('YYYY-MM-DD')}
+                    onChange={(e) => setEventRange({ ...eventRange, start: new Date(e.target.value) })}
+                  />
+                </div>
+
+                <div className='input-group'>
+                  <label>To Date:</label>
+                  <input
+                    type='date'
+                    value={moment(eventRange.end).format('YYYY-MM-DD')}
+                    onChange={(e) => setEventRange({ ...eventRange, end: new Date(e.target.value) })}
+                  />
+                </div>
+
+                <div className='input-group'>
+                  <label>Employee:</label>
+                  <select
+                    value={selectedEmployee ? selectedEmployee.employee_id : ''}
+                    onChange={(e) => setSelectedEmployee(employees.find((emp) => emp.employee_id === e.target.value))}
+                  >
+                    <option value=''>Select Employee</option>
+                    {employees?.map((emp) => (
+                      <option key={emp.employee_id} value={emp.employee_id}>
+                        {emp.name}
+                      </option>
+                    )) || []}
+                  </select>
+                </div>
+
+                <div className='input-group'>
+                  <label>Type:</label>
+                  <select value={selectedType} onChange={(e) => setSelectedType(e.target.value)}>
+                    <option value=''>Select Type</option>
+                    <option value='vacation'>Vacation</option>
+                    <option value='sick'>Sick</option>
+                    <option value='floater'>Floater</option>
+                  </select>
+                </div>
+
+                <div className='form-buttons'>
+                  <button type='submit'>Submit</button>
+                  <button type='button' onClick={handleFormCancel}>
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            )}
+
+            <div className='sel-info-box'>
+              <h3 style={{ marginBottom: '15px' }}>Schedule Information</h3>
+              {events
+                .filter(
+                  (event) =>
+                    (event.type === 'vacation' || event.type === 'sick' || event.type === 'floater') &&
+                    (moment(event.start).isSame(eventRange.start, 'day') ||
+                      moment(event.end).isSame(eventRange.start, 'day') ||
+                      (moment(event.start).isBefore(eventRange.start, 'day') && moment(event.end).isAfter(eventRange.start, 'day')))
+                )
+                .reduce((result, event, index, array) => {
+                  if (index % 2 === 0) {
+                    result.push(array.slice(index, index + 2))
+                  }
+                  return result
+                }, [])
+                .map((eventPair, index) => (
+                  <div key={index} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
+                    {eventPair.map((event, idx) => (
+                      <div key={idx}>
+                        <p>
+                          <b>{event.title}</b>
+                        </p>
+                        <p>
+                          <b>Starts:</b> {moment(event.start).format('LL')}
+                        </p>
+                        <p>
+                          <b>Ends:</b> {moment(event.end).format('LL')}
+                        </p>
+                        <p>
+                          <b>Type:</b> {event.type.charAt(0).toUpperCase() + event.type.slice(1)}
+                        </p>
+                        {sessionStorage.getItem('user_type') == 1 && (
+                          <div>
+                            <button
+                              type='button'
+                              style={{ marginTop: '5px', marginBottom: '25px', color: 'white', backgroundColor: 'black' }}
+                              onClick={() => removeEvent(event)}
+                            >
+                              Remove Event
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ))}
+            </div>
+          </div>
+        )}
+        <NotificationContainer />
+      </div>
     </div>
   )
 }

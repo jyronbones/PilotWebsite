@@ -21,7 +21,7 @@
 .close-button {
   position: absolute;
   top: 25px; /* Adjust top position as needed */
-  right: 10px; /* Adjust right position as needed */
+  right: 30px; /* Adjust right position as needed */
   font-size: 25px;
   background-color: transparent;
   border: none;
@@ -93,8 +93,7 @@
   align-items: center;
   max-height: calc(100% - 100px);
   overflow-y: auto;
-  width: 400px;
-  max-width: 500px;
+  width: 30%;
 }
 
 .vacation-title {
@@ -117,12 +116,15 @@
 }
 
 .event-form {
+  display: flex;
+  flex-direction: column;
   background: white;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
+  width: 90%;
 }
 
 .sel-info-box {
@@ -175,11 +177,6 @@
 .input-group label {
   display: block;
   margin-bottom: 5px; /* Space between label and input */
-}
-
-.event-form {
-  display: flex;
-  flex-direction: column;
 }
 
 .event-form h3 {

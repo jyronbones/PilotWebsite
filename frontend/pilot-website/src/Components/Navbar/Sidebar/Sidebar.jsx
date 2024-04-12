@@ -51,9 +51,9 @@ const Sidebar = ({ openSideBar, setOpenSideBar }) => {
             <FaClock size={25} className='sidebar-icon' />
             Scheduling
           </Link>
-          <Link className='sidebar-link' to='/union-agreement' onClick={(prevSideBar) => setOpenSideBar(!prevSideBar)}>
+          <Link className='sidebar-link' to='/collective-agreement' onClick={(prevSideBar) => setOpenSideBar(!prevSideBar)}>
             <FaHandshake size={25} className='sidebar-icon' />
-            Union Agreement
+            Collective Agreement
           </Link>
           {sessionStorage.getItem('user_type') == 1 && (
             <Link className='sidebar-link' to='/admin-panel' onClick={(prevSideBar) => setOpenSideBar(!prevSideBar)}>

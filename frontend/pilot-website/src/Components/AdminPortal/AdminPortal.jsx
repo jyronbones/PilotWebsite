@@ -6,7 +6,7 @@ import './AdminPortal.css'
 const API_URL = process.env.REACT_APP_API_URL
 
 const AdminPortal = () => {
-  const [list, setList] = useState([])
+  const [users, setUsers] = useState([])
   const [editUserData, setEditUserData] = useState({})
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [name, setName] = useState('')
@@ -24,6 +24,16 @@ const AdminPortal = () => {
     setUserType('')
     setEditUserData({})
   }
+  useEffect(() => {
+    fetchUsers()
+  }, [])
+
+  useEffect(() => {
+    setName(editUserData?.full_name)
+    setEmail(editUserData?.email)
+    setPassword(editUserData.password)
+    setUserType(editUserData.user_type)
+  }, [editUserData])
 
   const handleSubmit = () => {
     if (Object.keys(editUserData).length > 0) {
@@ -34,13 +44,9 @@ const AdminPortal = () => {
     handleClose()
   }
 
-  useEffect(() => {
-    fetchUsers()
-  }, [])
-
   const fetchUsers = async () => {
     try {
-      const response = await fetch(`${API_URL}/user`, {
+      const response = await fetch(`${API_URL}/users`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -50,7 +56,7 @@ const AdminPortal = () => {
 
       if (response.ok) {
         const data = await response.json()
-        setList(data.data)
+        setUsers(data.data)
       }
     } catch (error) {
       console.log(error.message)
@@ -123,13 +129,6 @@ const AdminPortal = () => {
     }
   }
 
-  useEffect(() => {
-    setName(editUserData?.full_name)
-    setEmail(editUserData?.email)
-    setPassword(editUserData.password)
-    setUserType(editUserData.user_type)
-  }, [editUserData])
-
   return (
     <div className='content-wrap'>
       <div className='user'>
@@ -144,7 +143,7 @@ const AdminPortal = () => {
           </div>
 
           <div>
-            <div className='create-btn'>
+            <div className='btn actions'>
               <button className='btn create' onClick={() => setIsModalOpen(true)}>
                 Create User
               </button>
@@ -163,9 +162,9 @@ const AdminPortal = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {list?.length > 0 ? (
+                    {users?.length > 0 ? (
                       <>
-                        {list?.map((item, index) => (
+                        {users?.map((item, index) => (
                           <tr key={index}>
                             <td>
                               {item?.full_name}

@@ -66,27 +66,6 @@
   transform: translateY(-2px);
 }
 
-.form-container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 20px;
-  border: 1px solid #ccc;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 7px;
-  box-shadow: 0 4px 10px var(--color-shadow);
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-height: calc(100% - 100px);
-  overflow-y: auto;
-  width: 400px;
-  max-width: 500px;
-}
-
 .calendar-title {
   color: #333;
   text-align: center;
@@ -156,11 +135,6 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
-}
-
-.event-form {
-  display: flex;
-  flex-direction: column;
 }
 
 .event-form h3 {

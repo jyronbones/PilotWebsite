@@ -1,0 +1,56 @@
+.availability-container {
+  display: flex;
+  justify-content: center;
+}
+.availability-table {
+  border: 1px solid #ddd;
+  width: 100%;
+  table-layout: fixed;
+  display: table;
+}
+.availability-header {
+  background-color: #e1e1e1;
+  font-weight: 600;
+  display: flex;
+}
+.availability-body {
+  display: block;
+}
+.availability-cell {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #a2a2a2;
+  width: 20px;
+}
+.availability-row {
+  display: flex;
+}
+.availability-row:nth-child(even) {
+  background-color: #e1e1e1;
+}
+.btn.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px 0;
+}
+
+@media (max-width: 700px) {
+  .availability-header,
+  .availability-row {
+    font-size: 14px;
+  }
+  .availability-table {
+    display: inline-block;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+}
+@media (max-width: 555px) {
+  .availability-table {
+    display: inline-block;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+}

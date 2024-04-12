@@ -16,9 +16,11 @@ from decimal import Decimal
 from django.contrib.auth.hashers import make_password, check_password
 from django.conf import settings
 from .models import UserNew, outstandingToken
+from ..availability.models import Availability
+from ..productivity.models import Productivity, ProductivitySupport
 from jwt import encode
 import boto3
-from PilotWebsite.settings import DB_ENDPOINT, DB_TABLE
+from PilotWebsite.settings import DB_TABLE, DB_USERTRIP_TABLE, DB_PRODUCTIVITY, DB_AVAILABILITY
 import os
 from dotenv import load_dotenv
 from apps.scheduling.dynamodb_utils import (
@@ -142,17 +144,18 @@ def refresh_token(request):
 
 
 # DynamoDB Solution:
-
-
 dynamodb = boto3.resource(
     "dynamodb",
+    # endpoint_url=os.getenv("DB_ENDPOINT"), # Uncomment this line to use a local DynamoDB instance
     region_name=os.getenv("DB_REGION_NAME"),
     aws_access_key_id=os.getenv("DB_AWS_ACCESS_KEY_ID"),
     aws_secret_access_key=os.getenv("DB_AWS_SECRET_ACCESS_KEY"),
 )
 
-table = dynamodb.Table(DB_TABLE)
-
+user_table = dynamodb.Table(DB_TABLE)
+usertrip_table = dynamodb.Table(DB_USERTRIP_TABLE)
+productivity_table = dynamodb.Table(DB_PRODUCTIVITY)
+availability_table = dynamodb.Table(DB_AVAILABILITY)
 
 @api_view(["POST"])
 def credential_login(request):
@@ -227,7 +230,7 @@ def new_login_auth(user_email, password):
     return {"status": "failed"}
 
 
-# This view checks weather the user is authenticated or not
+# This view checks whether the user is authenticated or not
 @api_view(["GET"])
 @authentication_classes([DynamoDBJWTAuthentication])
 @permission_classes([IsAuthenticated])
@@ -307,12 +310,65 @@ def auth_me(request):
 #             is_authenticated=is_authenticated,
 #             last_login=last_login,
 #         )
+#         availability = Availability(
+#             id=str(uuid.uuid4()),
+#             user_id=user_id,
+#             year=str(datetime.now().year),
+#             apr=False,
+#             may=False,
+#             jun=False,
+#             jul=False,
+#             aug=False,
+#             sep=False,
+#             oct=False,
+#             nov=False,
+#             dec=False,
+#             total_effective=0
+#         )
+#         productivity = Productivity(
+#             user_id=user_id,
+#             auth_corp=0,
+#             total_full = 0,
+#             total_partial = 0,
+#             total_cancel = 0,
+#             total_double = 0,
+#             total_assignments = 0,
+#             total=0,
+#             amount_shared=0,
+#             year=str(datetime.now().year),
+#             daily_rate = 0,
+#             monthly_rate = 0,
+#         )
+#         prodsupp = ProductivitySupport(
+#             id=str(uuid.uuid4()),
+#             year=str(datetime.now().year),
+#             sum_accummulate = 0,
+#             shared_value = 0,
+#             daily_rate = 10,
+#             monthly_rate = 10000,
+#         )
+#         prodsupp1 = ProductivitySupport(
+#             id=str(uuid.uuid4()),
+#             year=str(2025),
+#             sum_accummulate = 0,
+#             shared_value = 0,
+#             daily_rate = 10,
+#             monthly_rate = 10000,
+#         )
+
 #         # Save the data gathered for new user on DynamoDB
 #         record.save()
+#         availability.save()
+#         productivity.save()
+#         prodsupp.save()
+#         prodsupp1.save()
+#         sync_user_to_employee(user_id)
+        
 #         return Response(
-#             {"Success": True, "message": "User created successfully"},
+#             {"success": True, "message": "User created successfully"},
 #             status.HTTP_201_CREATED,
 #         )
+    
 #     except Exception as e:
 #         return Response(
 #             {"success": False, "message": f"Bad request: {str(e)}"},
@@ -320,7 +376,7 @@ def auth_me(request):
 #         )
 
 
-@api_view(["POST", "PUT", "GET", "DELETE"])
+@api_view(["POST", "PUT", "DELETE"])
 @authentication_classes([DynamoDBJWTAuthentication])
 @permission_classes([IsAdminUser])
 def admin_user_crud(request, user_id=None):
@@ -375,9 +431,42 @@ def admin_user_crud(request, user_id=None):
                 is_authenticated=is_authenticated,
                 last_login=last_login,
             )
+            availability = Availability(
+                id=str(uuid.uuid4()),
+                user_id=user_id,
+                year=str(datetime.now().year),
+                apr=False,
+                may=False,
+                jun=False,
+                jul=False,
+                aug=False,
+                sep=False,
+                oct=False,
+                nov=False,
+                dec=False,
+                total_effective=0
+            )
+            productivity = Productivity(
+                user_id=user_id,
+                auth_corp=0,
+                total_full = 0,
+                total_partial = 0,
+                total_cancel = 0,
+                total_double = 0,
+                total_assignments = 0,
+                total=0,
+                amount_shared=0,
+                year=str(datetime.now().year),
+                daily_rate = 0,
+                monthly_rate = 0,
+            )
+            
             # Save the data gathered for new user on DynamoDB
             record.save()
+            availability.save()
+            productivity.save()
             sync_user_to_employee(user_id)
+
             return Response(
                 {"success": True, "message": "User created successfully"},
                 status.HTTP_201_CREATED,
@@ -400,24 +489,28 @@ def admin_user_crud(request, user_id=None):
             sync_user_to_employee(user_id)
             return Response({"success": True, "message": "User updated successfully"})
 
-        elif request.method == "GET":
-            # Fetch all users:
-            users = get_all_users()
-            return Response(
-                {
-                    "success": True,
-                    "data": users["all"],
-                    "total_count": users["count"],
-                }
-            )
-
         elif request.method == "DELETE":
             user_id = request.GET.get("user_id")
             # Delete the user from the DB
-            table.delete_item(Key={"id": user_id})
-            delete_employee_from_dynamodb(
-                user_id
-            )  # Delete the user from employee table on DynamoDB
+            user_table.delete_item(Key={"id": user_id})
+            # Delete the user from employee table on DynamoDB
+            delete_employee_from_dynamodb(user_id)  
+            # Delete usertrip associated with deleted user
+            usertrips = usertrip_table.scan()
+            usertrips = usertrips["Items"]
+            for item in usertrips:
+                if (item["user_id"] == user_id):
+                    usertrip_table.delete_item(Key={"trip_id": item["trip_id"], "user_id": user_id})
+            # Delete productivity associated with deleted user
+            productivity_table.delete_item(Key={"user_id": user_id})
+            # Delete availability associated with deleted user
+            availability = availability_table.scan()
+            availability = availability["Items"]
+            for item in availability:
+                if (item["user_id"] == user_id):
+                    availability_table.delete_item(Key={"id": item["id"], "user_id": user_id})
+            # Delete employee from scheduling table
+            delete_employee_from_dynamodb(user_id)
             return Response({"success": True, "message": "User deleted successfully"})
 
     except Exception as e:
@@ -428,17 +521,40 @@ def admin_user_crud(request, user_id=None):
 
 
 # Fetch or get all users from DynamoDB
-def get_all_users():
+@api_view(["GET"])
+@authentication_classes([DynamoDBJWTAuthentication])
+def get_all_users(request):
     # Fetch all users:
-    result = table.scan()
-    users_count = result["Count"]
+    result = user_table.scan()
     result = result["Items"]
     # Convert decimal values in users list into integers
     for item in result:
         for key, value in item.items():
             if isinstance(value, Decimal):
                 item[key] = int(value)
-    return {"all": result, "count": users_count}
+
+    # Sort the result list of dictionaries by full_name
+    result = sorted(result, key=lambda x: x["full_name"])
+    return Response({"success": True, "data": result, "total_count": len(result)})
+
+
+# Fetch user who signs in for UserTrip Page
+@api_view(["GET"])
+@authentication_classes([DynamoDBJWTAuthentication])
+def get_one_user(request):
+    user_id = request.user.id
+    if user_id is None:
+        return Response({"sucess": False, "error": "User not authenticated"})
+    
+    result = user_table.scan()
+    result = result["Items"]
+    filtered_user = {}
+    for item in result:
+        if str(item.get("id")) == str(user_id):
+            filtered_user = item
+            break
+
+    return Response({"success": True, "data": filtered_user, "total_count": 1})
 
 
 # Check the user email in DynamoDB if it's exist or not
