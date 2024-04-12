@@ -191,7 +191,7 @@ const VacationSchedule = () => {
   }
 
   const renderCell = (date) => {
-    const list = getEvents(date).filter((item) => item.type === 'vacation' || item.type === 'sick')
+    const list = getEvents(date).filter((item) => item.type === 'vacation' || item.type === 'sick' || item.type === 'floater')
     const displayList = list.slice(0, 2)
 
     if (list.length) {
@@ -244,6 +244,19 @@ const VacationSchedule = () => {
                       marginTop: '8px',
                       marginBottom: '10px',
                       backgroundColor: 'yellow',
+                      height: '10px',
+                      borderRadius: '5px',
+                      width: '100%' // Adjust this width as per your requirement
+                    }}
+                  ></div>
+                )}
+                {item.type === 'floater' && (
+                  <div
+                    style={{
+                      marginLeft: '10px',
+                      marginTop: '8px',
+                      marginBottom: '10px',
+                      backgroundColor: 'green',
                       height: '10px',
                       borderRadius: '5px',
                       width: '100%' // Adjust this width as per your requirement
@@ -355,7 +368,7 @@ const VacationSchedule = () => {
               {events
                 .filter(
                   (event) =>
-                    (event.type === 'vacation' || event.type === 'sick') &&
+                    (event.type === 'vacation' || event.type === 'sick' || event.type === 'floater') &&
                     (moment(event.start).isSame(eventRange.start, 'day') ||
                       moment(event.end).isSame(eventRange.start, 'day') ||
                       (moment(event.start).isBefore(eventRange.start, 'day') && moment(event.end).isAfter(eventRange.start, 'day')))
