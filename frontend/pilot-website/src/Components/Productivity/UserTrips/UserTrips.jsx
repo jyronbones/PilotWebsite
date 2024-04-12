@@ -80,8 +80,8 @@ const UserTrip = ({ setCurrUser, currUser, admin, users, year }) => {
 
   const handleSubmit = async () => {
     if (Object.keys(editUserTrip).length > 0) {
-      console.log(trip_type)
-      updateUserTrip({ vessel, date, departure, destination, trip_type, double, notes })
+      console.log(editUserTrip.user_id)
+      updateUserTrip({ user_id: editUserTrip.user_id, vessel, date, departure, destination, trip_type, double, notes })
     } else {
       await createUserTrip({
         user_id: currUser.id,
@@ -120,7 +120,8 @@ const UserTrip = ({ setCurrUser, currUser, admin, users, year }) => {
     }
   }
 
-  const updateUserTrip = async ({ vessel, date, departure, destination, trip_type, double, notes }) => {
+  const updateUserTrip = async ({ user_id, vessel, date, departure, destination, trip_type, double, notes }) => {
+    console.log(editUserTrip.user_id)
     try {
       const response = await fetch(`${API_URL}/usertrip`, {
         method: 'PUT',
@@ -130,7 +131,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users, year }) => {
         },
         body: JSON.stringify({
           trip_id: editUserTrip.trip_id,
-          user_id: editUserTrip.user_id,
+          user_id,
           vessel,
           date,
           departure,
@@ -305,15 +306,16 @@ const UserTrip = ({ setCurrUser, currUser, admin, users, year }) => {
             <div className='modal-body admin'>
               <label>
                 Vessel:
-                <input type='text' value={vessel} onChange={(e) => setVessel(e.target.value)} />
+                <input required type='text' value={vessel} onChange={(e) => setVessel(e.target.value)} />
               </label>
               <label>
                 Date:
-                <input type='date' value={date} onChange={(e) => setDate(e.target.value)} />
+                <input required type='date' value={date} onChange={(e) => setDate(e.target.value)} />
               </label>
               <label>
                 Departure:
                 <select
+                  required
                   value={departure}
                   onChange={(e) => {
                     setClickClose(false)
@@ -333,6 +335,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users, year }) => {
               <label>
                 Destination:
                 <select
+                  required
                   value={destination}
                   onChange={(e) => {
                     setClickClose(false)
@@ -351,7 +354,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users, year }) => {
               </label>
               <label>
                 Trip Type:
-                <select value={trip_type} onChange={(e) => setTripType(e.target.value)}>
+                <select required value={trip_type} onChange={(e) => setTripType(e.target.value)}>
                   <option disabled selected>
                     Select trip type
                   </option>
@@ -364,7 +367,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users, year }) => {
               </label>
               <label>
                 Double:
-                <select value={double} onChange={(e) => setDouble(e.target.value)}>
+                <select required value={double} onChange={(e) => setDouble(e.target.value)}>
                   <option disabled selected>
                     Select
                   </option>
