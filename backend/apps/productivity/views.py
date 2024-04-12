@@ -153,6 +153,7 @@ def update_auth_corp(request):
         )      
     return Response({"success": True, "message": "User Auth Corp updated successfully"})
 
+
 # Fetch and return calculated attributes for Productivity and Summary Page
 @api_view(["POST"])
 @authentication_classes([DynamoDBJWTAuthentication])
@@ -295,6 +296,7 @@ def crud_year(request):
                         {"success": False, "message": "Today is not the beginning day of the year"},
                         status.HTTP_406_NOT_ACCEPTABLE,
                     )
+            
         # Fetch years list inputted every year
         elif request.method == "GET":
             prodsupp = prod_supp_table.scan()
@@ -305,7 +307,6 @@ def crud_year(request):
                 years.append(int(item["year"]))
 
             years = sorted(years)
-            print(years)
             return Response(
                         {
                             "success": True,

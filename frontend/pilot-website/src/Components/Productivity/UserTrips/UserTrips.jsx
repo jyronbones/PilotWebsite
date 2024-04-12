@@ -127,7 +127,17 @@ const UserTrip = ({ setCurrUser, currUser, admin, users, year }) => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
         },
-        body: JSON.stringify({ user_id: editUserTrip.id, vessel, date, departure, destination, tripType, double, notes })
+        body: JSON.stringify({
+          trip_id: editUserTrip.trip_id,
+          user_id: editUserTrip.id,
+          vessel,
+          date,
+          departure,
+          destination,
+          tripType,
+          double,
+          notes
+        })
       })
 
       if (response.ok) {
