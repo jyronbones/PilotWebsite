@@ -337,6 +337,7 @@ const VacationSchedule = () => {
                     <option value=''>Select Type</option>
                     <option value='vacation'>Vacation</option>
                     <option value='sick'>Sick</option>
+                    <option value='floater'>Floater</option>
                   </select>
                 </div>
 
