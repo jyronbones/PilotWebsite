@@ -81,7 +81,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users, year }) => {
   const handleSubmit = async () => {
     if (Object.keys(editUserTrip).length > 0) {
       console.log(editUserTrip.user_id)
-      updateUserTrip({ user_id: editUserTrip.user_id, vessel, date, departure, destination, trip_type, double, notes })
+      updateUserTrip({ vessel, date, departure, destination, trip_type, double, notes })
     } else {
       await createUserTrip({
         user_id: currUser.id,
@@ -120,7 +120,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users, year }) => {
     }
   }
 
-  const updateUserTrip = async ({ user_id, vessel, date, departure, destination, trip_type, double, notes }) => {
+  const updateUserTrip = async ({ vessel, date, departure, destination, trip_type, double, notes }) => {
     console.log(editUserTrip.user_id)
     try {
       const response = await fetch(`${API_URL}/usertrip`, {
@@ -131,7 +131,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users, year }) => {
         },
         body: JSON.stringify({
           trip_id: editUserTrip.trip_id,
-          user_id,
+          user_id: editUserTrip.user_id,
           vessel,
           date,
           departure,
