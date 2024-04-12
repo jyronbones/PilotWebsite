@@ -75,7 +75,7 @@ def crud_usertrip(request, user_id=None):
             departure = int(request.data["departure"])
             destination = int(request.data["destination"])
             date_created = datetime.strptime(request.data["date"], "%Y-%m-%d").date()
-            trip_type = int(request.data["tripType"])
+            trip_type = int(request.data["trip_type"])
             double = int(request.data["double"])
             notes = request.data["notes"]
             usertrip = UserTrip.get(trip_id=trip_id, user_id=user_id)
