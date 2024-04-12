@@ -22,7 +22,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users, year }) => {
   const [date, setDate] = useState('')
   const [departure, setDeparture] = useState(0)
   const [destination, setDestination] = useState(0)
-  const [trip_type, setTripType] = useState(0)
+  const [tripType, setTripType] = useState(0)
   const [double, setDouble] = useState(false)
   const [notes, setNotes] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -81,7 +81,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users, year }) => {
   const handleSubmit = async () => {
     if (Object.keys(editUserTrip).length > 0) {
       console.log(editUserTrip.user_id)
-      updateUserTrip({ vessel, date, departure, destination, trip_type, double, notes })
+      updateUserTrip({ vessel, date, departure, destination, tripType, double, notes })
     } else {
       await createUserTrip({
         user_id: currUser.id,
@@ -89,7 +89,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users, year }) => {
         date,
         departure,
         destination,
-        trip_type,
+        tripType,
         double,
         notes
       })
@@ -98,7 +98,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users, year }) => {
     handleClose()
   }
 
-  const createUserTrip = async ({ user_id, vessel, date, departure, destination, trip_type, double, notes }) => {
+  const createUserTrip = async ({ user_id, vessel, date, departure, destination, tripType, double, notes }) => {
     try {
       const response = await fetch(`${API_URL}/usertrip`, {
         method: 'POST',
@@ -106,7 +106,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users, year }) => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
         },
-        body: JSON.stringify({ user_id, vessel, date, departure, destination, trip_type, double, notes })
+        body: JSON.stringify({ user_id, vessel, date, departure, destination, tripType, double, notes })
       })
 
       if (response.ok) {
@@ -120,7 +120,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users, year }) => {
     }
   }
 
-  const updateUserTrip = async ({ vessel, date, departure, destination, trip_type, double, notes }) => {
+  const updateUserTrip = async ({ vessel, date, departure, destination, tripType, double, notes }) => {
     console.log(editUserTrip.user_id)
     try {
       const response = await fetch(`${API_URL}/usertrip`, {
@@ -136,7 +136,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users, year }) => {
           date,
           departure,
           destination,
-          trip_type,
+          tripType,
           double,
           notes
         })
@@ -356,7 +356,7 @@ const UserTrip = ({ setCurrUser, currUser, admin, users, year }) => {
               </label>
               <label>
                 Trip Type:
-                <select required value={trip_type} onChange={(e) => setTripType(e.target.value)}>
+                <select required value={tripType} onChange={(e) => setTripType(e.target.value)}>
                   <option disabled selected>
                     Select trip type
                   </option>
