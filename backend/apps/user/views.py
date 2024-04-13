@@ -476,7 +476,7 @@ def admin_user_crud(request, user_id=None):
             user_id = request.data["user_id"]
             full_name = request.data["full_name"]
             email = request.data["email"]
-            password = request.data["password"]
+            password = make_password(request.data["password"])
             user_type = request.data["user_type"]
             user = UserNew.get(id=user_id)
             user.update(
