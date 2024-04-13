@@ -9,6 +9,7 @@ const AdminPortal = () => {
   const [users, setUsers] = useState([])
   const [editUserData, setEditUserData] = useState({})
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isPassOpen, setIsPassOpen] = useState(false)
   const [name, setName] = useState('')
   const [userType, setUserType] = useState('')
   const [email, setEmail] = useState('')
@@ -18,12 +19,14 @@ const AdminPortal = () => {
 
   const handleClose = () => {
     setIsModalOpen(false)
+    setIsPassOpen(false)
     setName('')
     setEmail('')
     setPassword('')
     setUserType('')
     setEditUserData({})
   }
+
   useEffect(() => {
     fetchUsers()
   }, [])
@@ -36,13 +39,19 @@ const AdminPortal = () => {
   }, [editUserData])
 
   const handleSubmit = () => {
-    if (Object.keys(editUserData).length > 0) {
-      updateUser({ name, email, password, user_type: userType })
+    if (editUserData.updatePass === true) {
+      updatePass(password)
+    } else if (Object.keys(editUserData).length > 0) {
+      updateUser({ name, email, user_type: userType })
     } else {
       createUser({ name, email, password, user_type: userType })
     }
     handleClose()
   }
+
+  useEffect(() => {
+    fetchUsers()
+  }, [])
 
   const fetchUsers = async () => {
     try {
@@ -85,7 +94,7 @@ const AdminPortal = () => {
     }
   }
 
-  const updateUser = async ({ name, email, password, user_type }) => {
+  const updateUser = async ({ name, email, user_type }) => {
     try {
       const response = await fetch(`${API_URL}/user`, {
         method: 'PUT',
@@ -93,9 +102,38 @@ const AdminPortal = () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
         },
-        body: JSON.stringify({ user_id: editUserData.id, full_name: name, email, password, user_type })
+        body: JSON.stringify({
+          user_id: editUserData.id,
+          full_name: name,
+          email: email,
+          user_type: user_type
+        })
       })
+      if (response.ok) {
+        setEditUserData({})
+        fetchUsers()
+      } else {
+        alert('Error')
+      }
+    } catch (error) {
+      alert(error.message)
+    }
+  }
 
+  const updatePass = async (new_password) => {
+    try {
+      console.log('here is the pass: ', new_password)
+      const response = await fetch(`${API_URL}/user`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${sessionStorage.getItem('authToken')}`
+        },
+        body: JSON.stringify({
+          user_id: editUserData.id,
+          password: new_password
+        })
+      })
       if (response.ok) {
         setEditUserData({})
         fetchUsers()
@@ -186,6 +224,16 @@ const AdminPortal = () => {
                                 >
                                   Edit
                                 </button>
+                                <button
+                                  className='btn pass'
+                                  title='Update Pass'
+                                  onClick={() => {
+                                    setEditUserData(item)
+                                    setIsPassOpen(true)
+                                  }}
+                                >
+                                  Update Pass
+                                </button>
                                 <button className='btn delete' title='Delete User' onClick={() => changeUserStatus(item.id)}>
                                   Delete
                                 </button>
@@ -224,7 +272,7 @@ const AdminPortal = () => {
                 {Object.keys(editUserData).length === 0 && (
                   <label>
                     <span>Password:</span>
-                    <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <input type='password' onChange={(e) => setPassword(e.target.value)} />
                   </label>
                 )}
                 <label>
@@ -239,6 +287,26 @@ const AdminPortal = () => {
                 </label>
                 <button className='btn create' onClick={handleSubmit}>
                   {Object.keys(editUserData).length > 0 ? 'Edit' : 'Create'} user
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {isPassOpen && (
+          <div className='modal-overlay'>
+            <div className='modal-content'>
+              <span className='close-button' onClick={handleClose}>
+                &times;
+              </span>
+              <div className='modal-body admin'>
+                <label>
+                  <span>Password:</span>
+                  <input type='text' onChange={(e) => setPassword(e.target.value)} />
+                </label>
+
+                <button className='btn create' onClick={((editUserData.updatePass = true), handleSubmit)}>
+                  Update user password
                 </button>
               </div>
             </div>
