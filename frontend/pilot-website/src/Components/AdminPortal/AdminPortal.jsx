@@ -122,7 +122,6 @@ const AdminPortal = () => {
 
   const updatePass = async (new_password) => {
     try {
-      console.log('here is the pass: ', new_password)
       const response = await fetch(`${API_URL}/user`, {
         method: 'PUT',
         headers: {
