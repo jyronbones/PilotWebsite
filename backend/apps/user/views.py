@@ -472,22 +472,33 @@ def admin_user_crud(request, user_id=None):
                 status.HTTP_201_CREATED,
             )
 
+        elif request.method == "PUT" and "password" in request.data:
+            user_id = request.data["user_id"]
+            new_password = make_password(request.data["password"])
+            user = UserNew.get(id=user_id)
+            user.update(
+                password=new_password,
+                updated_at=datetime.now(),
+            )
+            return Response(
+                {"success": True, "message": "User password updated successfully"}
+            )
+
         elif request.method == "PUT":
             user_id = request.data["user_id"]
             full_name = request.data["full_name"]
             email = request.data["email"]
-            password = request.data["password"]
             user_type = request.data["user_type"]
             user = UserNew.get(id=user_id)
             user.update(
                 full_name=full_name,
                 email=email,
-                password=password,
                 updated_at=datetime.now(),
                 user_type=user_type,
             )
             sync_user_to_employee(user_id)
             return Response({"success": True, "message": "User updated successfully"})
+
 
         elif request.method == "DELETE":
             user_id = request.GET.get("user_id")
