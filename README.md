@@ -10,7 +10,7 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 - Python 3.12
-- Node.js and npm
+- Node.js (v20.7.0) and npm
 - AWS CLI configured with proper access rights
 
 ### Installing
